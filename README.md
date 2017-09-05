@@ -1,4 +1,4 @@
-# I-Con-monitoring
+# I-Con Monitoring
 Senior Design 2017-2018 CPSC10
 
 ### Meeting Times
