@@ -6,27 +6,46 @@ var router = express.Router();
 var bodyParser = require('body-parser');
 var connection = require('../sql/db');
 
-// GET ALL MAINTENANCE
+// GET ALL UPCOMING MAINTENANCE
 router.get('/', function (req, res) {
-   connection.query('SELECT * FROM MAINTENANCE', function (error, results, fields) {
+   connection.query('SELECT * FROM MAINTENANCE WHERE start_date >= DATE(NOW()) AND start_time >= TIME(NOW())', function (error, results, fields) {
 	  if (error) throw error;
 	  res.end(JSON.stringify(results));
+	});
+});
+
+// get upcoming dates and times
+router.get('/time', function (req, res) {
+   connection.query('SELECT start_date, start_time FROM MAINTENANCE WHERE start_date >= DATE(NOW()) AND start_time >= TIME(NOW())', function (error, results, fields) {
+	  if (error) throw error;
+	  res.end(JSON.stringify(results));
+	});
+});
+
+
+// GET ALL UPCOMING MAINTENANCe
+router.get('/:user_id', function (req, res) {
+    var params = req.params;
+    connection.query('SELECT * FROM MAINTENANCE WHERE start_date >= DATE(NOW()) AND start_time >= TIME(NOW()) AND user_id =' + params.user_id,
+        function (error, results, fields) {
+	   if (error) throw error;
+	   res.end(JSON.stringify(results));
 	});
 });
 
 /*
 // GET A MAINTENANCE
-app.get('/maintenance/:id', function (req, res) {
+router.get('/maintenance/:id', function (req, res) {
    connection.query('SELECT * FROM MAINTENANCE WHERE maintenance_id=?', [req.params.id], function (error, results, fields) {
 	  if (error) throw error;
 	  res.end(JSON.stringify(results));
 	});
-});
+});*/
 
 // MAKE it so that
-app.post('/maintenance', function (req, res) {
+router.post('/', function (req, res) {
    var params = req.body;
-   console.log(params);
+   // TODO: verify that the date is in the future
    connection.query('INSERT INTO MAINTENANCE SET ?', params, function (error, results, fields) {
 	  if (error) throw error;
 	  res.end(JSON.stringify(results));
@@ -34,15 +53,21 @@ app.post('/maintenance', function (req, res) {
 });
 
 // SET AS COMPLETE
-app.put('/maintenance/complete/:id'. function (req, res) {
-
+router.put('/complete/:id', function (req, res) {
+    var params = req.params;
+    connection.query('UPDATE MAINTENANCE SET is_complete = 1 WHERE maintenance_id = ' + params.id, function(error, results, fields) {
+        if (error) throw error;
+        res.end(JSON.stringify(results));
+    });
 });
 
 // SET AS CANCELED
-app.put('/maintenance/cancel/:id'. function (req, res) {
-
+router.put('/cancel/:id', function (req, res) {
+    var params = req.params;
+    connection.query('UPDATE MAINTENANCE SET is_canceled = 1 WHERE maintenance_id = ' + params.id, function(error, results, fields) {
+        if (error) throw error;
+        res.end(JSON.stringify(results));
+    });
 });
-
-*/
 
 module.exports = router;
