@@ -8,28 +8,31 @@ var connection = require('../sql/db');
 
 // GET ALL UPCOMING MAINTENANCE
 router.get('/', function (req, res) {
+   console.log("Call to GET /maintenance");
    connection.query('SELECT * FROM MAINTENANCE WHERE start_date >= DATE(NOW()) AND start_time >= TIME(NOW())', function (error, results, fields) {
-	  if (error) throw error;
-	  res.end(JSON.stringify(results));
+       if (error) res.send(error);
+       else res.send(results);
 	});
 });
 
 // get upcoming dates and times
 router.get('/time', function (req, res) {
+   console.log("Call to GET /maintenance/time");
    connection.query('SELECT start_date, start_time FROM MAINTENANCE WHERE start_date >= DATE(NOW()) AND start_time >= TIME(NOW())', function (error, results, fields) {
-	  if (error) throw error;
-	  res.end(JSON.stringify(results));
+       if (error) res.send(error);
+       else res.send(results);
 	});
 });
 
 
 // GET ALL UPCOMING MAINTENANCe
 router.get('/:user_id', function (req, res) {
+    console.log("Call to GET /maintenance/[user_id]");
     var params = req.params;
-    connection.query('SELECT * FROM MAINTENANCE WHERE start_date >= DATE(NOW()) AND start_time >= TIME(NOW()) AND user_id =' + params.user_id,
+    connection.query('SELECT * FROM MAINTENANCE WHERE is_complete = 0 AND is_canceled = 0 AND user_id = ' + params.user_id,
         function (error, results, fields) {
-	   if (error) throw error;
-	   res.end(JSON.stringify(results));
+            if (error) res.send(error);
+            else res.send(results);
 	});
 });
 
@@ -42,31 +45,41 @@ router.get('/maintenance/:id', function (req, res) {
 	});
 });*/
 
-// MAKE it so that
+// Plan maintenance
 router.post('/', function (req, res) {
+   console.log("Call to POST /maintenance");
    var params = req.body;
-   // TODO: verify that the date is in the future
-   connection.query('INSERT INTO MAINTENANCE SET ?', params, function (error, results, fields) {
-	  if (error) throw error;
-	  res.end(JSON.stringify(results));
-	});
+   params.is_complete = "0";
+   params.is_canceled = "0";
+   // Based on Format YYYY-MM-DD
+   if(new Date().getTime() <= new Date(params.start_date).getTime()) {
+       connection.query('INSERT INTO MAINTENANCE SET ?', params, function (error, results, fields) {
+	          if (error) res.send(error);
+	          else res.send(results);
+	   });
+   } else {
+       res.status(400);
+       res.send("ERROR: Date is in the past");
+   }
 });
 
 // SET AS COMPLETE
 router.put('/complete/:id', function (req, res) {
+    console.log("Call to PUT /maintenance/complete/[id]");
     var params = req.params;
-    connection.query('UPDATE MAINTENANCE SET is_complete = 1 WHERE maintenance_id = ' + params.id, function(error, results, fields) {
-        if (error) throw error;
-        res.end(JSON.stringify(results));
+    connection.query('UPDATE MAINTENANCE SET is_complete = 1 WHERE is_complete = 0 AND is_canceled = 0 AND maintenance_id = ' + params.id, function(error, results, fields) {
+        if (error) res.send(error);
+        else res.send(results);
     });
 });
 
 // SET AS CANCELED
 router.put('/cancel/:id', function (req, res) {
+    console.log("Call to PUT /maintenance/cancel/[id]");
     var params = req.params;
-    connection.query('UPDATE MAINTENANCE SET is_canceled = 1 WHERE maintenance_id = ' + params.id, function(error, results, fields) {
-        if (error) throw error;
-        res.end(JSON.stringify(results));
+    connection.query('UPDATE MAINTENANCE SET is_canceled = 1 WHERE is_complete = 0 AND is_canceled = 0 AND maintenance_id = ' + params.id, function(error, results, fields) {
+        if (error) res.send(error);
+        else res.send(results);
     });
 });
 
