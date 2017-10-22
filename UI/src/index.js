@@ -8,7 +8,9 @@ import {
 } from 'react-router-dom'
 import About from './about';
 import Game from './game';
-import Maintenance from './maintenance';
+import Maintenance from './maintenance'
+import LoginApp from './LoginApp'
+import './index.css';
 
 class App extends React.Component {
     render() {
@@ -16,6 +18,7 @@ class App extends React.Component {
             <Router>
                 <div>
                     <Route exact path={'/'} component={Game}></Route>
+                    <Route path={'/login'} component={LoginApp}></Route>
                     <Route path={'/about'} component={About}></Route>
                     <Route path={'/maintenance'} component={Maintenance}></Route>
                 </div>
