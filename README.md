@@ -2,5 +2,5 @@
 Senior Design 2017-2018 CPSC10
 
 ### Meeting Times
-Team Meeting: Monday 2-5, Rotation of team members houses.
+Team Meeting: Monday 3-6, Senior Design lab.
 Advisor Meeting: Tuesday 4:30-5:30, Yanping Zhang.
