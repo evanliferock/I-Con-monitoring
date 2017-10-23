@@ -1,4 +1,6 @@
 # Current API
+
+## Maintenance
 ### GET /maintenance
 Returns upcoming maintenance
 ### GET /maintenance/times
@@ -11,3 +13,9 @@ Add a maintenance. Will always set is_complete and is_canceled to false Example 
 Complete a maintenance
 ### PUT /maintenance/cancel/[maintenance_id]
 Cancel a maintenance
+
+## Users
+### POST /register
+Register a user with first_name, last_name, username, password
+### /login
+Validate a login with username and password
