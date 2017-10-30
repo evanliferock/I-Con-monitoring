@@ -1,0 +1,9 @@
+.sensorlayout {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+}
+#stage-parent {
+  width: 100%;
+  height:100%;
+}

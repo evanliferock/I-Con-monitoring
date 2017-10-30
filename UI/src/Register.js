@@ -20,7 +20,7 @@ class Register extends Component {
     console.log("nextProps",nextProps);
   }
   handleClick(event,role){
-    var apiBaseUrl = "http://db-api-server.kp2phfstdm.us-west-2.elasticbeanstalk.com";
+    var apiBaseUrl = "http://localhost:3001";
     // var apiBaseUrl = "http://localhost:3001";
     // console.log("values in register handler",role);
     var self = this;

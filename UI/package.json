@@ -4,9 +4,11 @@
   "private": true,
   "dependencies": {
     "axios": "^0.16.2",
+    "konva": "^1.7.5",
     "material-ui": "^0.19.4",
     "react": "^15.6.2",
     "react-dom": "^15.6.2",
+    "react-konva": "^1.1.5",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.13",
     "react-tap-event-plugin": "^3.0.2"
