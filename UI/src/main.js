@@ -81,7 +81,7 @@ class MainPage extends React.Component {
       <MuiThemeProvider>
         <div>
           <div>
-            <Header title='Mixer'></Header>
+            <Header title='Mixer' />
           </div>
           <div className="sensorlayout">
             <SensorLayout/>
