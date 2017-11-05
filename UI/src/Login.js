@@ -6,7 +6,7 @@ import TextField from 'material-ui/TextField';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import axios from 'axios';
-var apiBaseUrl = "http://db-api-server.kp2phfstdm.us-west-2.elasticbeanstalk.com";
+var apiBaseUrl = "http://localhost:3001";
 
 function UserText(props) {
     return (
@@ -109,7 +109,7 @@ class Login extends Component {
      console.log(response);
      if(response.data.code === 200){
        console.log("Login successful");
-       window.location.replace("https://icon.mybluemix.net/display");
+       localStorage.setItem('token', response.data.token);
      }
      else if(response.data.code === 204){
        console.log("Username password do not match");

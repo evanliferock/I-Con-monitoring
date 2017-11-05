@@ -4,6 +4,7 @@ var router = express.Router();
 var bodyParser = require('body-parser');
 var connection = require('../sql/db');
 var bcrypt     = require('bcrypt');
+var jwt    = require('jsonwebtoken');
 
 
 router.post('/', function(req,res) {
@@ -22,9 +23,16 @@ router.post('/', function(req,res) {
           if(results.length >0){
             bcrypt.compare(password, results[0].password, function(err, doesMatch){
               if (doesMatch){
-            res.send({
-             "code":200,
-             "success":"login sucessfull"
+                const payload = {
+                  admin: true
+                };
+                var token = jwt.sign(payload, "thisIsTheSecret", {
+                  expiresIn: '60m'// expires in 1 hr
+                });
+                res.send({
+                   "code":200,
+                   "success":"login sucessfull",
+                   "token":token
                });
           }else{
             res.send({
