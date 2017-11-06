@@ -81,18 +81,39 @@ class SensorLayout extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.sensorTimer = setInterval(
+      () => this.updateSensors(),
+      1000
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.sensorTimer);
+  }
+
   updateSensors() {
-    // TODO: http request for sensor data. Create a timer for it
-    // this.setState({
-    //   doorOne: { id: this.state.doorOne.id, color: , },
-    //   doorTwo: { id: this.state.doorTwo.id, color: , },
-    //   tempOne: { id: this.state.tempOne.id, color: , },
-    //   tempTwo: { id: this.state.tempTwo.id, color: , },
-    //   switchOne: { id: this.state.switchOne.id, color: , },
-    //   switchTwo: { id: this.state.switchTwo.id, color: , },
-    //   switchThree: { id: this.state.switchThree.id, color: , },
-    //   switchFour: { id: this.state.switchFour.id, color: , },
-    // });
+    // TODO: http request for sensor data.
+    this.setState({
+      doorOne: { id: this.state.doorOne.id, color: this.getRandomColor(), },
+      doorTwo: { id: this.state.doorTwo.id, color: this.getRandomColor(), },
+      tempOne: { id: this.state.tempOne.id, color: this.getRandomColor(), },
+      tempTwo: { id: this.state.tempTwo.id, color: this.getRandomColor(), },
+      switchOne: { id: this.state.switchOne.id, color: this.getRandomColor(), },
+      switchTwo: { id: this.state.switchTwo.id, color: this.getRandomColor(), },
+      switchThree: { id: this.state.switchThree.id, color: this.getRandomColor(), },
+      switchFour: { id: this.state.switchFour.id, color: this.getRandomColor(), },
+    });
+  }
+
+  // TODO remove when not used. from: https://stackoverflow.com/questions/1484506/random-color-generator
+  getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
   }
 
   render() {
