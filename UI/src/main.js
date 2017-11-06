@@ -70,18 +70,19 @@ class SensorLayout extends React.Component {
   constructor() {
     super();
     this.state = {
-      doorOne: { id:'doorOne', color: 'rgb(0,255,0)'},
-      doorTwo: { id:'doorTwo', color: 'rgb(0,255,0)',},
-      tempOne: { id:'tempOne', color: 'rgb(0,255,0)',},
-      tempTwo: { id:'tempTwo', color: 'rgb(0,255,0)',},
-      switchOne: { id:'switchOne', color: 'rgb(0,255,0)',},
-      switchTwo: { id:'switchTwo', color: 'rgb(0,255,0)',},
-      switchThree: { id:'switchThree', color: 'rgb(0,255,0)',},
-      switchFour: { id:'switchFour', color: 'rgb(0,255,0)',},
+      doorOne: { id:'doorOne', color: null,},
+      doorTwo: { id:'doorTwo', color: null,},
+      tempOne: { id:'tempOne', color: null,},
+      tempTwo: { id:'tempTwo', color: null,},
+      switchOne: { id:'switchOne', color: null,},
+      switchTwo: { id:'switchTwo', color: null,},
+      switchThree: { id:'switchThree', color: null,},
+      switchFour: { id:'switchFour', color: null,},
     }
   }
 
   componentDidMount() {
+    this.updateSensors();
     this.sensorTimer = setInterval(
       () => this.updateSensors(),
       1000
