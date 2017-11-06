@@ -12,11 +12,22 @@ import Game from './game';
 import Maintenance from './maintenance'
 import LoginApp from './LoginApp'
 import './index.css';
+var jwt    = require('jsonwebtoken');
 
-//use function for chceking local storage if token is logged in
+
+
+function isTokenExpired(){
+  if (localStorage.getItem("token")){
+    var decodedToken = jwt.decode(localStorage.getItem("token"));
+    var dateNow = new Date();
+    if(decodedToken.exp < dateNow.getTime())
+      return false;
+  }
+  return true;
+}
+
 function isLoggedIn() {
-  console.log("token " + localStorage.getItem("token"));
-  if (localStorage.getItem("token") == null)
+  if (localStorage.getItem("token") == null || isTokenExpired())
     return false;
   return true;
 }
