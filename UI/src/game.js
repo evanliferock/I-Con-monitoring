@@ -1,6 +1,8 @@
 import React from 'react';
 import './game.css';
 
+//localStorage.removeItem("token");
+
 function Square(props) {
   return (
     <button className="square" onClick={props.onClick}>

@@ -21,7 +21,6 @@ class Register extends Component {
   }
   handleClick(event,role){
     var apiBaseUrl = "http://localhost:3001";
-    // var apiBaseUrl = "http://localhost:3001";
     // console.log("values in register handler",role);
     var self = this;
     //To be done:check for empty values before hitting submit
