@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom'
 import About from './about';
 import Game from './game';
+import MainPage from './main';
 import Maintenance from './maintenance'
 import LoginApp from './LoginApp'
 import './index.css';
@@ -40,7 +41,7 @@ class App extends React.Component {
                       !isLoggedIn() ? (
                         <Redirect to="/login"/>
                       ) : (
-                        <Game />
+                        <MainPage />
                       )
                     )}/>
                     <Route path={'/login'} component={LoginApp}></Route>
@@ -56,6 +57,13 @@ class App extends React.Component {
                         <Redirect to="/login"/>
                       ) : (
                         <Maintenance />
+                      )
+                    )}/>
+                    <Route path={'/game'} render={() => (
+                      !isLoggedIn() ? (
+                        <Redirect to="/login"/>
+                      ) : (
+                        <Game />
                       )
                     )}/>
                 </div>
