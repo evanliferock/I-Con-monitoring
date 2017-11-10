@@ -9,7 +9,7 @@ var connection = require('../sql/db');
 // GET ALL UPCOMING MAINTENANCE
 router.get('/', function (req, res) {
    console.log("Call to GET /maintenance");
-   connection.query('SELECT * FROM MAINTENANCE WHERE DATE(start_date) >= CURDATE()', function (error, results, fields) {
+   connection.query('SELECT * FROM MAINTENANCE WHERE start_date_time >= NOW()', function (error, results, fields) {
        if (error) res.send(error);
        else res.send(results);
 	});
@@ -18,7 +18,7 @@ router.get('/', function (req, res) {
 // get upcoming dates and times
 router.get('/time', function (req, res) {
    console.log("Call to GET /maintenance/time");
-   connection.query('SELECT start_date, start_time FROM MAINTENANCE WHERE start_date >= CURDATE()', function (error, results, fields) {
+   connection.query('SELECT start_date, start_time FROM MAINTENANCE WHERE start_date_time >= NOW()', function (error, results, fields) {
        if (error) res.send(error);
        else res.send(results);
 	});
@@ -29,7 +29,7 @@ router.get('/time', function (req, res) {
 router.get('/:user_id', function (req, res) {
     console.log("Call to GET /maintenance/[user_id]");
     var params = req.params;
-    connection.query('SELECT * FROM MAINTENANCE WHERE is_complete = 0 AND is_canceled = 0 AND user_id = ' + params.user_id,
+    connection.query('SELECT * FROM MAINTENANCE WHERE is_complete = 0 AND is_canceled = 0 AND user_id = ?', [params.user_id],
         function (error, results, fields) {
             if (error) res.send(error);
             else res.send(results);
@@ -67,7 +67,8 @@ router.post('/', function (req, res) {
 router.put('/complete/:id', function (req, res) {
     console.log("Call to PUT /maintenance/complete/[id]");
     var params = req.params;
-    connection.query('UPDATE MAINTENANCE SET is_complete = 1 WHERE is_complete = 0 AND is_canceled = 0 AND maintenance_id = ' + params.id, function(error, results, fields) {
+    connection.query('UPDATE MAINTENANCE SET is_complete = 1 WHERE is_complete = 0 AND is_canceled = 0 AND maintenance_id = ?',
+      [params.id], function(error, results, fields) {
         if (error) res.send(error);
         else res.send(results);
     });
@@ -77,7 +78,8 @@ router.put('/complete/:id', function (req, res) {
 router.put('/cancel/:id', function (req, res) {
     console.log("Call to PUT /maintenance/cancel/[id]");
     var params = req.params;
-    connection.query('UPDATE MAINTENANCE SET is_canceled = 1 WHERE is_complete = 0 AND is_canceled = 0 AND maintenance_id = ' + params.id, function(error, results, fields) {
+    connection.query('UPDATE MAINTENANCE SET is_canceled = 1 WHERE is_complete = 0 AND is_canceled = 0 AND maintenance_id = ?',
+      [params.id], function(error, results, fields) {
         if (error) res.send(error);
         else res.send(results);
     });
