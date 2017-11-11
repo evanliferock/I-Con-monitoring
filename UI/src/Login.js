@@ -5,8 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
-import axios from 'axios';
-var apiBaseUrl = "http://localhost:3001";
+import dbapi from './apirequests/dbapi';
 
 function UserText(props) {
     return (
@@ -104,7 +103,7 @@ class Login extends Component {
 	    "password":this.state.password,
       "role":this.state.loginRole
     }
-    axios.post(apiBaseUrl+'/login', payload)
+    dbapi.post('login', payload)
     .then(function (response) {
      console.log(response);
      if(response.data.code === 200){
