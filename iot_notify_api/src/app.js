@@ -2,6 +2,10 @@ var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
 var app = express();
+//var events = require('events');
+//const emitter = new events.EventEmitter();
+//emitter.setMaxListeners(100);
+require('events').EventEmitter.prototype._maxListeners = 100;
 
 var iot = require('./routes/iot');
 

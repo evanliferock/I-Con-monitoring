@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "aws-iot-device-sdk": "^2.1.0",
+    "events": "^1.1.1",
     "express": "^4.16.2",
     "jade": "^1.11.0",
     "nodemailer": "^4.3.1"

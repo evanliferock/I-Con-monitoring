@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import Header from './Header'
 import { findDOMNode } from 'react-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -85,7 +86,7 @@ class SensorLayout extends React.Component {
     this.updateSensors();
     this.sensorTimer = setInterval(
       () => this.updateSensors(),
-      1000
+      2000
     );
   }
 
@@ -94,27 +95,26 @@ class SensorLayout extends React.Component {
   }
 
   updateSensors() {
-    // TODO: http request for sensor data.
-    this.setState({
-      doorOne: { id: this.state.doorOne.id, color: this.getRandomColor(), },
-      doorTwo: { id: this.state.doorTwo.id, color: this.getRandomColor(), },
-      tempOne: { id: this.state.tempOne.id, color: this.getRandomColor(), },
-      tempTwo: { id: this.state.tempTwo.id, color: this.getRandomColor(), },
-      switchOne: { id: this.state.switchOne.id, color: this.getRandomColor(), },
-      switchTwo: { id: this.state.switchTwo.id, color: this.getRandomColor(), },
-      switchThree: { id: this.state.switchThree.id, color: this.getRandomColor(), },
-      switchFour: { id: this.state.switchFour.id, color: this.getRandomColor(), },
-    });
-  }
-
-  // TODO remove when not used. from: https://stackoverflow.com/questions/1484506/random-color-generator
-  getRandomColor() {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
+    axios({
+        method : 'get',
+        url : 'http://localhost:3002/iot',
+    }) // returns a Promise. an async data holder
+        .then((response) => { // then happens when promise is fullfilled
+            console.log(response.data.state.reported.g1c);
+            this.setState({
+              doorOne: { id: this.state.doorOne.id, color: '#00cc00'},
+              doorTwo: { id: this.state.doorTwo.id, color: '#00cc00'},
+              tempOne: { id: this.state.tempOne.id, color: response.data.state.reported.t1c},
+              tempTwo: { id: this.state.tempTwo.id, color: response.data.state.reported.t2c},
+              switchOne: { id: this.state.switchOne.id, color: response.data.state.reported.g1c},
+              switchTwo: { id: this.state.switchTwo.id, color: response.data.state.reported.g2c},
+              switchThree: { id: this.state.switchThree.id, color: response.data.state.reported.g3c},
+              switchFour: { id: this.state.switchFour.id, color: response.data.state.reported.g4c},
+            });
+        })
+        .catch((error) => { // catch happens when promise is rejected
+            console.log(error);
+        });
   }
 
   render() {
