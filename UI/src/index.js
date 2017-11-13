@@ -15,7 +15,7 @@ import LoginApp from './LoginApp'
 import './index.css';
 var jwt    = require('jsonwebtoken');
 
-
+// localStorage.removeItem("token");
 
 function isTokenExpired(){
   if (localStorage.getItem("token")){

@@ -6,6 +6,7 @@ import TextField from 'material-ui/TextField';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import axios from 'axios';
+import {Redirect} from 'react-router'
 var apiBaseUrl = "http://localhost:3001";
 
 function UserText(props) {
@@ -56,7 +57,8 @@ class Login extends Component {
       password:'',
       menuValue:1,
       loginComponent:localloginComponent,
-      loginRole:'Admin'
+      loginRole:'Admin',
+      loggedIn:false
     }
   }
   componentWillMount(){
@@ -99,6 +101,7 @@ class Login extends Component {
 
   handleClick(){
     console.log("click");
+    var loggedIn;
     var payload={
       "username":this.state.username,
 	    "password":this.state.password,
@@ -106,10 +109,12 @@ class Login extends Component {
     }
     axios.post(apiBaseUrl+'/login', payload)
     .then(function (response) {
+
      console.log(response);
      if(response.data.code === 200){
        console.log("Login successful");
        localStorage.setItem('token', response.data.token);
+       loggedIn=true;
      }
      else if(response.data.code === 204){
        console.log("Username password do not match");
@@ -123,6 +128,7 @@ class Login extends Component {
    .catch(function (error) {
      console.log(error);
    });
+   this.setState({loggedIn:loggedIn});
   }
 
   handleMenuChange(value){
@@ -187,6 +193,8 @@ class Login extends Component {
           <MenuItem value={2} primaryText="Miner" />
         </DropDownMenu>
         </div>
+        {/** Use for redirection by nav menu*/}
+        {this.state.loggedIn !== false && <Redirect to={"/"}/>}
         </MuiThemeProvider>
         {this.state.loginComponent}
       </div>
