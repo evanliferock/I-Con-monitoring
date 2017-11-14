@@ -18,7 +18,7 @@ router.get('/', function (req, res) {
 // get upcoming dates and times
 router.get('/time', function (req, res) {
    console.log("Call to GET /maintenance/time");
-   connection.query('SELECT start_date, start_time FROM MAINTENANCE WHERE start_date_time >= NOW()', function (error, results, fields) {
+   connection.query('SELECT start_date_time FROM MAINTENANCE WHERE start_date_time >= NOW()', function (error, results, fields) {
        if (error) res.send(error);
        else res.send(results);
 	});

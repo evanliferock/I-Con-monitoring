@@ -3,7 +3,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import axios from 'axios';
+import dbapi from './apirequests/dbapi';
 import Login from './Login';
 
 class Register extends Component {
@@ -20,7 +20,6 @@ class Register extends Component {
     console.log("nextProps",nextProps);
   }
   handleClick(event,role){
-    var apiBaseUrl = "http://localhost:3001";
     // console.log("values in register handler",role);
     var self = this;
     //To be done:check for empty values before hitting submit
@@ -32,7 +31,7 @@ class Register extends Component {
       "password":this.state.password,
       "role":role
       }
-      axios.post(apiBaseUrl+'/register', payload)
+      dbapi.post('register', payload)
      .then(function (response) {
        console.log(response);
        if(response.data.code === 200){
