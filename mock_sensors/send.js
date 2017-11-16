@@ -1,25 +1,22 @@
-var awsIoT = require('aws-iot-device-sdk');
-var connect = require('./connect');
+var mqtt = require('mqtt');
+var json = require('json');
+var client = require('./connect');
 
-// Register our thing with its own shadow
-connect.register('iotest');
+client.on('connect', function() {
+	console.log('"Gateway" connected to mosquitto');
+	client.subscribe('mock/sensor');
+})
 
-// Responds to shadow updates
-connect.on('status', function(thingName, stat, clientToken, stateObject) {
-	if(stat == 'accepted') {
-    console.log('Shadow updated for ' + thingName);
-	}
-	if(stat == 'rejected') {
-		console.log('Shadow update failed for' + thingName);
-	}
-});
+client.on('message', function(topic, message) {
+	console.log('Sensors updated');
+})
 
 // Function to generate random integer in a range
 function getRandomInt(min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// Update device shadow roughly every 5 seconds
+// Update thing state roughly every 5 seconds
 // temp1: 1000-1999
 // temp2: 2000-2999
 // door1: Updates randomly
@@ -74,11 +71,7 @@ setInterval(function () {
 										  }
 									 }
 								 };
-		// Update thing's shadow
-		clientTokenUpdate = connect.update('iotest', state);
-
-		if (clientTokenUpdate === null) {
-        	console.log('update shadow failed, operation still in progress');
-        }
+		// Send updated state to Mosquitto
+		client.publish('mock/sensor', JSON.stringify(state));
 		intervalNum = intervalNum + 1;
 }, 5000);
