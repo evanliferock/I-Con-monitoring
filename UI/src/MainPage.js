@@ -3,7 +3,7 @@ import Header from './Header'
 import { findDOMNode } from 'react-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Popover from 'material-ui/Popover';
-import './main.css';
+import './MainPage.css';
 
 class Sensor extends React.Component {
   constructor(){

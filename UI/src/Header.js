@@ -27,7 +27,8 @@ class Header extends Component {
 
     /** Nav menu options */
     const Logged = (props) => (
-      <IconMenu {...props} iconButtonElement={< IconButton > <NavigationMenu/> < /IconButton>} targetOrigin={{
+      <IconMenu {...props} iconButtonElement={< IconButton > <NavigationMenu/> < /IconButton>}
+      targetOrigin={{
         horizontal: 'right',
         vertical: 'top'
       }} anchorOrigin={{
@@ -36,13 +37,13 @@ class Header extends Component {
       }}>
 
         <MenuItem primaryText="Main Page" onClick={(event) => {
-          this.handleClick("/")
+          this.handleClick("/MainPage")
         }}/>
-        <MenuItem primaryText="Maintenance Plan Page" onClick={(event) => {
-          this.handleClick("/MaintenancePlanPage")
+        <MenuItem primaryText="Maintenance Plan" onClick={(event) => {
+          this.handleClick("/MaintenancePlan")
         }}/>
-        <MenuItem primaryText="Complete Cancel Page" onClick={(event) => {
-          this.handleClick("/CompleteCancelPage")
+        <MenuItem primaryText="Complete Cancel" onClick={(event) => {
+          this.handleClick("/CompleteCancel")
         }}/>
         <MenuItem primaryText="Create User" onClick={(event) => {
           this.handleClick("/CreateUser")
@@ -71,7 +72,8 @@ class Header extends Component {
           {this.state.redirectUrl !== '' && <Redirect to={this.state.redirectUrl}/>}
 
           {/** Nav bar */}
-          <AppBar title={this.props.title} iconElementLeft={< Logged />}/>
+          <AppBar title={this.props.title} iconElementLeft={< Logged />}
+          />
         </div>
       </MuiThemeProvider>
     )
@@ -80,6 +82,6 @@ class Header extends Component {
 
 //Components properties
 // Header.propTypes = {
-//   title: PropTypes.object.Required
+//   appBarProp: PropTypes.object.Required
 // };
 export default Header;

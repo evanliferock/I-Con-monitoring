@@ -3,16 +3,23 @@
 import { Redirect } from 'react-router'
 import React from 'react';
 import ReactDOM from 'react-dom';
+import App from './App';
+import './index.css';
 import {
   BrowserRouter as Router,
   Route
 } from 'react-router-dom'
-import About from './about';
-import Game from './game';
-import MainPage from './main';
+import MainPage from './MainPage';
 import Maintenance from './maintenance'
 import LoginApp from './LoginApp'
-import './index.css';
+import MaintenancePlanPage from './MaintenancePlanPage';
+import CompleteCancelPage from './CompleteCancelPage';
+import CreateUserPage from './CreateUserPage';
+import EditUserPage from './EditUserPage';
+import ProfileUserPage from './ProfileUserPage';
+import AdminUserPage from './AdminUserPage';
+import NoPagefound from './NoPagefound';
+
 var jwt    = require('jsonwebtoken');
 
 
@@ -32,7 +39,7 @@ function isLoggedIn() {
     return false;
   return true;
 }
-class App extends React.Component {
+class IndexApp extends React.Component {
     render() {
         return (
             <Router>
@@ -41,29 +48,57 @@ class App extends React.Component {
                       !isLoggedIn() ? (
                         <Redirect to="/login"/>
                       ) : (
-                        <MainPage />
+                        <LoginApp />
                       )
                     )}/>
                     <Route path={'/login'} component={LoginApp}></Route>
-                    <Route path={'/about'} render={() => (
+                    <Route path={'/MainPage'} render={() => (
                       !isLoggedIn() ? (
                         <Redirect to="/login"/>
                       ) : (
-                        <About />
+                        <MainPage />
                       )
                     )}/>
-                    <Route path={'/maintenance'} render={() => (
+                    <Route path={'/MaintenancePlan'} render={() => (
                       !isLoggedIn() ? (
                         <Redirect to="/login"/>
                       ) : (
-                        <Maintenance />
+                        <MaintenancePlanPage />
                       )
                     )}/>
-                    <Route path={'/game'} render={() => (
+                    <Route path={'/CompleteCancel'} render={() => (
                       !isLoggedIn() ? (
                         <Redirect to="/login"/>
                       ) : (
-                        <Game />
+                        <CompleteCancelPage />
+                      )
+                    )}/>
+                    <Route path={'/CreateUser'} render={() => (
+                      !isLoggedIn() ? (
+                        <Redirect to="/login"/>
+                      ) : (
+                        <CreateUserPage />
+                      )
+                    )}/>
+                    <Route path={'/EditUser'} render={() => (
+                      !isLoggedIn() ? (
+                        <Redirect to="/login"/>
+                      ) : (
+                        <EditUserPage />
+                      )
+                    )}/>
+                    <Route path={'/UserProfile'} render={() => (
+                      !isLoggedIn() ? (
+                        <Redirect to="/login"/>
+                      ) : (
+                        <ProfileUserPage />
+                      )
+                    )}/>
+                    <Route path={'/AdminUser'} render={() => (
+                      !isLoggedIn() ? (
+                        <Redirect to="/login"/>
+                      ) : (
+                        <AdminUserPage />
                       )
                     )}/>
                 </div>
@@ -75,6 +110,6 @@ class App extends React.Component {
 // ========================================
 
 ReactDOM.render(
-  <App />,
+  <IndexApp />,
   document.getElementById('root')
 );
