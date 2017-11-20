@@ -8,7 +8,6 @@ var connection = require('../sql/db');
 
 // GET ALL UPCOMING MAINTENANCE
 router.get('/', function (req, res) {
-   console.log("Call to GET /maintenance");
    connection.query('SELECT * FROM MAINTENANCE WHERE start_date_time >= NOW()', function (error, results, fields) {
        if (error) res.send(error);
        else res.send(results);
@@ -17,7 +16,6 @@ router.get('/', function (req, res) {
 
 // get upcoming dates and times
 router.get('/time', function (req, res) {
-   console.log("Call to GET /maintenance/time");
    connection.query('SELECT start_date_time FROM MAINTENANCE WHERE start_date_time >= NOW()', function (error, results, fields) {
        if (error) res.send(error);
        else res.send(results);
@@ -27,7 +25,6 @@ router.get('/time', function (req, res) {
 
 // GET ALL UPCOMING MAINTENANCe
 router.get('/:user_id', function (req, res) {
-    console.log("Call to GET /maintenance/[user_id]");
     var params = req.params;
     connection.query('SELECT * FROM MAINTENANCE WHERE is_complete = 0 AND is_canceled = 0 AND user_id = ?', [params.user_id],
         function (error, results, fields) {
@@ -47,7 +44,6 @@ router.get('/maintenance/:id', function (req, res) {
 
 // Plan maintenance
 router.post('/', function (req, res) {
-   console.log("Call to POST /maintenance");
    var params = req.body;
    params.is_complete = "0";
    params.is_canceled = "0";
@@ -65,7 +61,6 @@ router.post('/', function (req, res) {
 
 // SET AS COMPLETE
 router.put('/complete/:id', function (req, res) {
-    console.log("Call to PUT /maintenance/complete/[id]");
     var params = req.params;
     connection.query('UPDATE MAINTENANCE SET is_complete = 1 WHERE is_complete = 0 AND is_canceled = 0 AND maintenance_id = ?',
       [params.id], function(error, results, fields) {
@@ -76,7 +71,6 @@ router.put('/complete/:id', function (req, res) {
 
 // SET AS CANCELED
 router.put('/cancel/:id', function (req, res) {
-    console.log("Call to PUT /maintenance/cancel/[id]");
     var params = req.params;
     connection.query('UPDATE MAINTENANCE SET is_canceled = 1 WHERE is_complete = 0 AND is_canceled = 0 AND maintenance_id = ?',
       [params.id], function(error, results, fields) {

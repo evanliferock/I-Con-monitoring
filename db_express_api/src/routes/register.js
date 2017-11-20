@@ -7,8 +7,6 @@ var bcrypt     = require('bcrypt');
 
 
 router.post('/', function(req,res){
-  console.log("Call to POST /register");
-  // console.log("req",req.body);
   bcrypt.hash(req.body.password, 5, function( err, bcryptedPassword) {
 
       req.body.password = bcryptedPassword;

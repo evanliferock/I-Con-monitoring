@@ -8,7 +8,6 @@ var jwt    = require('jsonwebtoken');
 
 
 router.post('/', function(req,res) {
-    console.log("Call to POST /login");
     var username= req.body.username;
     var password = req.body.password;
     connection.query('SELECT * FROM USER WHERE username = ?',[username], function (error, results, fields) {
