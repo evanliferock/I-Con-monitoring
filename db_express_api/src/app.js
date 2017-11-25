@@ -27,7 +27,7 @@ app.set('superSecret', "thisIsTheSecret");
 
 app.use(logger('dev')); // To console
 app.use(logger('common', {
-  stream: fs.createWriteStream(path.join(__dirname, '..', 'logs', 'theLog.log'), {flags: 'a'})
+  stream: fs.createWriteStream(path.join(__dirname, '..', 'logs', 'request_log.log'), {flags: 'a'})
 }));
 
 // uncomment after placing your favicon in /public
