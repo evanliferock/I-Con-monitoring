@@ -8,7 +8,7 @@ import {
   Route
 } from 'react-router-dom'
 import MainPage from './pages/MainPage';
-import LoginPage from './pages/LoginPage';
+import Loginscreen from './pages/Loginscreen';
 import MaintenancePlanPage from './pages/MaintenancePlanPage';
 import CompleteCancelPage from './pages/CompleteCancelPage';
 import CreateUserPage from './pages/CreateUserPage';
@@ -46,10 +46,10 @@ class IndexApp extends React.Component {
             !isLoggedIn() ? (
               <Redirect to="/login" />
             ) : (
-                <LoginPage />
+                <Loginscreen />
               )
           )} />
-          <Route path={'/login'} component={LoginPage} />
+          <Route path={'/login'} component={Loginscreen} />
           <Route path={'/MainPage'} render={() => (
             !isLoggedIn() ? (
               <Redirect to="/login" />
