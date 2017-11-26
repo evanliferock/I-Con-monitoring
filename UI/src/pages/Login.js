@@ -5,10 +5,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
-import axios from 'axios';
 
 var apiBaseUrl = "http://localhost:4000/api/";
-
 
 class Login extends Component {
   constructor(props){
@@ -52,9 +50,7 @@ class Login extends Component {
       loginComponent:localloginComponent
     }
   }
-  componentWillMount(){
 
-  }
 
   handleClick(event){
 
@@ -69,7 +65,6 @@ class Login extends Component {
       <div>
         <MuiThemeProvider>
         <div>
-
         </div>
         </MuiThemeProvider>
         {this.state.loginComponent}

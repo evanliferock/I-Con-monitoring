@@ -28,8 +28,6 @@ class Loginscreen extends Component {
             />
         </div>
         <div className="" style={{position: "fixed",padding: "0px", margin: "0px", height: "100%",width: "100%",background:'url("https://www.parks.ca.gov/pages/499/images/img_5012.jpg") no-repeat center center fixed', backgroundSize:"cover" }}>
-
-
             <div className="col-md-4 loginscreen" style={{position: "fixed",height: "100%", backgroundColor:'#00BCD4',padding:'20px',paddingBottom:'40px'}}>
                 <div style={{marginTop:'100px'}}>
                   {this.state.loginscreen}
