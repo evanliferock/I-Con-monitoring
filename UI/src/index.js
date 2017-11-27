@@ -8,7 +8,7 @@ import {
   Route
 } from 'react-router-dom'
 import MainPage from './pages/MainPage';
-import Loginscreen from './pages/Loginscreen';
+import LoginPage from './pages/LoginPage';
 import MaintenancePlanPage from './pages/MaintenancePlanPage';
 import CompleteCancelPage from './pages/CompleteCancelPage';
 import CreateUserPage from './pages/CreateUserPage';
@@ -18,6 +18,7 @@ import AdminUserPage from './pages/AdminUserPage';
 import NoPagefound from './pages/NoPagefound';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import jwt from 'jsonwebtoken';
+import './stylesheets/index.css';
 
 
 function isTokenExpired() {
@@ -46,10 +47,10 @@ class IndexApp extends React.Component {
             !isLoggedIn() ? (
               <Redirect to="/login" />
             ) : (
-                <Loginscreen />
+                <LoginPage />
               )
           )} />
-          <Route path={'/login'} component={Loginscreen} />
+          <Route path={'/login'} component={LoginPage} />
           <Route path={'/MainPage'} render={() => (
             !isLoggedIn() ? (
               <Redirect to="/login" />
