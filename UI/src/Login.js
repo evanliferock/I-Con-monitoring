@@ -6,6 +6,10 @@ import TextField from 'material-ui/TextField';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import dbapi from './apirequests/dbapi';
+import Alert from 'react-s-alert';
+
+import 'react-s-alert/dist/s-alert-default.css';
+import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 
 function UserText(props) {
     return (
@@ -108,15 +112,35 @@ class Login extends Component {
      console.log(response);
      if(response.data.code === 200){
        console.log("Login successful");
+       Alert.success("Login successful", {
+            position: 'top-right',
+            effect: 'slide',
+            beep: false,
+            timeout: 1000,
+            offset: 50
+        });
        localStorage.setItem('token', response.data.token);
      }
      else if(response.data.code === 204){
        console.log("Username password do not match");
-       alert(response.data.success)
+       Alert.warning("Username and password do not match", {
+            position: 'top-right',
+            effect: 'slide',
+            beep: false,
+            timeout: 5000,
+            offset: 50
+        });
      }
      else{
        console.log("Username does not exists");
        alert("Username does not exist");
+       Alert.warning("Username does not exist", {
+            position: 'top-right',
+            effect: 'slide',
+            beep: false,
+            timeout: 5000,
+            offset: 50
+        });
      }
    })
    .catch(function (error) {
@@ -188,6 +212,7 @@ class Login extends Component {
         </div>
         </MuiThemeProvider>
         {this.state.loginComponent}
+        <Alert stack={{limit: 3}} />
       </div>
     );
   }
