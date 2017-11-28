@@ -33,8 +33,7 @@ function isTokenExpired() {
 
 function isLoggedIn() {
   if (localStorage.getItem("token") == null || isTokenExpired())
-    // return false;
-    return true;
+    return false;
   return true;
 }
 
