@@ -12,13 +12,11 @@ router.post('/', function (req, res) {
     connection.query('INSERT INTO USER SET ?', req.body, function (error, results, fields) {
       if (error) {
         logger.error('An error occurred while registering username: ' + req.body.username);
-        res.send({
-          "code": 400,
+        res.status(500).send({
           "failed": "error ocurred"
         });
       } else {
         res.send({
-          "code": 200,
           "success": "user registered sucessfully"
         });
       }

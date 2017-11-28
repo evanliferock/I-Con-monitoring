@@ -15,10 +15,7 @@ router.post('/', function (req, res) {
   connection.query('SELECT * FROM USER WHERE username = ?', [username], function (error, results, fields) {
     if (error) {
       logger.error("There was an error in POST /login for username: " + username)
-      res.send({
-        "code": 400,
-        "failed": "error ocurred"
-      })
+      res.status(500).send({ "failed": "error ocurred"});
     } else {
       if (results.length > 0) {
         bcrypt.compare(password, results[0].password, function (err, doesMatch) {
@@ -29,14 +26,12 @@ router.post('/', function (req, res) {
             var token = jwt.sign(payload, "thisIsTheSecret", {
               expiresIn: '60m'// expires in 1 hr
             });
-            res.send({
-              "code": 200,
+            res.status(201).send({
               "success": "login sucessfull",
               "token": token
             });
           } else {
-            res.send({
-              "code": 204,
+            res.status(401).send({
               "success": "username and password does not match",
               "password": password,
               "password2": results[0].password
@@ -44,9 +39,8 @@ router.post('/', function (req, res) {
           }
         });
       } else {
-        res.send({
-          "code": 204,
-          "success": "username does not exist"
+        res.status(401).send({
+          "success": "username and password does not match"
         });
       }
     }
