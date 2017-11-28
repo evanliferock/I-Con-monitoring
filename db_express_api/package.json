@@ -11,6 +11,7 @@
     "express": "^4.14.1",
     "jade": "~1.11.0",
     "jsonwebtoken": "^8.1.0",
-    "mysql": "^2.14.1"
+    "mysql": "^2.14.1",
+    "tunnel-ssh": "^4.1.3"
   }
 }

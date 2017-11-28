@@ -11,14 +11,10 @@ router.post('/', function(req,res){
   // console.log("req",req.body);
   bcrypt.hash(req.body.password, 5, function( err, bcryptedPassword) {
 
-       var users={
-         "first_name":req.body.first_name,
-         "last_name":req.body.last_name,
-         "username":req.body.username,
-         "password":bcryptedPassword,
-       }
-      connection.query('INSERT INTO USERS SET ?',users, function (error, results, fields) {
-          console.log(users.first_name);
+      req.body.password = bcryptedPassword;
+
+      connection.query('INSERT INTO USER SET ?', req.body, function (error, results, fields) {
+          console.log(req.body.first_name);
           if (error) {
             console.log("error ocurred",error);
             res.send({

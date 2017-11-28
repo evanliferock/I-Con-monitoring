@@ -11,7 +11,7 @@ router.post('/', function(req,res) {
     console.log("Call to POST /login");
     var username= req.body.username;
     var password = req.body.password;
-    connection.query('SELECT * FROM USERS WHERE username = ?',[username], function (error, results, fields) {
+    connection.query('SELECT * FROM USER WHERE username = ?',[username], function (error, results, fields) {
         if (error) {
           // console.log("error ocurred",error);
           res.send({
