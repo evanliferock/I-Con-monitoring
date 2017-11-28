@@ -3,6 +3,10 @@ import RaisedButton from 'material-ui/RaisedButton';
 import AppBar from 'material-ui/AppBar';
 import TextField from 'material-ui/TextField';
 import dbapi from '../apirequests/dbapi';
+import Alert from 'react-s-alert';
+
+import 'react-s-alert/dist/s-alert-default.css';
+import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 
 class Login extends Component {
   constructor(props) {
@@ -24,15 +28,34 @@ class Login extends Component {
         console.log(response);
         if (response.data.code === 200) {
           console.log("Login successful");
+          Alert.success("Login successful", {
+               position: 'bottom',
+               effect: 'slide',
+               beep: false,
+               timeout: 1000,
+               offset: 50
+           });
           localStorage.setItem('token', response.data.token);
         }
         else if (response.data.code === 204) {
           console.log("Username password do not match");
-          alert(response.data.success)
+          Alert.warning("Username and password do not match", {
+               position: 'top-right',
+               effect: 'slide',
+               beep: false,
+               timeout: 5000,
+               offset: 50
+           });
         }
         else {
           console.log("Username does not exists");
-          alert("Username does not exist");
+          Alert.warning("Username does not exist", {
+               position: 'top-right',
+               effect: 'slide',
+               beep: false,
+               timeout: 5000,
+               offset: 50
+           });
         }
       })
       .catch(function (error) {
@@ -101,6 +124,7 @@ class LoginPage extends Component {
             </div>
           </div>
         </div>
+        <Alert stack={{limit: 3}} />
       </div>
     );
   }
