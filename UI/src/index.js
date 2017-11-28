@@ -1,6 +1,6 @@
 
 // https://reacttraining.com/react-router/web/guides/quick-start
-import { Redirect } from 'react-router'
+import { Redirect, Switch } from 'react-router'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
@@ -36,37 +36,21 @@ class App extends React.Component {
     render() {
         return (
             <Router>
-                <div>
-                    <Route exact path={'/'} render={() => (
+                <Switch>
+                <Route path={"/login"} component={LoginApp}/>
+                    <Route path={'/'} render={() => (
                       !isLoggedIn() ? (
-                        <Redirect to="/login"/>
+                        <Redirect to={"/login"}/>
                       ) : (
-                        <MainPage />
+                        <div>
+                          <Route exact path={"/"} component={MainPage}/>
+                          <Route path={"/about"} component={About}/>
+                          <Route path={"/game"} component={Game}/>
+                          <Route path={"/maintenance"} component={Maintenance}/>
+                        </div>
                       )
                     )}/>
-                    <Route path={'/login'} component={LoginApp}></Route>
-                    <Route path={'/about'} render={() => (
-                      !isLoggedIn() ? (
-                        <Redirect to="/login"/>
-                      ) : (
-                        <About />
-                      )
-                    )}/>
-                    <Route path={'/maintenance'} render={() => (
-                      !isLoggedIn() ? (
-                        <Redirect to="/login"/>
-                      ) : (
-                        <Maintenance />
-                      )
-                    )}/>
-                    <Route path={'/game'} render={() => (
-                      !isLoggedIn() ? (
-                        <Redirect to="/login"/>
-                      ) : (
-                        <Game />
-                      )
-                    )}/>
-                </div>
+                </Switch>
             </Router>
         );
     }
