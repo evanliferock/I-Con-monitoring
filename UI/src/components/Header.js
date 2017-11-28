@@ -80,6 +80,6 @@ class Header extends Component {
 
 //Components properties
 Header.propTypes = {
-  title: PropTypes.string.isRequred
+  title: PropTypes.string.isRequired,
 };
 export default Header;
