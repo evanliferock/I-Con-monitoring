@@ -14,10 +14,7 @@ router.post('/', function (req, res) {
   connection.query('SELECT * FROM USER WHERE username = ?', [username], function (error, results, fields) {
     if (error) {
       // console.log("error ocurred",error);
-      res.send({
-        "code": 400,
-        "failed": "error ocurred"
-      })
+      res.status(500).send({ "failed": "error ocurred"});
     } else {
       // console.log('The solution is: ', results);
       if (results.length > 0) {

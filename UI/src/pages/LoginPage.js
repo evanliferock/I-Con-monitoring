@@ -4,7 +4,10 @@ import AppBar from 'material-ui/AppBar';
 import TextField from 'material-ui/TextField';
 import dbapi from '../apirequests/dbapi';
 import Alert from 'react-s-alert';
+<<<<<<< HEAD
 import { Redirect } from 'react-router';
+=======
+>>>>>>> origin/develop
 
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
@@ -31,6 +34,13 @@ class Login extends Component {
         console.log(response);
         if (response.status === 201) {
           console.log("Login successful");
+          Alert.success("Login successful", {
+               position: 'bottom',
+               effect: 'slide',
+               beep: false,
+               timeout: 1000,
+               offset: 50
+           });
           localStorage.setItem('token', response.data.token);
           loginObject.setState({ loggedIn: true });
         }
@@ -121,7 +131,11 @@ class LoginPage extends Component {
             </div>
           </div>
         </div>
+<<<<<<< HEAD
         <Alert stack={{ limit: 3 }} />
+=======
+        <Alert stack={{limit: 3}} />
+>>>>>>> origin/develop
       </div>
     );
 
