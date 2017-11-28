@@ -1,23 +1,22 @@
 import React from 'react';
-import Header from './Header'
+import Header from '../components/Header'
 import { findDOMNode } from 'react-dom';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Popover from 'material-ui/Popover';
-import './main.css';
+
 
 class Sensor extends React.Component {
-  constructor(){
+  constructor() {
     super();
     this.state = {
-       open: false,
-       anchorEl: null,
-       data: null,
+      open: false,
+      anchorEl: null,
+      data: null,
     }
   }
 
-  handleRequestClose(){
+  handleRequestClose() {
     this.setState({
-      open:false,
+      open: false,
     });
   }
 
@@ -26,7 +25,7 @@ class Sensor extends React.Component {
     let newData = this.props.id;
 
     this.setState({
-      open:true,
+      open: true,
       anchorEl: this.state.anchorEl ? this.state.anchorEl : findDOMNode(this.sensor),
       data: newData,
     });
@@ -38,29 +37,30 @@ class Sensor extends React.Component {
     let width = 30 * this.props.scale;
     let height = 30 * this.props.scale;
     return (
-      <div ref={(k) => {this.sensor = k}}
+      <div ref={(k) => { this.sensor = k }}
         onClick={() => this.handleClick()}
-        style={{position:'absolute', left:x, top:y,
-        background:this.props.color, border:'1px solid #a0a0a0',
-        width:width, height:height,
-        borderRadius:'3px'
-      }}>
-      <Popover
-        open={this.state.open}
-        anchorEl={this.state.anchorEl}
-        onRequestClose={() => this.handleRequestClose()}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'middle',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
+        style={{
+          position: 'absolute', left: x, top: y,
+          background: this.props.color, border: '1px solid #a0a0a0',
+          width: width, height: height,
+          borderRadius: '3px'
+        }}>
+        <Popover
+          open={this.state.open}
+          anchorEl={this.state.anchorEl}
+          onRequestClose={() => this.handleRequestClose()}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'middle',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
         >
-          <div style={{margin:'5px'}}>Data: {this.state.data}</div>
+          <div style={{ margin: '5px' }}>Data: {this.state.data}</div>
         </Popover>
-        </div>
+      </div>
     );
   }
 }
@@ -70,14 +70,14 @@ class SensorLayout extends React.Component {
   constructor() {
     super();
     this.state = {
-      doorOne: { id:'doorOne', color: null,},
-      doorTwo: { id:'doorTwo', color: null,},
-      tempOne: { id:'tempOne', color: null,},
-      tempTwo: { id:'tempTwo', color: null,},
-      switchOne: { id:'switchOne', color: null,},
-      switchTwo: { id:'switchTwo', color: null,},
-      switchThree: { id:'switchThree', color: null,},
-      switchFour: { id:'switchFour', color: null,},
+      doorOne: { id: 'doorOne', color: null, },
+      doorTwo: { id: 'doorTwo', color: null, },
+      tempOne: { id: 'tempOne', color: null, },
+      tempTwo: { id: 'tempTwo', color: null, },
+      switchOne: { id: 'switchOne', color: null, },
+      switchTwo: { id: 'switchTwo', color: null, },
+      switchThree: { id: 'switchThree', color: null, },
+      switchFour: { id: 'switchFour', color: null, },
     }
   }
 
@@ -122,25 +122,26 @@ class SensorLayout extends React.Component {
     let yScale = (window.innerHeight / 1710) * .9;
     let xScale = (window.innerWidth / 1372) * .9;
     let theScale = 1;
-    if (yScale < xScale){
+    if (yScale < xScale) {
       theScale = yScale;
-    }else{
+    } else {
       theScale = xScale;
     }
     return (
-      <div style={{position:'relative', width:1372 * theScale, height:1710 * theScale}}>
+      <div style={{ position: 'relative', width: 1372 * theScale, height: 1710 * theScale }}>
         <div>
-          <img src={require('./resources/top_down_mine.png')} style={{width:'100%', height:'100%'}}/>
+          <img src={require('../resources/top_down_mine.png')} alt={'Top-Down Mine'}
+            style={{ width: '100%', height: '100%' }} />
         </div>
         <div>
-          <Sensor x={1311} y={1400} scale={theScale} {...this.state.doorOne}/>
-          <Sensor x={810} y={907} scale={theScale} {...this.state.doorTwo}/>
-          <Sensor x={91} y={1216} scale={theScale} {...this.state.tempOne}/>
-          <Sensor x={680} y={1216} scale={theScale} {...this.state.tempTwo}/>
-          <Sensor x={730} y={375} scale={theScale} {...this.state.switchOne}/>
-          <Sensor x={730} y={450} scale={theScale} {...this.state.switchTwo}/>
-          <Sensor x={730} y={525} scale={theScale} {...this.state.switchThree}/>
-          <Sensor x={730} y={600} scale={theScale} {...this.state.switchFour}/>
+          <Sensor x={1311} y={1400} scale={theScale} {...this.state.doorOne} />
+          <Sensor x={810} y={907} scale={theScale} {...this.state.doorTwo} />
+          <Sensor x={91} y={1216} scale={theScale} {...this.state.tempOne} />
+          <Sensor x={680} y={1216} scale={theScale} {...this.state.tempTwo} />
+          <Sensor x={730} y={375} scale={theScale} {...this.state.switchOne} />
+          <Sensor x={730} y={450} scale={theScale} {...this.state.switchTwo} />
+          <Sensor x={730} y={525} scale={theScale} {...this.state.switchThree} />
+          <Sensor x={730} y={600} scale={theScale} {...this.state.switchFour} />
         </div>
       </div>
     );
@@ -152,16 +153,14 @@ class MainPage extends React.Component {
   //<img src={require("./resources/top_down_mine.png")}/>
   render() {
     return (
-      <MuiThemeProvider>
+      <div>
         <div>
-          <div>
-            <Header title='Mixer' />
-          </div>
-          <div className="sensorlayout">
-            <SensorLayout/>
-          </div>
+          <Header title='Mixer' />
         </div>
-      </MuiThemeProvider>
+        <div>
+          <SensorLayout />
+        </div>
+      </div>
     );
   }
 }
