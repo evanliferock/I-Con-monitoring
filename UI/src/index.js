@@ -54,7 +54,7 @@ class App extends React.Component {
               <Redirect to={"/Login"} />
             ) : (
                 <Switch>
-                  <Route exact path={"/MainPage"} component={MainPage} />
+                  <Route exact path={"/" | "/MainPage"} component={MainPage} />
                   <Route path={"/MaintenancePlan"} component={MaintenancePlanPage} />
                   <Route path={"/CompleteCancel"} component={CompleteCancelPage} />
                   <Route path={"/CreateUser"} component={CreateUserPage} />

@@ -29,42 +29,31 @@ class Login extends Component {
     dbapi.post('login', payload)
       .then(function (response) {
         console.log(response);
-        if (response.data.code === 200) {
+        if (response.status === 201) {
           console.log("Login successful");
-          Alert.success("Login successful", {
-            position: 'bottom',
-            effect: 'slide',
-            beep: false,
-            timeout: 1000,
-            offset: 50
-          });
           localStorage.setItem('token', response.data.token);
-          loginObject.setState({loggedIn: true});
-        }
-        else if (response.data.code === 204) {
-          console.log("Username password do not match");
-          Alert.warning("Username and password do not match", {
-            position: 'top-right',
-            effect: 'slide',
-            beep: false,
-            timeout: 5000,
-            offset: 50
-          });
-        }
-        else {
-          console.log("Username does not exists");
-          Alert.warning("Username does not exist", {
-            position: 'top-right',
-            effect: 'slide',
-            beep: false,
-            timeout: 5000,
-            offset: 50
-          });
+          loginObject.setState({ loggedIn: true });
         }
       })
       .catch(function (error) {
-        console.log(error);
-      });
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          if (error.response.status === 401) {
+            console.log("Username password do not match");
+            Alert.warning("Username and password do not match", {
+              position: 'top-left',
+              effect: 'slide',
+              beep: false,
+              timeout: 5000,
+              offset: 50
+            });
+          } else {
+            console.log(error);
+          }
+        } else {
+          console.log("Error on db api end: " + error);
+        }
+      })
   }
 
   handleClickForget(event) {
@@ -72,7 +61,6 @@ class Login extends Component {
   }
 
   render() {
-    console.log(this.state.loggedIn);
     if (this.state.loggedIn) {
       return (<Redirect to={"/MainPage"} />);
     } else {
