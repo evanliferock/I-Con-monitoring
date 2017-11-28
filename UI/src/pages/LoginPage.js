@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import AppBar from 'material-ui/AppBar';
 import TextField from 'material-ui/TextField';
+import dbapi from '../apirequests/dbapi';
 
 class Login extends Component {
   constructor(props) {
@@ -13,11 +14,34 @@ class Login extends Component {
   }
 
   handleClick(event) {
-
+    console.log("click");
+    var payload = {
+      "username": this.state.username,
+      "password": this.state.password,
+    }
+    dbapi.post('login', payload)
+      .then(function (response) {
+        console.log(response);
+        if (response.data.code === 200) {
+          console.log("Login successful");
+          localStorage.setItem('token', response.data.token);
+        }
+        else if (response.data.code === 204) {
+          console.log("Username password do not match");
+          alert(response.data.success)
+        }
+        else {
+          console.log("Username does not exists");
+          alert("Username does not exist");
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
   handleClickForget(event) {
-    
+
   }
 
   render() {
@@ -42,7 +66,7 @@ class Login extends Component {
           onChange={(event, newValue) => this.setState({ password: newValue })}
         />
         <br />
-        <RaisedButton label="Login" primary={true} style={{margin: "55px 0px", width: "100%"}} onClick={(event) => this.handleClick(event)} />
+        <RaisedButton label="Login" primary={true} style={{ margin: "55px 0px", width: "100%" }} onClick={(event) => this.handleClick(event)} />
 
         <div className="col-md-12">
           <div className="pull-left" style={{ width: '50%' }} >
@@ -58,22 +82,24 @@ class Login extends Component {
 class LoginPage extends Component {
   render() {
     return (
-      <div style={{position: "fixed",  width: "100%",backgroundColor:'#00BCD4'}}>
+      <div style={{ position: "fixed", width: "100%", backgroundColor: '#00BCD4' }}>
         <div style={{}}>
           <AppBar
-              titleStyle={{textAlign: "center"}}
-              title="NIOSH I-Con-monitoring Login"
-              showMenuIconButton = {false}
-            />
+            titleStyle={{ textAlign: "center" }}
+            title="NIOSH I-Con-monitoring Login"
+            showMenuIconButton={false}
+          />
         </div>
-        <div className="" style={{position: "fixed",
-          padding: "0px", margin: "0px", height: "100%",width: "100%",
-          background:'url("https://www.parks.ca.gov/pages/499/images/img_5012.jpg") no-repeat center center fixed', backgroundSize:"cover" }}>
-            <div className="col-md-4 loginscreen" style={{position: "fixed",height: "100%", backgroundColor:'#00BCD4',padding:'20px',paddingBottom:'40px'}}>
-                <div style={{marginTop:'100px'}}>
-                  <Login />
-                </div>
+        <div className="" style={{
+          position: "fixed",
+          padding: "0px", margin: "0px", height: "100%", width: "100%",
+          background: 'url("https://www.parks.ca.gov/pages/499/images/img_5012.jpg") no-repeat center center fixed', backgroundSize: "cover"
+        }}>
+          <div className="col-md-4 loginscreen" style={{ position: "fixed", height: "100%", backgroundColor: '#00BCD4', padding: '20px', paddingBottom: '40px' }}>
+            <div style={{ marginTop: '100px' }}>
+              <Login />
             </div>
+          </div>
         </div>
       </div>
     );
