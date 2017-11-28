@@ -39,7 +39,7 @@ class Login extends Component {
                offset: 50
            });
           localStorage.setItem('token', response.data.token);
-          loginObject.setState({ loggedIn: true });
+          window.setTimeout(() => {loginObject.setState({ loggedIn: true })}, 50);
         }
       })
       .catch(function (error) {
