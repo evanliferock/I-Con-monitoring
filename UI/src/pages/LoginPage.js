@@ -4,10 +4,7 @@ import AppBar from 'material-ui/AppBar';
 import TextField from 'material-ui/TextField';
 import dbapi from '../apirequests/dbapi';
 import Alert from 'react-s-alert';
-<<<<<<< HEAD
 import { Redirect } from 'react-router';
-=======
->>>>>>> origin/develop
 
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
@@ -131,11 +128,7 @@ class LoginPage extends Component {
             </div>
           </div>
         </div>
-<<<<<<< HEAD
         <Alert stack={{ limit: 3 }} />
-=======
-        <Alert stack={{limit: 3}} />
->>>>>>> origin/develop
       </div>
     );
 
