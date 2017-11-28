@@ -57,7 +57,8 @@ class Header extends Component {
           this.handleClick("/AdminUser")
         }} />
         <MenuItem primaryText="Sign out" onClick={(event) => {
-          this.handleClick("/Login")
+          localStorage.removeItem("token");
+          this.handleClick("/Login");
         }} />
       </IconMenu>
     );
@@ -79,6 +80,6 @@ class Header extends Component {
 
 //Components properties
 Header.propTypes = {
-  appBarProp: PropTypes.object.Required
+  title: PropTypes.string.isRequired,
 };
 export default Header;

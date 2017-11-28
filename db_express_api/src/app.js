@@ -4,6 +4,7 @@ var path = require('path');
 // var logger = require('morgan');
 // var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var jwt = require("jsonwebtoken");
 
 var maintenance = require('./routes/maintenance');
 var base = require('./routes/base');
@@ -30,6 +31,40 @@ app.set('superSecret', "thisIsTheSecret");
 // app.use(logger('dev'));
 // app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(function(req, res, next) {
+  if (req._parsedUrl.path !== "/login"){
+    // check header or url parameters or post parameters for token
+    var token = req.body.token || req.query.token || req.headers['token'];
+
+    // decode token
+    if (token) {
+
+      // verifies secret and checks exp
+      jwt.verify(token, app.get('superSecret'), function(err, decoded) {
+        if (err) {
+          return res.json({ success: false, message: 'Failed to authenticate token.', error:err });
+        } else {
+          // if everything is good, save to request for use in other routes
+          req.decoded = decoded;
+          next();
+        }
+      });
+
+    } else {
+
+      // if there is no token
+      // return an error
+      return res.status(403).send({
+          success: false,
+          message: 'No token provided.'
+      });
+
+    }
+}else{
+  next();
+}
+});
 
 app.use('/register', register);
 app.use('/login',login)
