@@ -55,7 +55,7 @@ router.post('/', function(req,res) {
                   admin: true
                 };
                 var token = jwt.sign(payload, "thisIsTheSecret", {
-                  expiresIn: '60m'// expires in 1 hr
+                  expiresIn: '1m'// expires in 1 hr
                 });
                 res.send({
                    "code":200,

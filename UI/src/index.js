@@ -1,12 +1,9 @@
 
 // https://reacttraining.com/react-router/web/guides/quick-start
-import { Redirect, Switch } from 'react-router'
+import { Redirect, Switch } from 'react-router';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {
-  BrowserRouter as Router,
-  Route
-} from 'react-router-dom'
+import { BrowserRouter, Route } from 'react-router-dom';
 import MainPage from './pages/MainPage';
 import LoginPage from './pages/LoginPage';
 import MaintenancePlanPage from './pages/MaintenancePlanPage';
@@ -20,6 +17,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import jwt from 'jsonwebtoken';
 import './stylesheets/index.css';
 
+// localStorage.removeItem("token");
 
 function isTokenExpired() {
   if (localStorage.getItem("token")) {
@@ -31,86 +29,52 @@ function isTokenExpired() {
   return true;
 }
 
+
 function isLoggedIn() {
   if (localStorage.getItem("token") == null || isTokenExpired())
     return false;
   return true;
 }
 
-class IndexApp extends React.Component {
+
+class App extends React.Component {
   render() {
     return (
-      <Router>
+      <BrowserRouter>
         <Switch>
-          <Route exact path={'/'} render={() => (
+          <Route path={"/Login"} render={() => (
             !isLoggedIn() ? (
-              <Redirect to="/login" />
+              <LoginPage />
             ) : (
-                <LoginPage />
+              <Redirect to={"/MainPage"} />
+            )
+          )} />
+          <Route path={'/'} render={() => (
+            !isLoggedIn() ? (
+              <Redirect to={"/Login"} />
+            ) : (
+                <Switch>
+                  <Route exact path={"/MainPage"} component={MainPage} />
+                  <Route path={"/MaintenancePlan"} component={MaintenancePlanPage} />
+                  <Route path={"/CompleteCancel"} component={CompleteCancelPage} />
+                  <Route path={"/CreateUser"} component={CreateUserPage} />
+                  <Route path={"/EditUser"} component={EditUserPage} />
+                  <Route path={"/UserProfile"} component={ProfileUserPage} />
+                  <Route path={"/AdminUser"} component={AdminUserPage} />
+                  <Route component={NoPagefound} />
+                </Switch>
               )
           )} />
-          <Route path={'/login'} component={LoginPage} />
-          <Route path={'/MainPage'} render={() => (
-            !isLoggedIn() ? (
-              <Redirect to="/login" />
-            ) : (
-                <MainPage />
-              )
-          )} />
-          <Route path={'/MaintenancePlan'} render={() => (
-            !isLoggedIn() ? (
-              <Redirect to="/login" />
-            ) : (
-                <MaintenancePlanPage />
-              )
-          )} />
-          <Route path={'/CompleteCancel'} render={() => (
-            !isLoggedIn() ? (
-              <Redirect to="/login" />
-            ) : (
-                <CompleteCancelPage />
-              )
-          )} />
-          <Route path={'/CreateUser'} render={() => (
-            !isLoggedIn() ? (
-              <Redirect to="/login" />
-            ) : (
-                <CreateUserPage />
-              )
-          )} />
-          <Route path={'/EditUser'} render={() => (
-            !isLoggedIn() ? (
-              <Redirect to="/login" />
-            ) : (
-                <EditUserPage />
-              )
-          )} />
-          <Route path={'/UserProfile'} render={() => (
-            !isLoggedIn() ? (
-              <Redirect to="/login" />
-            ) : (
-                <ProfileUserPage />
-              )
-          )} />
-          <Route path={'/AdminUser'} render={() => (
-            !isLoggedIn() ? (
-              <Redirect to="/login" />
-            ) : (
-                <AdminUserPage />
-              )
-          )} />
-          <Route component={NoPagefound}/>
         </Switch>
-      </Router>
+      </BrowserRouter>
     );
   }
 }
 
-// ========================================
 
 ReactDOM.render(
   <MuiThemeProvider>
-    <IndexApp />
+    <App />
   </MuiThemeProvider>,
 
   document.getElementById('root')

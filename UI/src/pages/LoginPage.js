@@ -3,7 +3,11 @@ import RaisedButton from 'material-ui/RaisedButton';
 import AppBar from 'material-ui/AppBar';
 import TextField from 'material-ui/TextField';
 import dbapi from '../apirequests/dbapi';
+import Alert from 'react-s-alert';
 import { Redirect } from 'react-router';
+
+import 'react-s-alert/dist/s-alert-default.css';
+import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 
 class Login extends Component {
   constructor(props) {
@@ -11,11 +15,13 @@ class Login extends Component {
     this.state = {
       username: null,
       password: null,
+      loggedIn: false,
     };
   }
 
   handleClick(event) {
-    console.log("click: " + this.state.loggedIn);
+    console.log("click");
+    let loginObject = this;
     var payload = {
       "username": this.state.username,
       "password": this.state.password,
@@ -24,16 +30,36 @@ class Login extends Component {
       .then(function (response) {
         console.log(response);
         if (response.data.code === 200) {
-          console.log("Login successful: " + this.state.loggedIn);
+          console.log("Login successful");
+          Alert.success("Login successful", {
+            position: 'bottom',
+            effect: 'slide',
+            beep: false,
+            timeout: 1000,
+            offset: 50
+          });
           localStorage.setItem('token', response.data.token);
+          loginObject.setState({loggedIn: true});
         }
         else if (response.data.code === 204) {
           console.log("Username password do not match");
-          alert(response.data.success)
+          Alert.warning("Username and password do not match", {
+            position: 'top-right',
+            effect: 'slide',
+            beep: false,
+            timeout: 5000,
+            offset: 50
+          });
         }
         else {
           console.log("Username does not exists");
-          alert("Username does not exist");
+          Alert.warning("Username does not exist", {
+            position: 'top-right',
+            effect: 'slide',
+            beep: false,
+            timeout: 5000,
+            offset: 50
+          });
         }
       })
       .catch(function (error) {
@@ -46,36 +72,41 @@ class Login extends Component {
   }
 
   render() {
-    return (
-      <div>
-        <TextField
-          hintText="Enter your username"
-          floatingLabelText="Username"
-          style={{ width: '100%' }}
-          floatingLabelStyle={{ color: '#FFF' }}
-          inputStyle={{ color: '#FFF' }}
-          onChange={(event, newValue) => this.setState({ username: newValue })}
-        />
-        <br />
-        <TextField
-          type="password"
-          style={{ width: '100%' }}
-          floatingLabelStyle={{ color: '#FFF' }}
-          hintText="Enter your Password"
-          inputStyle={{ color: '#FFF' }}
-          floatingLabelText="Password"
-          onChange={(event, newValue) => this.setState({ password: newValue })}
-        />
-        <br />
-        <RaisedButton label="Login" primary={true} style={{ margin: "55px 0px", width: "100%" }} onClick={(event) => this.handleClick(event)} />
+    console.log(this.state.loggedIn);
+    if (this.state.loggedIn) {
+      return (<Redirect to={"/MainPage"} />);
+    } else {
+      return (
+        <div>
+          <TextField
+            hintText="Enter your username"
+            floatingLabelText="Username"
+            style={{ width: '100%' }}
+            floatingLabelStyle={{ color: '#FFF' }}
+            inputStyle={{ color: '#FFF' }}
+            onChange={(event, newValue) => this.setState({ username: newValue })}
+          />
+          <br />
+          <TextField
+            type="password"
+            style={{ width: '100%' }}
+            floatingLabelStyle={{ color: '#FFF' }}
+            hintText="Enter your Password"
+            inputStyle={{ color: '#FFF' }}
+            floatingLabelText="Password"
+            onChange={(event, newValue) => this.setState({ password: newValue })}
+          />
+          <br />
+          <RaisedButton label="Login" primary={true} style={{ margin: "55px 0px", width: "100%" }} onClick={(event) => this.handleClick(event)} />
 
-        <div className="col-md-12">
-          <div className="pull-left" style={{ width: '50%' }} >
-            <RaisedButton label="Forget?" primary={true} style={{ width: '100%' }} onClick={(event) => this.handleClickForget(event)} />
+          <div className="col-md-12">
+            <div className="pull-left" style={{ width: '50%' }} >
+              <RaisedButton label="Forget?" primary={true} style={{ width: '100%' }} onClick={(event) => this.handleClickForget(event)} />
+            </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
 
@@ -102,6 +133,7 @@ class LoginPage extends Component {
             </div>
           </div>
         </div>
+        <Alert stack={{ limit: 3 }} />
       </div>
     );
 
