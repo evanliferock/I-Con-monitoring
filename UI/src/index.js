@@ -36,81 +36,38 @@ function isLoggedIn() {
     return false;
   return true;
 }
-
-class IndexApp extends React.Component {
-  render() {
-    return (
-      <Router>
-        <Switch>
-          <Route exact path={'/'} render={() => (
-            !isLoggedIn() ? (
-              <Redirect to="/login" />
-            ) : (
-                <LoginPage />
-              )
-          )} />
-          <Route path={'/login'} component={LoginPage} />
-          <Route path={'/MainPage'} render={() => (
-            !isLoggedIn() ? (
-              <Redirect to="/login" />
-            ) : (
-                <MainPage />
-              )
-          )} />
-          <Route path={'/MaintenancePlan'} render={() => (
-            !isLoggedIn() ? (
-              <Redirect to="/login" />
-            ) : (
-                <MaintenancePlanPage />
-              )
-          )} />
-          <Route path={'/CompleteCancel'} render={() => (
-            !isLoggedIn() ? (
-              <Redirect to="/login" />
-            ) : (
-                <CompleteCancelPage />
-              )
-          )} />
-          <Route path={'/CreateUser'} render={() => (
-            !isLoggedIn() ? (
-              <Redirect to="/login" />
-            ) : (
-                <CreateUserPage />
-              )
-          )} />
-          <Route path={'/EditUser'} render={() => (
-            !isLoggedIn() ? (
-              <Redirect to="/login" />
-            ) : (
-                <EditUserPage />
-              )
-          )} />
-          <Route path={'/UserProfile'} render={() => (
-            !isLoggedIn() ? (
-              <Redirect to="/login" />
-            ) : (
-                <ProfileUserPage />
-              )
-          )} />
-          <Route path={'/AdminUser'} render={() => (
-            !isLoggedIn() ? (
-              <Redirect to="/login" />
-            ) : (
-                <AdminUserPage />
-              )
-          )} />
-          <Route component={NoPagefound}/>
-        </Switch>
-      </Router>
-    );
-  }
+class App extends React.Component {
+    render() {
+        return (
+            <Router>
+                <Switch>
+                <Route path={"/login"} component={LoginPage}/>
+                    <Route path={'/'} render={() => (
+                      !isLoggedIn() ? (
+                        <Redirect to={"/login"}/>
+                      ) : (
+                        <div>
+                          <Route exact path={"/MainPage"} component={MainPage}/>
+                          <Route path={"/MaintenancePlan"} component={MaintenancePlanPage}/>
+                          <Route path={"/CompleteCancel"} component={CompleteCancelPage}/>
+                          <Route path={"/CreateUser"} component={CreateUserPage}/>
+                          <Route path={"/EditUser"} component={EditUserPage}/>
+                          <Route path={"/UserProfile"} component={ProfileUserPage}/>
+                          <Route path={"/AdminUser"} component={AdminUserPage}/>
+                          <Route component={NoPagefound}/>
+                        </div>
+                      )
+                    )}/>
+                </Switch>
+            </Router>
+        );
+    }
 }
 
-// ========================================
 
 ReactDOM.render(
   <MuiThemeProvider>
-    <IndexApp />
+    <App />
   </MuiThemeProvider>,
 
   document.getElementById('root')
