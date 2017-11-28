@@ -1,8 +1,16 @@
-var awsIoT = require('aws-iot-device-sdk');
+var mqtt = require('mqtt');
 var express = require('express');
 var router = express.Router();
 var mail = require('../connections/mail');
-var shadow = require('../connections/shadow');
+var sql = require('../connections/sql');
+var client = require('../connections/mqtt_client');
+var parsed_message; // Variable to hold sensor values in between recieving, parsing and sending requests
+
+// On client connect, subscribe to topic and log message
+client.on('connect', function() {
+		client.subscribe('mock/sensor');
+		console.log('API successfully connected to Mosquitto');
+});
 
 // TODO: Only send out 1 alert by checking timestamp
 function sendAlert(sensor, level) {
@@ -21,13 +29,10 @@ function sendAlert(sensor, level) {
 	});
 }
 
-// Register this device with our thing's (gateway) shadow
-shadow.register('iotest');
-
 // TODO: Compare gate data with planned maintenance to see if gate should be open
 //
 //       Add colors to the sensor's line in JSON file rather than in new array/object
-var parseData = function(data) {
+parseData = function(data) {
 	switch(true) { // Temp 1
 		case(data.state.reported.temp1 > 2000):
 			data.state.reported['t1c'] = '#ff0000';
@@ -80,25 +85,32 @@ var parseData = function(data) {
 	}
 }
 
-// TODO: Make sure alert doesn't send out with ever request
-//       Maybe use timestamp of alert to do this?
-var parsed;
+// Everytime 'sensors' are updated
+client.on('message', function(topic, message) {
+	// Message parsing and console logging for debugging
+	console.log('Message recieved from ' + topic);
+	parsed_message = JSON.parse(message);
+	parseData(parsed_message);
+	console.log('Message successfuly parsed: ');
+	console.log(parsed_message);
+	
+	// Insert parsed message into SQL DB
+	sql.query('INSERT INTO messages2 SET ?', parsed_message.state.reported, function(error, results, fields) {
+		if(error) throw error;
+		else console.log('Message inserted into DB');
+	});
+})
+
+/**********  'Main' Function **********/
+// When requested, query DB for most recent entry and return
 router.get('/', function(req, res, next) {
-	//console.log('Get requested for /iot')
-	// Get thing's (gateway) shadow
-	shadow.get('iotest');
-	// When AWS resonds, send respective HTTP response
-	shadow.on('status', function(thingName, stat, clientToken, stateObject) {
-		if(stat == 'accepted') {
-			parsed = parseData(stateObject);
-			//res.end(JSON.stringify(parsed));
-			res.end(JSON.stringify(stateObject));
-		}
-		else {
-			console.log('Error in fetching device shadow');
-			res.end('Error in fetching device shadow');
+	console.log('Call to GET in IoT');
+	sql.query('SELECT * FROM messages ORDER BY timestamp DESC LIMIT 1', function(error, results, fields) {
+		if(error) {
+			res.send(error);
 		}
 	});
+	res.end(JSON.stringify(parsed_message));
 });
 
 module.exports = router;
