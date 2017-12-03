@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*"); // Who can request from browser from this API
   if (req.method === 'OPTIONS') { // OPTIONS asks if API will accept different things
-    res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS"); // What methods are accepted with this api
+    res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT"); // What methods are accepted with this api
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Token"); // what headers are accepted with this api
     res.header("Access-Control-Request-Headers", "Token"); // what headers will be used by this api
     res.header("Access-Control-Max-Age", "600"); // how long until OPTIONS needs to be sent again Firefox caps this at 24 hours (86400 seconds) and Chromium at 10 minutes (600 seconds).
