@@ -6,8 +6,8 @@ var fs = require('fs');
 var bodyParser = require('body-parser');
 var jwt = require("jsonwebtoken");
 
-var requestLogger = require('./logger/requestLogger');
-var consoleLogger = require('./logger/consoleLogger');
+var requestLogger = require('morgan');
+var detailsLogger = require('./logger/detailsLogger');
 var errorLogger = require('./logger/errorLogger');
 
 var maintenance = require('./routes/maintenance');
@@ -34,8 +34,15 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.set('superSecret', "thisIsTheSecret");
 
-app.use(requestLogger);
-app.use(consoleLogger);
+// Loggers
+// Keeps track of basics
+app.use(requestLogger('dev'));
+app.use(requestLogger('common', {
+  stream: fs.createWriteStream(path.join(__dirname, '..', 'logs', 'Requests.log'), {flags: 'a'})
+}));
+// keeps track of details
+app.use(detailsLogger);
+// error logger is below
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -80,6 +87,7 @@ app.use('/register', register);
 app.use('/login', login)
 app.use('/maintenance', maintenance);
 
+// loggs errors
 app.use(errorLogger);
 
 // catch 404 and forward to error handler
