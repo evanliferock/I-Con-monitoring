@@ -45,7 +45,7 @@ class EditUserPage extends Component {
             <div>
                 {/** Nav bar */}
                 <Header
-                    appBarProp={{ title: "Edit Users" }}
+                    title={"Edit Users"}
                 />
 
                 {/** Body */}

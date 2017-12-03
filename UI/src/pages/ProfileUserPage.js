@@ -27,7 +27,7 @@ class ProfileUserPage extends Component {
             <div>
                 {/** Nav bar */}
                 <Header
-                    appBarProp={{ title: "Profile" }}
+                    title={"Profile" }
                 />
 
                 {/** Body - form */}
