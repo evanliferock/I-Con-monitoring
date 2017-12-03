@@ -4,8 +4,7 @@ var http = require('http');
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
-var connection = require('../sql/db');
-var logger = require('../logger/logger');
+var connection = require('../sql/db');;
 
 // GET ALL UPCOMING MAINTENANCE
 router.get('/', function (req, res) {
