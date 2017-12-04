@@ -34,8 +34,8 @@ var g3 = 0; // gate3
 var g4 = 0; // gate4
 setInterval(function () {
     // Set random temperatures
-		var t1 = getRandomInt(1000, 1999);
-		var t2 = getRandomInt(2000, 2999);
+		var t1 = getRandomInt(1400, 2300);
+		var t2 = getRandomInt(1400, 2300);
 
     // Randomly update doors
 		var rand = parseInt(Math.random() * 42);
