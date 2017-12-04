@@ -49,8 +49,7 @@ class CompleteCancelPage extends Component {
 		}
 	}
 
-
-	componentDidMount() {
+	componentWillMount() {
 		this.updateData();
 	}
 
