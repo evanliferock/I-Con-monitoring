@@ -2,7 +2,7 @@ import React from 'react';
 import Header from '../components/Header'
 import { findDOMNode } from 'react-dom';
 import Popover from 'material-ui/Popover';
-
+import iotapi from '../apirequests/iotapi';
 
 class Sensor extends React.Component {
   constructor() {
@@ -21,13 +21,10 @@ class Sensor extends React.Component {
   }
 
   handleClick() {
-    // TODO: create fetch sensor data for the sensor id.
-    let newData = this.props.id;
-
     this.setState({
       open: true,
       anchorEl: this.state.anchorEl ? this.state.anchorEl : findDOMNode(this.sensor),
-      data: newData,
+      data: this.props.value,
     });
   }
 
@@ -70,14 +67,14 @@ class SensorLayout extends React.Component {
   constructor() {
     super();
     this.state = {
-      doorOne: { id: 'doorOne', color: null, },
-      doorTwo: { id: 'doorTwo', color: null, },
-      tempOne: { id: 'tempOne', color: null, },
-      tempTwo: { id: 'tempTwo', color: null, },
-      switchOne: { id: 'switchOne', color: null, },
-      switchTwo: { id: 'switchTwo', color: null, },
-      switchThree: { id: 'switchThree', color: null, },
-      switchFour: { id: 'switchFour', color: null, },
+      doorOne: { id:'doorOne', color: null, value: null},
+      doorTwo: { id:'doorTwo', color: null, value: null},
+      tempOne: { id:'tempOne', color: null, value: null},
+      tempTwo: { id:'tempTwo', color: null, value: null},
+      switchOne: { id:'switchOne', color: null, value: null},
+      switchTwo: { id:'switchTwo', color: null, value: null},
+      switchThree: { id:'switchThree', color: null, value: null},
+      switchFour: { id:'switchFour', color: null, value: null},
     }
   }
 
@@ -85,7 +82,7 @@ class SensorLayout extends React.Component {
     this.updateSensors();
     this.sensorTimer = setInterval(
       () => this.updateSensors(),
-      1000
+      2000
     );
   }
 
@@ -94,27 +91,23 @@ class SensorLayout extends React.Component {
   }
 
   updateSensors() {
-    // TODO: http request for sensor data.
-    this.setState({
-      doorOne: { id: this.state.doorOne.id, color: this.getRandomColor(), },
-      doorTwo: { id: this.state.doorTwo.id, color: this.getRandomColor(), },
-      tempOne: { id: this.state.tempOne.id, color: this.getRandomColor(), },
-      tempTwo: { id: this.state.tempTwo.id, color: this.getRandomColor(), },
-      switchOne: { id: this.state.switchOne.id, color: this.getRandomColor(), },
-      switchTwo: { id: this.state.switchTwo.id, color: this.getRandomColor(), },
-      switchThree: { id: this.state.switchThree.id, color: this.getRandomColor(), },
-      switchFour: { id: this.state.switchFour.id, color: this.getRandomColor(), },
-    });
-  }
-
-  // TODO remove when not used. from: https://stackoverflow.com/questions/1484506/random-color-generator
-  getRandomColor() {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
+    iotapi.get('iot') // returns a Promise. an async data holder
+        .then((response) => { // then happens when promise is fullfilled
+            console.log(response.data.state.reported.g1c);
+            this.setState({
+              doorOne: { id: this.state.doorOne.id, color: '#00cc00', value: response.data.state.reported.door1},
+              doorTwo: { id: this.state.doorTwo.id, color: '#00cc00', value: response.data.state.reported.door2},
+              tempOne: { id: this.state.tempOne.id, color: response.data.state.reported.t1c, value: response.data.state.reported.temp1},
+              tempTwo: { id: this.state.tempTwo.id, color: response.data.state.reported.t2c, value: response.data.state.reported.temp2},
+              switchOne: { id: this.state.switchOne.id, color: response.data.state.reported.g1c, value: response.data.state.reported.gate1},
+              switchTwo: { id: this.state.switchTwo.id, color: response.data.state.reported.g2c, value: response.data.state.reported.gate2},
+              switchThree: { id: this.state.switchThree.id, color: response.data.state.reported.g3c, value: response.data.state.reported.gate3},
+              switchFour: { id: this.state.switchFour.id, color: response.data.state.reported.g4c, value: response.data.state.reported.gate4},
+            });
+        })
+        .catch((error) => { // catch happens when promise is rejected
+            console.log(error);
+        });
   }
 
   render() {
