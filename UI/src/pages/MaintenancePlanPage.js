@@ -50,7 +50,7 @@ class MaintenancePlanPage extends Component {
             <div>
                 {/** Nav bar */}
                 <Header
-                    appBarProp={{ title: "Maintenance Plan" }}
+                    title={"Maintenance Plan" }
                 />
 
                 {/** Body */}

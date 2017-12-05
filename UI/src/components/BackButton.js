@@ -36,8 +36,8 @@ class BackButton extends Component {
 
 //Components properties
 BackButton.propTypes = {
-  buttonProps: PropTypes.object.Required,
-  redirectUrl: PropTypes.string.Required
+  buttonProps: PropTypes.object.isRequired,
+  redirectUrl: PropTypes.string.isRequired
 };
 
 export default BackButton;

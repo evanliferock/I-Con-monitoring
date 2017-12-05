@@ -9,6 +9,11 @@ var debug = require('debug')('db_express_api:server');
 var https = require('https');
 var fs = require('fs');
 
+// If log folder doesn't exist create it
+var logDir =  './logs';
+if (!fs.existsSync(logDir)){
+  fs.mkdirSync(logDir);
+}
 
 var privateKey  = fs.readFileSync('src/resources/ssl.key', 'utf8');
 var certificate = fs.readFileSync('src/resources/ssl.crt', 'utf8');

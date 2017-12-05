@@ -28,7 +28,7 @@ class AdminUserPage extends Component {
 
                 {/** Nav bar */}
                 <Header
-                    appBarProp={{ title: "Admin" }}
+                    title={"Admin"}
                 />
 
                 {/** Body */}

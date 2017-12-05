@@ -4,8 +4,7 @@ var http = require('http');
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
-var connection = require('../sql/db');
-var logger = require('../logger/logger');
+var connection = require('../sql/db');;
 
 // GET ALL UPCOMING MAINTENANCE
 router.get('/', function (req, res) {
@@ -27,7 +26,9 @@ router.get('/time', function (req, res) {
 // GET ALL UPCOMING MAINTENANCe
 router.get('/:user_id', function (req, res) {
     var params = req.params;
-    connection.query('SELECT * FROM MAINTENANCE WHERE is_complete = 0 AND is_canceled = 0 AND user_id = ?', [params.user_id],
+    connection.query('SELECT maintenance_id, start_date_time, name AS equipment_name FROM MAINTENANCE, EQUIPMENT ' +
+            'WHERE MAINTENANCE.equipment_id = EQUIPMENT.equipment_id ' + 
+            'AND is_complete = 0 AND is_canceled = 0 AND user_id = ?', [params.user_id],
         function (error, results, fields) {
             if (error) res.send(error);
             else res.send(results);

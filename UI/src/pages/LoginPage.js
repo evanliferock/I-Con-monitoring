@@ -20,7 +20,6 @@ class Login extends Component {
   }
 
   handleClick(event) {
-    console.log("click");
     let loginObject = this;
     var payload = {
       "username": this.state.username,

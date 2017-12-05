@@ -23,7 +23,7 @@ class CreateUserPage extends Component {
             <div>
                 {/** Nav bar */}
                 <Header
-                    appBarProp={{ title: "Create User" }}
+                    title={"Create User"}
                 />
 
                 {/** Body */}
