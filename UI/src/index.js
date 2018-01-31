@@ -23,7 +23,7 @@ function isTokenExpired() {
   if (localStorage.getItem("token")) {
     var decodedToken = jwt.decode(localStorage.getItem("token"));
     var dateNow = new Date();
-    if (decodedToken.exp < dateNow.getTime())
+    if (decodedToken.exp >  dateNow.getTime()   / 1000 )
       return false;
   }
   return true;
@@ -35,7 +35,6 @@ function isLoggedIn() {
     return false;
   return true;
 }
-
 
 class App extends React.Component {
   render() {
