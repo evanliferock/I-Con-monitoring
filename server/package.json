@@ -1,14 +1,15 @@
 {
-  "name": "mock_sensors",
+  "name": "mqtts-server",
   "version": "1.0.0",
   "description": "",
-  "main": "connect.js",
+  "main": "mqtts-server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "aws-iot-device-sdk": "^2.1.0"
+    "mosca": "^2.7.0",
+    "path": "^0.12.7"
   }
 }

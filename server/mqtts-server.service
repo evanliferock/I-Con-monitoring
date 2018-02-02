@@ -1,0 +1,14 @@
+[Unit]
+Description=mqtts-server.js - MQTTS server for ICon Monitoring
+Documentation=https://github.com/evanliferock/I-Con-monitoring
+After=network.target
+
+[Service]
+Environment=NODE_PORT=8883
+Type=simple
+User=ubuntu
+ExecStart=/usr/bin/node /home/hugh/ICon/server/mqtt-server.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
