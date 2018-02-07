@@ -13,6 +13,7 @@ var errorLogger = require('./logger/errorLogger');
 var maintenance = require('./routes/maintenance');
 var login = require('./routes/login');
 var register = require('./routes/register');
+var password = require('./routes/passwd');
 
 var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -86,6 +87,7 @@ app.use(function (req, res, next) {
 app.use('/register', register);
 app.use('/login', login)
 app.use('/maintenance', maintenance);
+app.use('/password/reset', password);
 
 // loggs errors
 app.use(errorLogger);
