@@ -28,10 +28,6 @@ class MaintenancePlanPage extends Component {
 
     handleChangeDateTimePicker = (dateTime) => this.setState({ start_date_time: dateTime});
 
-    handleChangeName(event) {
-        this.setState({ user_id: event.target.value });
-    };
-
     handleChangeMachine(event, index, value) {
         this.setState({ equipment_id: value })
     };
@@ -94,9 +90,6 @@ class MaintenancePlanPage extends Component {
                 />
 
                 {/** Body */}
-                <div className="col-md-12">
-                    <TextField floatingLabelText="Name" style={{ width: "100%" }} value={this.state.user_id} onChange={this.handleChangeName.bind(this)} />
-                </div>
 
                 <div className="col-md-12">
                     <DateTimePicker
