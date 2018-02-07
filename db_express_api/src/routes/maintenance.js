@@ -65,7 +65,6 @@ router.post('/', function (req, res) {
     var params = req.body.params;
     params.is_complete = 0;
     params.is_canceled = 0;
-    console.log(params);
     // Based on Format YYYY-MM-DD
     if (new Date().getTime() <= new Date(params.start_date_time).getTime()) {
         connection.query('INSERT INTO MAINTENANCE SET ?', params, function (error, results, fields) {
