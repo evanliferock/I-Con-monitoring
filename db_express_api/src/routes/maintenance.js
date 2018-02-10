@@ -4,7 +4,8 @@ var http = require('http');
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
-var connection = require('../sql/db');;
+var connection = require('../sql/db');
+var sem = require('semaphore')(1);
 
 // GET ALL UPCOMING MAINTENANCE
 router.get('/', function (req, res) {
@@ -21,23 +22,6 @@ router.get('/time', function (req, res) {
         else res.send(results);
     });
 });
-
-// get equipment_ids
-router.get('/equipment', function (req, res) {
-    connection.query('SELECT equipment_id FROM MAINTENANCE', function (error, results, fields) {
-        if (error) res.send(error);
-        else res.send(results);
-    });
-});
-
-// get locations
-router.get('/location', function (req, res) {
-    connection.query('SELECT location_id FROM MAINTENANCE', function (error, results, fields) {
-        if (error) res.send(error);
-        else res.send(results);
-    });
-});
-
 
 // GET ALL UPCOMING MAINTENANCe
 router.get('/:user_id', function (req, res) {
@@ -67,10 +51,12 @@ router.post('/', function (req, res) {
     params.is_canceled = 0;
     // Based on Format YYYY-MM-DD
     if (new Date().getTime() <= new Date(params.start_date_time).getTime()) {
-        connection.query('INSERT INTO MAINTENANCE SET ?', params, function (error, results, fields) {
+        connection.query('INSERT INTO MAINTENANCE SET ?', params, sem.take(function (error, results, fields) {
+            sem.leave();
             if (error) res.send(error);
             else res.send(results);
-        });
+
+        }));
     } else {
         res.status(400);
         res.send("ERROR: Date is in the past");

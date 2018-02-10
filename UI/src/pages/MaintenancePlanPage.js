@@ -37,7 +37,6 @@ class MaintenancePlanPage extends Component {
     };
 
     handlePostRequest(){
-      this.setState({user_id: jwt.decode(localStorage.getItem('token')).user_id});
       this.state.start_date_time.toJSON();
       dbapi.post('/maintenance', {
         params: {
@@ -50,8 +49,8 @@ class MaintenancePlanPage extends Component {
         .then(function (response) {
           console.log("posted");
         })
-        .catch(function (response) {
-          console.log("Error: " + response);
+        .catch(function (error) {
+          console.log("Error: " + error);
         });
     }
 
@@ -61,7 +60,7 @@ class MaintenancePlanPage extends Component {
 
   	updateData() {
   		let user_id = jwt.decode(localStorage.getItem('token')).user_id;
-      this.state.user_id = user_id;
+      this.setState({user_id: user_id});
   		let page = this;
   		dbapi.get('location')
   			.then(function (response) {
