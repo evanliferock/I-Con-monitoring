@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import Header from '../components//Header';
 import BackButton from '../components//BackButton';
+import jwt from 'jsonwebtoken';
 
 import {
     Table,
@@ -15,30 +16,65 @@ import {
 
 //it contains the users list and delete/edit functionalities
 class EditUserPage extends Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
 
         this.state = {
-            users: [{ name: 'jack', employeeId: 1 },
-            { name: 'mack', employeeId: 2 },
-            { name: 'fam', employeeId: 3 },
-            { name: 'slim', employeeId: 4 },
-            { name: 'prac', employeeId: 5 },
-            { name: 'lll', employeeId: 6 }
-            ]
+            users: [],
+            selected: [],
         }
-
-
     }
+
+    isSelected(i) {
+		return this.state.selected.indexOf(i) !== -1;
+    }
+    
+    handleRowSelection(selectedRows) {
+		if (selectedRows.length !== 0)
+			this.setState({ selected: selectedRows });
+    }
+    
+    handlePutRequest(toDo){
+		// if (this.state.selected.length > 0) {
+		// 	let user_id = this.state.data[this.state.selected[0]].user_id;
+		// 	if (toDoId !== -1) {
+		// 		let page = this;
+		// 		dbapi.put('/maintenance/' + toDo + '/' + toDoId)
+		// 			.then(function (response) {
+		// 				page.updateData();
+		// 			})
+		// 			.catch(function (response) {
+		// 				console.log("Error marking as complete");
+		// 			});
+		// 	}
+		// }
+	}
 
     handleChangeAction(value, index) {
         this.setState((prevState) => { prevState.data[index].action = value; return prevState; })
     };
 
-
-
-
-
+    componentWillMount() {
+		this.updateData();
+    }
+    
+    updateData() {
+		let user_id = jwt.decode(localStorage.getItem('token')).user_id;
+		let page = this;
+		// dbapi.get('maintenance/' + user_id)
+		// 	.then(function (response) {
+		// 		for (let i = 0; i < response.data.length; i++) {
+		// 			response.data[i].start_date_time = new Date(response.data[i].start_date_time);
+		// 		}
+		// 		page.setState({ data: response.data });
+		// 	})
+		// 	.catch(function (error) {
+		// 		console.log("Error getting data: " + error);
+		// 		page.setState({
+		// 			data: [{ maintenance_id: -1, start_date_time: new Date(), equipment_name: "ERROR: Please Refresh" }],
+		// 		})
+		// 	})
+	}
 
     render() {
         return (
