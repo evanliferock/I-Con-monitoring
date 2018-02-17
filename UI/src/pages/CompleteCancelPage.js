@@ -19,7 +19,20 @@ class CompleteCancelPage extends Component {
 	constructor() {
 		super();
 		this.state = {
-			data: [],
+			data: [
+					{start_date_time: new Date('12/01/2017 09:50:00'),equipment_name:'equipment'},
+					{start_date_time: new Date('11/08/2017 06:50:00'),equipment_name:'equipment1'},
+					{start_date_time: new Date('12/01/2017 07:55:00'),equipment_name:'equipment2'},
+					{start_date_time: new Date('12/02/2017 10:50:00'),equipment_name:'equipment3'},
+					{start_date_time: new Date('12/01/2017 09:50:00'),equipment_name:'equipment4'},
+					{start_date_time: new Date('02/11/2017 09:50:00'),equipment_name:'equipment5'},
+					{start_date_time: new Date('02/11/2017 10:50:00'),equipment_name:'equipment6'},
+					{start_date_time: new Date('12/01/2017 09:50:00'),equipment_name:'equipment7'},
+					{start_date_time: new Date('12/01/2017 03:50:00'),equipment_name:'equipment8'},
+					{start_date_time: new Date('12/01/2017 09:50:00'),equipment_name:'equipment9'},
+					{start_date_time: new Date('12/01/2017 10:50:00'),equipment_name:'equipment10'}
+					
+			      ],
 			selected: [],
 		}
 	}
@@ -79,10 +92,10 @@ class CompleteCancelPage extends Component {
 
 				{/**body */}
 				<div className="container" style={{ marginTop: "50px" }}>
-					<div className="col-md-8">
+					<div className="col-md-10">
 
 						{/** info list */}
-						<Table onRowSelection={(selectedRows) => this.handleRowSelection(selectedRows)}>
+						<Table onRowSelection={(selectedRows) => this.handleRowSelection(selectedRows)} bodyStyle={{overflow:'x-scroll',height:"450px"}}>
 							<TableHeader displaySelectAll={false} adjustForCheckbox={false} >
 								<TableRow>
 									<TableHeaderColumn >Date</TableHeaderColumn>
@@ -106,17 +119,14 @@ class CompleteCancelPage extends Component {
 					</div>
 
 					{/** right buttons */}
-					<div className="col-md-offset-1 col-md-3">
-						<RaisedButton label="Complete" onClick={() => this.handlePutRequest('complete')} backgroundColor="#00E676" style={{ margin: "20px", width: "100%" }} />
+					<div className="col-md-2">
+						<button type="button"  onClick={() => this.handlePutRequest('complete')} className="btn btn-primary" style={{ margin: "20px", width: "100%" }} >Complete</button>
 
-						<RaisedButton label="Cancel" onClick={() => this.handlePutRequest('cancel')} secondary={true} style={{ margin: "40px 20px", width: "100%" }} />
+						<button type="button"  onClick={() => this.handlePutRequest('cancel')} className="btn btn-danger" style={{ margin: "40px 20px", width: "100%" }} >Cancel</button>
 					</div>
 
 
 				</div>
-
-				{/** back home button */}
-				<BackButton redirectUrl={"/MainPage"} buttonProps={{ label: "Home", primary: true }} />
 
 			</div>
 		)

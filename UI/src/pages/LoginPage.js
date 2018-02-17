@@ -5,6 +5,7 @@ import TextField from 'material-ui/TextField';
 import dbapi from '../apirequests/dbapi';
 import Alert from 'react-s-alert';
 import { Redirect } from 'react-router';
+import myImage from '../resources/LoginBackground.jpg';
 
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
@@ -45,7 +46,7 @@ class Login extends Component {
         if (error.response) {
           // The request was made and the server responded with a status code
           if (error.response.status === 401) {
-            console.log("Username password do not match");
+            console.log("Username and password do not match");
             Alert.warning("Username and password do not match", {
               position: 'top-left',
               effect: 'slide',
@@ -79,23 +80,25 @@ class Login extends Component {
             floatingLabelStyle={{ color: '#FFF' }}
             inputStyle={{ color: '#FFF' }}
             onChange={(event, newValue) => this.setState({ username: newValue })}
+            floatingLabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}} hintStyle={{color:"#FFF"}}
           />
           <br />
           <TextField
             type="password"
             style={{ width: '100%' }}
             floatingLabelStyle={{ color: '#FFF' }}
-            hintText="Enter your Password"
+            hintText="Enter your password"
             inputStyle={{ color: '#FFF' }}
             floatingLabelText="Password"
             onChange={(event, newValue) => this.setState({ password: newValue })}
+            floatingLabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}} hintStyle={{color:"#FFF"}}
           />
           <br />
-          <RaisedButton label="Login" primary={true} style={{ margin: "55px 0px", width: "100%" }} onClick={(event) => this.handleClick(event)} />
-
+          <button type="button" className="btn btn-secondary" style={{ marginTop: "55px", width: "100%" }}  onClick={(event) => this.handleClick(event)} >Login</button>
+          <button type="button" className="btn btn-danger" style={{ marginTop: "15px", width: "100%" }}  onClick={(event) => this.handleClickForget(event)} >Forgot password?</button>
+          
           <div className="col-md-12">
-            <div className="pull-left" style={{ width: '50%' }} >
-              <RaisedButton label="Forget?" primary={true} style={{ width: '100%' }} onClick={(event) => this.handleClickForget(event)} />
+            <div className="pull-left" style={{ width: '' }} >
             </div>
           </div>
         </div>
@@ -108,21 +111,26 @@ class Login extends Component {
 class LoginPage extends Component {
   render() {
     return (
-      <div style={{ position: "fixed", width: "100%", backgroundColor: '#00BCD4' }}>
+      <div style={{ position: "fixed", width: "100%", backgroundColor: '#19171C' }}>
         <div style={{}}>
           <AppBar
-            titleStyle={{ textAlign: "center" }}
+            titleStyle={{ textAlign: "left", marginLeft: "85px" }}
             title="NIOSH I-Con-monitoring Login"
             showMenuIconButton={false}
+            className="navbar navbar-dark bg-primary" 
           />
+
+        
         </div>
         <div className="" style={{
           position: "fixed",
-          padding: "0px", margin: "0px", height: "100%", width: "100%",
-          background: 'url("https://www.parks.ca.gov/pages/499/images/img_5012.jpg") no-repeat center center fixed', backgroundSize: "cover"
+          padding: "0px", margin: "0px", height: "100%", width: "100%",top:"0px",
+          backgroundImage: 'url(' + myImage + ')', 
+          backgroundPosition: ' no-repeat center center fixed', 
+          backgroundSize: "100% auto",
         }}>
-          <div className="col-md-4 loginscreen" style={{ position: "fixed", height: "100%", backgroundColor: '#00BCD4', padding: '20px', paddingBottom: '40px' }}>
-            <div style={{ marginTop: '100px' }}>
+          <div className="col-md-4 loginscreen" style={{ position: "fixed", height: "100%", backgroundColor: '#6441A4', padding: '20px', paddingBottom: '40px' }}>
+            <div style={{ marginTop: '250px' }}>
               <Login />
             </div>
           </div>

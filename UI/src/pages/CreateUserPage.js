@@ -30,10 +30,10 @@ class CreateUserPage extends Component {
                 <div className="container" style={{ marginTop: "50px" }}>
                     <div className="col-md-offset-3 col-md-6">
                         <div className="col-md-12">
-                            <TextField floatingLabelText="Email" style={{ width: "100%" }} value={this.state.email} onChange={this.handleChangeEmail.bind(this)} />
+                            <TextField floatingLabelText="New user's work email" style={{ width: "100%" }} floatingLabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}}   value={this.state.email} onChange={this.handleChangeEmail.bind(this)} />
                         </div>
                         <div className="col-md-12">
-                            <RaisedButton label="Create" primary={true} style={{ marginTop: "25px", width: "100%" }} />
+                            <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#confirmationModal" style={{ marginTop: "25px", width: "100%" }} >Send</button>
                         </div>
 
                     </div>
@@ -41,8 +41,25 @@ class CreateUserPage extends Component {
 
                 </div>
 
+                {/** popup  */}
+                <div class="modal" tabindex="-1" role="dialog" id="confirmationModal">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Confirmation Message</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Email has been sent.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 {/** Home button */}
-                <BackButton redirectUrl="/AdminUser" buttonProps={{ label: "Back", secondary: true }} />
+                <BackButton className="btn btn-info" redirectUrl="/AdminUser" buttonProps={{ label: "Back", secondary: false }} />
             </div>
         )
     }

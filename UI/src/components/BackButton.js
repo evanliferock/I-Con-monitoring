@@ -26,8 +26,10 @@ class BackButton extends Component {
                 {/** Use for redirection by nav menu*/}
                 {this.state.redirectUrl !== '' && <Redirect to={this.state.redirectUrl}/>}
 
-                 {/** Button*/}
-                <RaisedButton label={this.props.buttonProps.label} secondary ={this.props.buttonProps.secondary } primary={this.props.buttonProps.primary} backgroundColor={this.props.buttonProps.backgroundColor} style={{position:'absolute',bottom:'10px',left:'10px'}} onClick={(event) => this.handleClick(this.props.redirectUrl)}/>
+                 {/** Button
+                <RaisedButton label={this.props.buttonProps.label} secondary ={this.props.buttonProps.secondary } primary={this.props.buttonProps.primary} backgroundColor={this.props.buttonProps.backgroundColor}  style={{position:'absolute',bottom:'10px',right:'10px'}} onClick={(event) => this.handleClick(this.props.redirectUrl)}/>*/}
+
+                <button className={this.props.className}  style={{position:'absolute',bottom:'10px',right:'10px'}} onClick={(event) => this.handleClick(this.props.redirectUrl)}>{this.props.buttonProps.label}</button>
             
             </div>
         )
