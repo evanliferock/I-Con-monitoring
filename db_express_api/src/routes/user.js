@@ -6,7 +6,7 @@ var bcrypt = require('bcryptjs');
 
 router.get('/', function (req, res) {
     if(req.decoded.admin){
-        connection.query("SELECT user_id, username, email, first_name, last_name FROM USER", 
+        connection.query("SELECT user_id, username, email, first_name, last_name FROM USER WHERE is_deleted = 0;", 
         function(error, results, fields){
             if (error) {
                 res.status(500).send({
