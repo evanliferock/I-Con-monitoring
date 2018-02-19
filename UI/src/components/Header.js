@@ -44,17 +44,11 @@ class Header extends Component {
         <MenuItem primaryText="Complete Cancel" onClick={(event) => {
           this.handleClick("/CompleteCancel")
         }} />
-        <MenuItem primaryText="User Profile" onClick={(event) => {
+        <MenuItem primaryText="Profile" onClick={(event) => {
           this.handleClick("/UserProfile")
         }} />
-        <MenuItem primaryText="Admin User" onClick={(event) => {
+        <MenuItem primaryText="Administration" onClick={(event) => {
           this.handleClick("/AdminUser")
-        }} />
-        <MenuItem primaryText="Create User" onClick={(event) => {
-          this.handleClick("/CreateUser")
-        }} />
-        <MenuItem primaryText="Edit User" onClick={(event) => {
-          this.handleClick("/EditUser")
         }} />
         <MenuItem primaryText="Sign out" onClick={(event) => {
           localStorage.removeItem("token");

@@ -61,7 +61,6 @@ class EditUserPage extends Component {
                 let newPassword = window.prompt('Enter a new password for user: \'' + this.state.data[this.state.selected[0]].name +  
                 '\' with username: \'' + this.state.data[this.state.selected[0]].username + '\'');
                 if(newPassword){
-                    let page = this;
                     dbapi.put('/user/password/reset', {
                         password: newPassword,
                     })
