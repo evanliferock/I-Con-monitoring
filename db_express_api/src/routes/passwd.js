@@ -5,7 +5,7 @@ var bcrypt = require('bcryptjs');
 var jwt = require("jsonwebtoken");
 
 router.put('/', function (req, res) {
-    var params = req.body.params;
+    var params = req.body;
     if(params && params.password){
         var user_id = params.user_id;
         var salt = bcrypt.genSaltSync(10);

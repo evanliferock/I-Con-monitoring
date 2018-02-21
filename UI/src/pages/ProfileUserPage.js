@@ -12,7 +12,6 @@ class ProfileUserPage extends Component {
         super(props);
 
         this.state = {
-            user: [],
             userName: '',
             firstName: '',
             lastName: '',
@@ -52,10 +51,8 @@ class ProfileUserPage extends Component {
 
     updatePwd(){
       dbapi.put('/password/reset', {
-        params: {
-          user_id: this.state.user_id,
-          password: this.state.password
-        }
+        user_id: this.state.user_id,
+        password: this.state.password
       })
         .then(function (response) {
           console.log("changed password");
