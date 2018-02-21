@@ -13,8 +13,12 @@ var errorLogger = require('./logger/errorLogger');
 var maintenance = require('./routes/maintenance');
 var login = require('./routes/login');
 var register = require('./routes/register');
+<<<<<<< HEAD
 var equipment = require('./routes/equipment');
 var location = require('./routes/location')
+=======
+var password = require('./routes/passwd');
+>>>>>>> 98ab9ed9d8999edaa21befe6440ba6a9cd4cf79c
 
 var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -88,8 +92,12 @@ app.use(function (req, res, next) {
 app.use('/register', register);
 app.use('/login', login)
 app.use('/maintenance', maintenance);
+<<<<<<< HEAD
 app.use('/equipment',equipment);
 app.use('/location',location);
+=======
+app.use('/password/reset', password);
+>>>>>>> 98ab9ed9d8999edaa21befe6440ba6a9cd4cf79c
 
 // loggs errors
 app.use(errorLogger);
