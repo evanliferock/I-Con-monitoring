@@ -39,12 +39,10 @@ class MaintenancePlanPage extends Component {
     handlePostRequest(){
       this.state.start_date_time.toJSON();
       dbapi.post('/maintenance', {
-        params: {
-          user_id: this.state.user_id,
-          start_date_time: this.state.start_date_time,
-          equipment_id: this.state.equipment_id,
-          location_id: this.state.location_id
-        }
+      user_id: this.state.user_id,
+      start_date_time: this.state.start_date_time,
+      equipment_id: this.state.equipment_id,
+      location_id: this.state.location_id
       })
         .then(function (response) {
           console.log("posted");

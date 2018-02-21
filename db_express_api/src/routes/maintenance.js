@@ -45,7 +45,7 @@ router.get('/maintenance/:id', function (req, res) {
 
 // Plan maintenance
 router.post('/', function (req, res) {
-    var params = req.body.params;
+    var params = req.body;
     params.is_complete = 0;
     params.is_canceled = 0;
     // Based on Format YYYY-MM-DD
