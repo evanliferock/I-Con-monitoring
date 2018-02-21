@@ -5,7 +5,6 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 var connection = require('../sql/db');
-var sem = require('semaphore')(1);
 
 // GET ALL UPCOMING MAINTENANCE
 router.get('/', function (req, res) {
@@ -51,12 +50,11 @@ router.post('/', function (req, res) {
     params.is_canceled = 0;
     // Based on Format YYYY-MM-DD
     if (new Date().getTime() <= new Date(params.start_date_time).getTime()) {
-        connection.query('INSERT INTO MAINTENANCE SET ?', params, sem.take(function (error, results, fields) {
-            sem.leave();
+        connection.query('INSERT INTO MAINTENANCE SET ?', function (error, results, fields) {
             if (error) res.send(error);
             else res.send(results);
 
-        }));
+        });
     } else {
         res.status(400);
         res.send("ERROR: Date is in the past");
