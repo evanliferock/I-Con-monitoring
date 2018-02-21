@@ -17,7 +17,8 @@ class ProfileUserPage extends Component {
             firstName: '',
             lastName: '',
             email: '',
-            newEmail: ''
+            newEmail: '',
+            password: ''
         }
     }
 
@@ -29,7 +30,12 @@ class ProfileUserPage extends Component {
         var target = event.target;
         this.setState({newEmail: target.value});
         this.setState((prevState) => { prevState[target.name] = target.value; return prevState; });
+    };
 
+    handleChangePassword(event) {
+        var target = event.target;
+        this.setState({password: target.value});
+        this.setState((prevState) => { prevState[target.name] = target.value; return prevState; });
     };
 
     updateEmail(){
@@ -42,6 +48,21 @@ class ProfileUserPage extends Component {
         .catch(function (error){
           console.log("Error changing email");
         })
+    }
+
+    updatePwd(){
+      dbapi.put('/password/reset', {
+        params: {
+          user_id: this.state.user_id,
+          password: this.state.password
+        }
+      })
+        .then(function (response) {
+          console.log("changed password");
+        })
+        .catch(function (response) {
+          console.log("Error changing password: " + response);
+        });
     }
 
     updateData(){
@@ -92,10 +113,12 @@ class ProfileUserPage extends Component {
                             <RaisedButton label="Submit Email Changes" backgroundColor="#FF9800" style={{ width: "100%", marginTop: "25px"}} onClick={this.updateEmail.bind(this)} />
                         </div>
 
-
+                        <div className="col-md-8">
+                            <TextField floatingLabelText="New Password" style={{ width: "100%" }} name="password" value={this.state.password} onChange={this.handleChangePassword.bind(this)} />
+                        </div>
 
                         <div className="col-md-8">
-                            <RaisedButton label="Change Password" primary={true} style={{ marginTop: "25px", width: "100%" }} />
+                            <RaisedButton label="Change Password" primary={true} style={{ marginTop: "25px", width: "100%" }} onClick={this.updatePwd.bind(this)} />
                         </div>
 
                         <div className="col-md-8">

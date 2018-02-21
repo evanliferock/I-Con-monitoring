@@ -5,11 +5,12 @@ var bcrypt = require('bcryptjs');
 var jwt = require("jsonwebtoken");
 
 router.put('/', function (req, res) {
-    if(req.body && req.body.password){
-        var user_id = req.decoded.user_id;
+    var params = req.body.params;
+    if(params && params.password){
+        var user_id = params.user_id;
         var salt = bcrypt.genSaltSync(10);
-        bcrypt.hash(req.body.password, salt, function (err, bcryptedPassword) {
-            connection.query('UPDATE USER SET password = ? WHERE user_id = ?', [bcryptedPassword, user_id], 
+        bcrypt.hash(params.password, salt, function (err, bcryptedPassword) {
+            connection.query('UPDATE USER SET password = ? WHERE user_id = ?', [bcryptedPassword, user_id],
             function (error, results, fields) {
                 if (error) {
                     res.status(500).send({
