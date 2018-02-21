@@ -14,6 +14,7 @@ var maintenance = require('./routes/maintenance');
 var login = require('./routes/login');
 var register = require('./routes/register');
 var password = require('./routes/passwd');
+var user = require('./routes/user');
 
 var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -88,6 +89,7 @@ app.use('/register', register);
 app.use('/login', login)
 app.use('/maintenance', maintenance);
 app.use('/password/reset', password);
+app.use('/user',user);
 
 // loggs errors
 app.use(errorLogger);
@@ -103,6 +105,7 @@ app.use(function (req, res, next) {
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
+  console.log(req.app.get('env'));
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
