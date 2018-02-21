@@ -30,11 +30,18 @@ class CreateUserPage extends Component {
             dbapi.post('/register', {
                 ...this.state
             })
-            .then(function (response) {
-                window.alert('Success in creating user');
+            .then((response) => {
+                window.alert('Success in creating user: ' + this.state.username);
+                this.setState({
+                    first_name: '',
+                    last_name: '',
+                    username: '',
+                    password: '',
+                    email: '',
+                });
             })
-            .catch(function (response) {
-                window.alert('Error creating user');
+            .catch(function (error) {
+                window.alert('Error creating user: ' + error.response.data.failed);
             });
         } else {
             window.alert('All fields must be filled in');

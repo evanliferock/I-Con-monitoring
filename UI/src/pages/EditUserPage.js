@@ -39,16 +39,15 @@ class EditUserPage extends Component {
 			let user_id = this.state.data[this.state.selected[0]].user_id;
             if (user_id !== -1 && window.confirm('Are you sure you want to delete user: \'' + this.state.data[this.state.selected[0]].name +  
             '\' with username: \'' + this.state.data[this.state.selected[0]].username + '\'')) {
-                let page = this;
 				dbapi.put('/user/remove/', {
                     user_id: user_id,
                 })
-                .then(function (response) {
-                    page.updateData();
+                .then((response) => {
+                    this.updateData();
                     window.alert('Success in deleting user');
                 })
-                .catch(function (response) {
-                    window.alert('Error deleting user');
+                .catch(function (error) {
+                    window.alert('Error deleting user: ' + error.response.data.failed);
                 });
 			}
 		}
@@ -67,8 +66,8 @@ class EditUserPage extends Component {
 					.then(function (response) {
 						window.alert('Success in updating password');
 					})
-					.catch(function (response) {
-						window.alert("Error marking as complete");
+					.catch(function (error) {
+						window.alert("Error marking as complete: " + error.response.data.failed);
                     });
                 }
 			}
