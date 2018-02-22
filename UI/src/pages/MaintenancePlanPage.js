@@ -7,6 +7,8 @@ import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import Header from '../components/Header';
 import BackButton from '../components/BackButton';
+import SensorLayout from '../components/SensorLayout'
+import {Link} from 'react-router-dom';
 
 //it contains maintenance plan form
 class MaintenancePlanPage extends Component {
@@ -23,7 +25,8 @@ class MaintenancePlanPage extends Component {
     }
 
 
-    handleChangeTimePicker(event, time) {
+    handleChangeTimePicker(event,time) {
+        debugger;
         this.setState({ time: time });
     };
 
@@ -31,8 +34,9 @@ class MaintenancePlanPage extends Component {
         this.setState({ name: event.target.value });
     };
 
-    handleChangeDatePicker(event, date) {
-        this.setState({ date: date });
+    handleChangeDatePicker(event,date) {
+        debugger;
+        this.setState({ date: date});
     };
 
     handleChangeMachine(event, index, value) {
@@ -50,22 +54,31 @@ class MaintenancePlanPage extends Component {
             <div>
                 {/** Nav bar */}
                 <Header
-                    title={"Maintenance Plan" }
+                    title={"Maintenance Plan Creation" }
                 />
 
                 {/** Body */}
-                <div className="col-md-12">
-                    <TextField floatingLabelText="Name" style={{ width: "100%" }} value={this.state.name} onChange={this.handleChangeName.bind(this)} />
-                </div>
 
                 <div className="col-md-12">
-                    <DatePicker
-                        hintText="Date Input"
-                        floatingLabelText="Date"
-                        value={this.state.date}
-                        onChange={this.handleChangeDatePicker.bind(this)}
-                        textFieldStyle={{ width: "100%" }}
-                    />
+                    <div className="col-md-6">
+                        <div className="col-md-12">
+                            <TextField floatingLabelText="Name" style={{ width: "100%" }} value={this.state.name} onChange={this.handleChangeName.bind(this)} />
+                        </div>
+                    <div className="col-md-12">
+                       <DatePicker
+                            hintText="Date Input"
+                            floatingLabelText="Date"
+                            value={this.state.date}
+                            onChange={this.handleChangeDatePicker.bind(this)}
+                            textFieldStyle={{ width: "100%" }}
+                            container="inline"
+                            minDate= {new Date()}
+                            autoOk={true}
+                            
+                        />
+
+                       {/**  <TextField floatingLabelText="Date" className="datepicker" style={{ width: "100%" }} floatingLabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}}  value={this.state.date} onChange={this.handleChangeDatePicker.bind(this)} />
+                        */}
                 </div>
 
                 <div className="col-md-12">
@@ -76,7 +89,13 @@ class MaintenancePlanPage extends Component {
                         value={this.state.time}
                         onChange={this.handleChangeTimePicker.bind(this)}
                         textFieldStyle={{ width: "100%" }}
-                    />
+                        container="inline"
+                        
+                        />
+                  
+                   {/**    <TextField floatingLabelText="Time" className="timepicker" style={{ width: "100%" }} floatingLabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}}  value={this.state.time} onChange={this.handleChangeTimePicker.bind(this)} />
+                  */}
+                    
                 </div>
                 <div className="col-md-12">
 
@@ -106,12 +125,24 @@ class MaintenancePlanPage extends Component {
                     </SelectField>
                 </div>
 
-                <div className="col-md-12">
-                    <RaisedButton label="Submit" primary={true} style={{ marginTop: "40px", width: "100%" }} />
-                </div>
 
-                {/** Home button */}
-                <BackButton redirectUrl="/MainPage" buttonProps={{ label: "Cancel", secondary: true }} />
+                        <div className="col-md-6">
+                            <button type="button" className="btn btn-primary"style={{ marginTop: "40px", width: "100%" }}>Submit</button>
+                        </div>
+                        <div className="col-md-6">
+                            {/** Home button */}
+                            <Link to="/MainPage" className="btn btn-danger"style={{ marginTop: "40px", width: "100%" }}>Cancel</Link>
+                            
+                            
+                        </div>
+                    </div>
+
+                    <div className="col-md-6">
+                      <SensorLayout/>
+                    </div>
+                </div>    
+
+                
             </div>
         );
     }
