@@ -1,14 +1,9 @@
-/**
- * systemd funcitonality: https://nodesource.com/blog/running-your-node-js-app-with-systemd-part-1/
- * to view logs: journalctl -u mqtts-server 
- */
 var mosca = require('mosca');
 var path = require('path');
 var sql = require('./connections/sql');
-
-/** TODO:
- * - Add SQL stuff
- */
+// Modules to determine sensor color and send notifications
+var checkSwitch = require('./checkSwitch');
+var checkTemperature = require('./checkTemperature');
 
 var PORT = 8883;
 var CA = path.join(__dirname, '/tls/ca.crt');
@@ -34,12 +29,12 @@ function currentTime() {
 }
 
 /********************************************************************/
-// Authentication functions
+// Authentication function
 // Modified versions from https://github.com/mcollina/mosca/wiki/Authentication-&-Authorization
 //
 // Accepts the connection if the username and password is valid and if the connection is encrypted
 var authenticate = function(client, username, password, callback) {
-    var authorized = (username === 'gateway' && password.toString() === 'secret' && client.connection.stream.encrypted == true);
+    var authorized = (username === 'gateway' && password.toString() === 'secret');
     if (authorized) {
         client.user = username;
     }
@@ -48,30 +43,10 @@ var authenticate = function(client, username, password, callback) {
     }
     callback(null, authorized);
 }
-  
-// Modified to only let our gateway publish to a single topic, also verifies that the connection is still encrypted
-var authorizePublish = function(client, topic, payload, callback) {
-    if(topic == '/users/gateway' && client.connection.stream.encrypted == true) {
-        callback(null, true);
-    }
-    else {
-        console.log(currentTime(), ' Unauthorized publish attempted -- ID: ', client.id, ' User: ', client.user, ' Topic: ', topic);
-        callback(null, false);
-    }
-}
-  
-// Modified so that no client can subscribe to any topic because our 
-//    gateway has no need to subscribe to any topic
-var authorizeSubscribe = function(client, topic, callback) {
-    console.log(currentTime(), ' Unauthorized subscribe attempted -- ID: ', client.id, ' User: ', client.user, ' Topic: ', topic);
-    callback(null, false);
-}
 
-// Called when server is created. Sets server authentication/authorization functions and logs message when done
+// Called when server is created. Sets server authentication/authorization functions and logs message when done/running
 function setup() {
     server.authenticate = authenticate;
-    server.authorizePublish = authorizePublish;
-    server.authorizeSubscribe = authorizeSubscribe;
     console.log(currentTime(), ' MQTTS server started on port ', PORT);
 };
 
@@ -91,13 +66,48 @@ server.on('clientDisconnected', function(client) {
     console.log(currentTime(), ' Client Disconnected -- ID: ', client.id, ' User: ', client.user);
 });
 
+// Everytime sensor data is published
 server.on('published', function(packet, client) {
-    if((packet.topic.split('/')[2].toString() != "new") && (packet.topic.split('/')[2].toString() != "disconnect")) { // Avoid reduntant messages
-        console.log(currentTime(), ' User/ID: ', client.user, '/', client.id, ' Published: ', packet.payload.toString(), ' On: ', packet.topic);
-        /** 
-        sql.query('INSERT INTO [table] SET ?', [JSON stuff], function(error, results, fields) {
-            if(error) throw error;
-            else console.log('Message inserted into DB');
-        }); */
+    // Temperature 1 sensor
+    if(packet.topic == 'temp/1') {
+        if(JSON.parse(packet.payload) > 0) {
+            var temp1 = JSON.parse(packet.payload);
+            // parse and add to sql
+            var temp1c = checkTemperature(temp1);
+            var post = {sensor: 'temp1', temp: temp1, color: temp1c};
+            sql.query('INSERT INTO SENSOR_DATA SET ?', post, function(error, results, fields) {
+                if(error) throw error;
+                else console.log('Message inserted into DB');
+            });
+            console.log(currentTime(), ' User/ID: ', client.user, '/', client.id, ' Published: ', temp1, 'F on ', packet.topic);
+        }
+    }
+    // Temperature 2 sensor
+    if(packet.topic == 'temp/2') {
+        if(JSON.parse(packet.payload) > 0) {
+            var temp2 = JSON.parse(packet.payload);
+            // parse and add to sql
+            var temp2c = checkTemperature(temp2);
+            var post = {sensor: 'temp2', temp: temp2, color: temp2c};
+            sql.query('INSERT INTO SENSOR_DATA SET ?', post, function(error, results, fields) {
+                if(error) throw error;
+                else console.log('Message inserted into DB');
+            });
+            console.log(currentTime(), ' User/ID: ', client.user, '/', client.id, ' Published: ', temp2, 'F on ', packet.topic);
+        }
+    }    
+    // Switch sensor, used for switches 1-4
+    if(packet.topic == 'switch') {
+        if(JSON.parse(packet.payload) == true || JSON.parse(packet.payload) == false) {
+            var switches = JSON.parse(packet.payload);
+            //parse and add to sql
+            var switchColor = checkSwitch(switches);
+            var post = {sensor: 'switch', open: Number(switches), color: switchColor};
+            sql.query('INSERT INTO SENSOR_DATA SET ?', post, function(error, results, fields) {
+                if(error) throw error;
+                else console.log('Message inserted into DB');
+            });
+            console.log(currentTime(), ' User/ID: ', client.user, '/', client.id, ' Published: ', switches, ' on ', packet.topic);
+        }
     }
 });
