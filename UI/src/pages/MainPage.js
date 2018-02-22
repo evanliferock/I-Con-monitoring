@@ -1,158 +1,131 @@
 import React from 'react';
 import Header from '../components/Header'
+import SensorLayout from '../components/SensorLayout'
 import { findDOMNode } from 'react-dom';
 import Popover from 'material-ui/Popover';
 import iotapi from '../apirequests/iotapi';
-
-class Sensor extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      open: false,
-      anchorEl: null,
-      data: null,
-    }
-  }
-
-  handleRequestClose() {
-    this.setState({
-      open: false,
-    });
-  }
-
-  handleClick() {
-    this.setState({
-      open: true,
-      anchorEl: this.state.anchorEl ? this.state.anchorEl : findDOMNode(this.sensor),
-      data: this.props.value,
-    });
-  }
-
-  render() {
-    let x = this.props.x * this.props.scale;
-    let y = this.props.y * this.props.scale;
-    let width = 30 * this.props.scale;
-    let height = 30 * this.props.scale;
-    return (
-      <div ref={(k) => { this.sensor = k }}
-        onClick={() => this.handleClick()}
-        style={{
-          position: 'absolute', left: x, top: y,
-          background: this.props.color, border: '1px solid #a0a0a0',
-          width: width, height: height,
-          borderRadius: '3px'
-        }}>
-        <Popover
-          open={this.state.open}
-          anchorEl={this.state.anchorEl}
-          onRequestClose={() => this.handleRequestClose()}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'middle',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-          }}
-        >
-          <div style={{ margin: '5px' }}>Data: {this.state.data}</div>
-        </Popover>
-      </div>
-    );
-  }
-}
+import {Modal,Button} from 'react-bootstrap';
 
 
-class SensorLayout extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      doorOne: { id:'doorOne', color: null, value: null},
-      doorTwo: { id:'doorTwo', color: null, value: null},
-      tempOne: { id:'tempOne', color: null, value: null},
-      tempTwo: { id:'tempTwo', color: null, value: null},
-      switchOne: { id:'switchOne', color: null, value: null},
-      switchTwo: { id:'switchTwo', color: null, value: null},
-      switchThree: { id:'switchThree', color: null, value: null},
-      switchFour: { id:'switchFour', color: null, value: null},
-    }
-  }
-
-  componentDidMount() {
-    this.updateSensors();
-    this.sensorTimer = setInterval(
-      () => this.updateSensors(),
-      2000
-    );
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.sensorTimer);
-  }
-
-  updateSensors() {
-    iotapi.get('iot') // returns a Promise. an async data holder
-        .then((response) => { // then happens when promise is fullfilled
-            console.log(response.data.state.reported.g1c);
-            this.setState({
-              doorOne: { id: this.state.doorOne.id, color: '#00cc00', value: response.data.state.reported.door1},
-              doorTwo: { id: this.state.doorTwo.id, color: '#00cc00', value: response.data.state.reported.door2},
-              tempOne: { id: this.state.tempOne.id, color: response.data.state.reported.t1c, value: response.data.state.reported.temp1},
-              tempTwo: { id: this.state.tempTwo.id, color: response.data.state.reported.t2c, value: response.data.state.reported.temp2},
-              switchOne: { id: this.state.switchOne.id, color: response.data.state.reported.g1c, value: response.data.state.reported.gate1},
-              switchTwo: { id: this.state.switchTwo.id, color: response.data.state.reported.g2c, value: response.data.state.reported.gate2},
-              switchThree: { id: this.state.switchThree.id, color: response.data.state.reported.g3c, value: response.data.state.reported.gate3},
-              switchFour: { id: this.state.switchFour.id, color: response.data.state.reported.g4c, value: response.data.state.reported.gate4},
-            });
-        })
-        .catch((error) => { // catch happens when promise is rejected
-            console.log(error);
-        });
-  }
-
-  render() {
-    // TODO possibly rerender of window resize
-    let yScale = (window.innerHeight / 1710) * .9;
-    let xScale = (window.innerWidth / 1372) * .9;
-    let theScale = 1;
-    if (yScale < xScale) {
-      theScale = yScale;
-    } else {
-      theScale = xScale;
-    }
-    return (
-      <div style={{ position: 'relative', width: 1372 * theScale, height: 1710 * theScale }}>
-        <div>
-          <img src={require('../resources/top_down_mine.png')} alt={'Top-Down Mine'}
-            style={{ width: '100%', height: '100%' }} />
-        </div>
-        <div>
-          <Sensor x={1311} y={1400} scale={theScale} {...this.state.doorOne} />
-          <Sensor x={810} y={907} scale={theScale} {...this.state.doorTwo} />
-          <Sensor x={91} y={1216} scale={theScale} {...this.state.tempOne} />
-          <Sensor x={680} y={1216} scale={theScale} {...this.state.tempTwo} />
-          <Sensor x={730} y={375} scale={theScale} {...this.state.switchOne} />
-          <Sensor x={730} y={450} scale={theScale} {...this.state.switchTwo} />
-          <Sensor x={730} y={525} scale={theScale} {...this.state.switchThree} />
-          <Sensor x={730} y={600} scale={theScale} {...this.state.switchFour} />
-        </div>
-      </div>
-    );
-  }
-}
 
 
 class MainPage extends React.Component {
   //<img src={require("./resources/top_down_mine.png")}/>
+
+ constructor() {
+    super();
+    this.state = {
+      sensors :[{
+        name:'senser 1',
+        tempInfo:[{temp:"105.3 C",time:"11:00"},{temp:"95.3 C",time:"10:00"},{temp:"75.3 C",time:"7:00"}],
+        state:"close",
+        lastUpdate :"2 feb 2017 11:00"
+      },
+        {
+        name:'senser 2',
+        tempInfo:[{temp:"105.3 C",time:"11:00"},{temp:"95.3 C",time:"10:00"},{temp:"75.3 C",time:"7:00"}],
+        state:"open",
+        lastUpdate :"3 feb 2017"
+      },
+      {
+        name:'senser 3',
+        tempInfo:[{temp:"95.3 C",time:"12:00"},{temp:"65.3 C",time:"4:00"},{temp:"45.3 C",time:"1:00"}],
+        state:"close",
+        lastUpdate :"12 feb 2017"
+      },{
+        name:'senser 4',
+        tempInfo:[{temp:"107.3 C",time:"15:00"},{temp:"95.3 C",time:"13:00"},{temp:"75.3 C",time:"12:00"}],
+        state:"close",
+        lastUpdate :"22 feb 2017"
+      },{
+        name:'senser 5',
+       tempInfo:[{temp:"35.3 C",time:"11:00"},{temp:"95.3 C",time:"10:00"},{temp:"75.3 C",time:"7:00"}],
+        state:"open",
+        lastUpdate :"2 April 2017"
+      },{
+        name:'senser 6',
+        tempInfo:[{temp:"55.3 C",time:"04:00"},{temp:"65.3 C",time:"02:00"},{temp:"15.3 C",time:"01:00"}],
+        state:"open",
+        lastUpdate :"2 Jan 2017 04:00"
+      }
+      ],
+      selectedSensor : {}
+    }
+  }
+
+  sensorDetailHandler(index){
+    var myState = this.state;
+    var selectedDetails = myState.sensors[index];
+    this.setState({
+      selectedSensor: selectedDetails
+    })
+
+  }
+
+   handleHide(){
+        this.setState({
+            selectedSensor : {}
+        });
+    }
+
+  
+
+
+  
+
   render() {
+
+    const SensorDetialModal = () =>{
+     var sensorDetail =this.state.selectedSensor;
+     return <div className="static-modal">
+            <Modal show={sensorDetail.hasOwnProperty("name")} container={this} style={{top:"125px"}}>
+                <Modal.Header>
+                <Modal.Title>Sensor Detail</Modal.Title>
+                <span style={{position: "absolute",right: "10px",top: "10px" ,fontSizr:"25px",cursor:"pointer"}} onClick={this.handleHide.bind(this)}>x</span>
+                </Modal.Header>
+
+                <Modal.Body style={{height:"150px",overflowY:"scroll"}}>
+                   <div>Last updated</div>
+                   <div>{sensorDetail.lastUpdate}</div>
+                   <br></br>
+                   <br></br>
+                   <div>Temperature history</div>
+                   <div>{sensorDetail.hasOwnProperty("tempInfo") && sensorDetail.tempInfo.map((s,i)=>{
+                      return (<div> {s.time} &nbsp; : &nbsp; {s.temp}</div>)
+                   })}</div>
+
+                   
+                </Modal.Body>
+            </Modal>
+    </div>
+  
+  }
+
+
+
+
     return (
       <div>
         <div>
           <Header title='Mixer' />
         </div>
-        <div>
+        <div className="col-md-6">
           <SensorLayout />
         </div>
+         <div className="col-md-6" style={{width:"100%",margin:'50px auto',height:"450px",overflowY:"scroll"}}>
+              <div className="form-horizontal" >
+                  {this.state.sensors.map((s,i) => {
+                     return <div style={{padding:"20px",cursor:"pointer"}} className="row form-group" >
+                              <span className="col-md-3 control-label" style={{fontSize:"15px"}} for={s.name}>{s.name} :</span> 
+                              <div className="col-md-8">
+                                 <input className="btn-block btn btn-primary" onClick={this.sensorDetailHandler.bind(this,i)}  id={s.name} value={s.tempInfo[0].temp}/>
+                              </div>   
+                            </div>
+                  })}
+              </div>
+          </div>
+
+          <SensorDetialModal/>
       </div>
     );
   }

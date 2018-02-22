@@ -35,18 +35,18 @@ class AdminUserPage extends Component {
                 <div className="container" style={{ marginTop: "50px" }}>
                     <div className="col-md-offset-3 col-md-6">
                         <div className="col-md-12">
-                            <RaisedButton label="Add Users" primary={true} onClick={this.handleClick.bind(this, "/CreateUser")} style={{ marginTop: "25px", width: "100%" }} />
+                            <button type="button" className="btn btn-primary"  onClick={this.handleClick.bind(this, "/CreateUser")} style={{ marginTop: "25px", width: "100%" }} >Add Users</button>
                         </div>
 
                         <div className="col-md-12">
-                            <RaisedButton label="Edit / Delete Users" onClick={this.handleClick.bind(this, "/EditUser")} primary={true} style={{ marginTop: "25px", width: "100%" }} />
+                            <button type="button" className="btn btn-danger" onClick={this.handleClick.bind(this, "/EditUser")} style={{ marginTop: "25px", width: "100%" }} >Edit / Delete Users</button>
                         </div>
 
                     </div>
                 </div>
 
                 {/** Home */}
-                <BackButton redirectUrl="/MainPage" buttonProps={{ label: "Home", primary: true }} />
+                <BackButton className="btn btn-info" redirectUrl="/MainPage" buttonProps={{ label: "Home", primary: false }} />
 
 
             </div>
