@@ -14,6 +14,8 @@ var maintenance = require('./routes/maintenance');
 var login = require('./routes/login');
 var register = require('./routes/register');
 var password = require('./routes/passwd');
+var equipment = require('./routes/equipment')
+var location = require('./routes/location')
 
 
 var app = express();
@@ -89,6 +91,8 @@ app.use('/register', register);
 app.use('/login', login)
 app.use('/maintenance', maintenance);
 app.use('/password/reset', password);
+app.use('/location',location);
+app.use('/equipment',equipment);
 
 // loggs errors
 app.use(errorLogger);
