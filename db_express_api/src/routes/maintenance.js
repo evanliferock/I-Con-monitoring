@@ -4,7 +4,7 @@ var http = require('http');
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
-var connection = require('../sql/db');;
+var connection = require('../sql/db');
 
 // GET ALL UPCOMING MAINTENANCE
 router.get('/', function (req, res) {
@@ -22,12 +22,11 @@ router.get('/time', function (req, res) {
     });
 });
 
-
 // GET ALL UPCOMING MAINTENANCe
 router.get('/:user_id', function (req, res) {
     var params = req.params;
     connection.query('SELECT maintenance_id, start_date_time, name AS equipment_name FROM MAINTENANCE, EQUIPMENT ' +
-            'WHERE MAINTENANCE.equipment_id = EQUIPMENT.equipment_id ' + 
+            'WHERE MAINTENANCE.equipment_id = EQUIPMENT.equipment_id ' +
             'AND is_complete = 0 AND is_canceled = 0 AND user_id = ?', [params.user_id],
         function (error, results, fields) {
             if (error) res.send(error);
@@ -47,13 +46,14 @@ router.get('/maintenance/:id', function (req, res) {
 // Plan maintenance
 router.post('/', function (req, res) {
     var params = req.body;
-    params.is_complete = "0";
-    params.is_canceled = "0";
+    params.is_complete = 0;
+    params.is_canceled = 0;
     // Based on Format YYYY-MM-DD
-    if (new Date().getTime() <= new Date(params.start_date).getTime()) {
-        connection.query('INSERT INTO MAINTENANCE SET ?', params, function (error, results, fields) {
+    if (new Date().getTime() <= new Date(params.start_date_time).getTime()) {
+        connection.query('INSERT INTO MAINTENANCE SET ?', [params], function (error, results, fields) {
             if (error) res.send(error);
             else res.send(results);
+
         });
     } else {
         res.status(400);
