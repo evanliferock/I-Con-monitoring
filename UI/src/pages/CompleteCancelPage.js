@@ -82,7 +82,7 @@ class CompleteCancelPage extends Component {
 					<div className="col-md-8">
 
 						{/** info list */}
-						<Table onRowSelection={(selectedRows) => this.handleRowSelection(selectedRows)}>
+						<Table multiSelectable={false} onRowSelection={(selectedRows) => this.handleRowSelection(selectedRows)}>
 							<TableHeader displaySelectAll={false} adjustForCheckbox={false} >
 								<TableRow>
 									<TableHeaderColumn >Date</TableHeaderColumn>
@@ -97,7 +97,6 @@ class CompleteCancelPage extends Component {
 											<TableRowColumn style={{ borderRight: '1px solid rgb(224, 224, 224)' }}>{d.start_date_time.toDateString()}</TableRowColumn>
 											<TableRowColumn style={{ borderRight: '1px solid rgb(224, 224, 224)' }}>{d.start_date_time.toLocaleTimeString()}</TableRowColumn>
 											<TableRowColumn>{d.equipment_name}</TableRowColumn>
-
 										</TableRow>
 									);
 								})}

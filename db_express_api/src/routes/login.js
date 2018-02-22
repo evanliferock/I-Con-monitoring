@@ -15,7 +15,7 @@ router.post('/', function (req, res) {
       if (error) {
         res.status(500).send({ "failed": "error ocurred"});
       } else {
-        if (results && results.length > 0) {
+        if (results && results.length > 0 && !results[0].is_deleted) {
           comparePasswords(password, results, res);
         } else {
           res.status(401).send({
@@ -35,7 +35,7 @@ function comparePasswords(givenPassword, results, res){
   bcrypt.compare(givenPassword, results[0].password, function (err, doesMatch) {
     if (doesMatch) {
       var payload = {
-        admin: true,
+        admin: Boolean(results[0].is_admin),
         user_id:results[0].user_id,
       };
       var token = jwt.sign(payload, "thisIsTheSecret", {
