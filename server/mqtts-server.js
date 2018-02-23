@@ -66,36 +66,46 @@ server.on('clientDisconnected', function(client) {
     console.log(currentTime(), ' Client Disconnected -- ID: ', client.id, ' User: ', client.user);
 });
 
+var door_count = 0; // keep track of door count
 // Everytime sensor data is published
 server.on('published', function(packet, client) {
     // Temperature 1 sensor
     if(packet.topic == 'temp/1') {
-        if(JSON.parse(packet.payload) > 0) {
-            var temp1 = JSON.parse(packet.payload);
-            // parse and add to sql
-            var temp1c = checkTemperature(temp1);
-            var post = {sensor: 'temp1', temp: temp1, color: temp1c};
-            sql.query('INSERT INTO SENSOR_DATA SET ?', post, function(error, results, fields) {
-                if(error) throw error;
-                else console.log('Message inserted into DB');
-            });
-            console.log(currentTime(), ' User/ID: ', client.user, '/', client.id, ' Published: ', temp1, 'F on ', packet.topic);
-        }
+        var temp1 = JSON.parse(packet.payload);
+        // parse and add to sql
+        var temp1c = checkTemperature(temp1);
+        var post = {sensor: 'temp1', temp: temp1, color: temp1c};
+        sql.query('INSERT INTO SENSOR_DATA SET ?', post, function(error, results, fields) {
+            if(error) throw error;
+        });
+        console.log(currentTime(), ' User/ID: ', client.user, '/', client.id, ' Published: ', temp1, 'F on ', packet.topic);
     }
     // Temperature 2 sensor
     if(packet.topic == 'temp/2') {
-        if(JSON.parse(packet.payload) > 0) {
-            var temp2 = JSON.parse(packet.payload);
-            // parse and add to sql
-            var temp2c = checkTemperature(temp2);
-            var post = {sensor: 'temp2', temp: temp2, color: temp2c};
-            sql.query('INSERT INTO SENSOR_DATA SET ?', post, function(error, results, fields) {
-                if(error) throw error;
-                else console.log('Message inserted into DB');
-            });
-            console.log(currentTime(), ' User/ID: ', client.user, '/', client.id, ' Published: ', temp2, 'F on ', packet.topic);
-        }
+        var temp2 = JSON.parse(packet.payload);
+        // parse and add to sql
+        var temp2c = checkTemperature(temp2);
+        var post = {sensor: 'temp2', temp: temp2, color: temp2c};
+        sql.query('INSERT INTO SENSOR_DATA SET ?', post, function(error, results, fields) {
+            if(error) throw error;
+        });
+        console.log(currentTime(), ' User/ID: ', client.user, '/', client.id, ' Published: ', temp2, 'F on ', packet.topic);
     }    
+    // Door sensor
+    if(packet.topic == 'door') {
+        var door = JSON.parse(packet.payload);
+        if(door == false) {
+            if(door == false) {
+                door_count += 1;
+             
+                var post = {sensor: 'door', temp: door_count, color: '#1FE30E'};           
+                sql.query('INSERT INTO SENSOR_DATA SET ?', post, function(error, results, fields) {
+                    if(error) throw error;
+                });
+                console.log(currentTime(), ' User/ID: ', client.user, '/', client.id, ' Published: ', door_count, ' on ', packet.topic);
+            }
+        }
+    }
     // Switch sensor, used for switches 1-4
     if(packet.topic == 'switch') {
         if(JSON.parse(packet.payload) == true || JSON.parse(packet.payload) == false) {
@@ -105,7 +115,6 @@ server.on('published', function(packet, client) {
             var post = {sensor: 'switch', open: Number(switches), color: switchColor};
             sql.query('INSERT INTO SENSOR_DATA SET ?', post, function(error, results, fields) {
                 if(error) throw error;
-                else console.log('Message inserted into DB');
             });
             console.log(currentTime(), ' User/ID: ', client.user, '/', client.id, ' Published: ', switches, ' on ', packet.topic);
         }

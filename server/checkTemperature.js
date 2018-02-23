@@ -1,3 +1,5 @@
+var sql = require('./connections/sql');
+
 var getTempColor = function(data) {
     if(data < 60) {
         return '#1FE30E'; // green

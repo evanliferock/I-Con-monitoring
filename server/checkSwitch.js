@@ -1,7 +1,8 @@
 var sql = require('./connections/sql');
+
 var getSwitchColor = function(data) {
     if(data) {
-        //check maintenance, send notification
+        // check maintenance, send notification
         return '#1FE30E'; // green
     } else {
         //check maintenance, send notification
