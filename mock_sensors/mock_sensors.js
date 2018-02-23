@@ -58,12 +58,20 @@ setInterval(function () {
 					 "gate1": g1,
                      "gate2": g2,
                      "gate3": g3,
-                     "gate4": g4
+                     "gate4": g4,
+                     "t1c": '#1FE30E',
+                     "t2c": '#1FE30E',
+                     "g1c": '#1FE30E',
+                     "g2c": '#1FE30E',
+                     "g3c": '#1FE30E',
+                     "g4c": '#1FE30E',
+                     "d1c": '#1FE30E',
+                     "d2c": '#1FE30E',
                     }
                 };
 
     // Insert mock data into DB
-    sql.query('INSERT INTO mock_data SET ?', state.reported, function(err, result) {
+    sql.query('INSERT INTO new_table SET ?', state.reported, function(err, result) {
         if(!err) {
             console.log('Mock Sensors Updated');
         } else {
