@@ -5,8 +5,8 @@ var config = {
   keepAlive: 'true',
   host: '147.222.163.1',
   username: 'seasStudent',
-  password: '$3@sDB@$e',
-  localPort: 27002,
+  password: 'xxx',
+  localPort: 27000,
   dstPort: 3306
 };
 
@@ -17,10 +17,10 @@ var theTunnel = tunnel(config, function(error, server) {
 });
 
 var connection = mysql.createConnection({
-  host     : '147.222.163.1',
+  host     : '127.0.0.1',
   port     : '3306',
-  user     : 'brieckers',
-  password : 'brieckers49367760',
+  user     : 'yyy',
+  password : 'zzz',
   database : 'sd10_Icon_DB'
 });
 

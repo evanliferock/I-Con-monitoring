@@ -72,7 +72,6 @@ server.on('published', function(packet, client) {
     // Temperature 1 sensor
     if(packet.topic == 'temp/1') {
         var temp1 = JSON.parse(packet.payload);
-        // parse and add to sql
         var temp1c = checkTemperature(temp1);
         var post = {sensor: 'temp1', temp: temp1, color: temp1c};
         sql.query('INSERT INTO SENSOR_DATA SET ?', post, function(error, results, fields) {
@@ -83,7 +82,6 @@ server.on('published', function(packet, client) {
     // Temperature 2 sensor
     if(packet.topic == 'temp/2') {
         var temp2 = JSON.parse(packet.payload);
-        // parse and add to sql
         var temp2c = checkTemperature(temp2);
         var post = {sensor: 'temp2', temp: temp2, color: temp2c};
         sql.query('INSERT INTO SENSOR_DATA SET ?', post, function(error, results, fields) {
