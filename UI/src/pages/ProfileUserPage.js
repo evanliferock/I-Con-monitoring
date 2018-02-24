@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from '../components/Header';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import FlatButton from 'material-ui/FlatButton';
 import BackButton from '../components/BackButton';
 import dbapi from '../apirequests/dbapi';
 import jwt from 'jsonwebtoken';
@@ -25,42 +26,35 @@ class ProfileUserPage extends Component {
       this.updateData();
     }
 
-    handleChangeEmail(event) {
-        var target = event.target;
-        this.setState({newEmail: target.value});
-        this.setState((prevState) => { prevState[target.name] = target.value; return prevState; });
-    };
-
-    handleChangePassword(event) {
-        var target = event.target;
-        this.setState({password: target.value});
-        this.setState((prevState) => { prevState[target.name] = target.value; return prevState; });
-    };
-
-    updateEmail(){
+    handleEmailReset(){
       var user_id = this.state.user_id;
-      var newEmail = this.state.newEmail;
-      dbapi.put('user/' + user_id  + '/' + newEmail)
-        .then(function(response) {
-          console.log("changed email");
-        })
-        .catch(function (error){
-          console.log("Error changing email");
-        })
+      let newEmail = window.prompt('Enter a new email: ');
+      if(newEmail){
+        dbapi.put('user/' + user_id  + '/' + newEmail)
+          .then(function(response) {
+            window.alert('Success in updating email');
+          })
+          .catch(function (error){
+            window.alert("Error marking as complete: " + error.response.data.failed);
+          })
+        }
     }
 
-    updatePwd(){
-      dbapi.put('/password/reset', {
-        user_id: this.state.user_id,
-        password: this.state.password
-      })
-        .then(function (response) {
-          console.log("changed password");
-        })
-        .catch(function (response) {
-          console.log("Error changing password: " + response);
-        });
-    }
+    handlePasswordReset(){
+        let newPassword = window.prompt('Enter a new password: ');
+        if(newPassword){
+            dbapi.put('/user/password/reset', {
+                user_id: this.state.user_id,
+                password: newPassword,
+            })
+            .then(function (response) {
+              window.alert('Success in updating password');
+            })
+            .catch(function (error) {
+              window.alert("Error marking as complete: " + error.response.data.failed);
+            });
+        }
+  }
 
     updateData(){
       let user_id = jwt.decode(localStorage.getItem('token')).user_id;
@@ -92,34 +86,30 @@ class ProfileUserPage extends Component {
                 <div className="container" style={{ marginTop: "50px" }}>
                     <div className="col-md-12">
                         <div className="col-md-8">
-                            <TextField floatingLabelText="User Name" name="userName" style={{ width: "100%" }} value={this.state.userName}/>
+                            <FlatButton label= {"Username: " + this.state.userName} fullWidth={true}/>
                         </div>
 
                         <div className="col-md-8">
-                            <TextField floatingLabelText="First Name" name="firstName" style={{ width: "100%" }} value={this.state.firstName}/>
+                            <FlatButton label= {"firstName: " + this.state.firstName} fullWidth={true}/>
                         </div>
 
                         <div className="col-md-8">
-                            <TextField floatingLabelText="Last Name" name="lastName" style={{ width: "100%" }} value={this.state.lastName}/>
+                            <FlatButton label= {"lastName: " + this.state.lastName} fullWidth={true}/>
                         </div>
 
                         <div className="col-md-8">
-                            <TextField floatingLabelText="Email" style={{ width: "100%" }} name="email" value={this.state.email} onChange={this.handleChangeEmail.bind(this)} />
+                            <FlatButton label= {"email: " + this.state.email} fullWidth={true}/>
                         </div>
                         <div className="col-md-4">
-                            <RaisedButton label="Submit Email Changes" backgroundColor="#FF9800" style={{ width: "100%", marginTop: "25px"}} onClick={this.updateEmail.bind(this)} />
+                            <RaisedButton label="Change Email" inputStyle={{ textAlign: 'center' }} primary={true} style={{ marginTop: "25px", width: "100%" }} onClick={this.handleEmailReset.bind(this)} />
                         </div>
 
                         <div className="col-md-8">
-                            <TextField floatingLabelText="New Password" style={{ width: "100%" }} name="password" value={this.state.password} onChange={this.handleChangePassword.bind(this)} />
+                            <RaisedButton label="Change Password" inputStyle={{ textAlign: 'center' }} primary={true} style={{ marginTop: "25px", width: "100%" }} onClick={this.handlePasswordReset.bind(this)} />
                         </div>
 
                         <div className="col-md-8">
-                            <RaisedButton label="Change Password" primary={true} style={{ marginTop: "25px", width: "100%" }} onClick={this.updatePwd.bind(this)} />
-                        </div>
-
-                        <div className="col-md-8">
-                            <RaisedButton label="Notification Preferences" primary={true} style={{ marginTop: "25px", width: "100%" }} />
+                            <RaisedButton label="Notification Preferences" inputStyle={{ textAlign: 'center' }} primary={true} style={{ marginTop: "25px", width: "100%" }} />
                         </div>
 
                     </div>
