@@ -10,40 +10,39 @@ import {Modal,Button} from 'react-bootstrap';
 
 
 class MainPage extends React.Component {
-  //<img src={require("./resources/top_down_mine.png")}/>
 
  constructor() {
     super();
     this.state = {
       sensors :[{
-        name:'senser 1',
+        name:'Sensor 1',
         tempInfo:[{temp:"105.3 C",time:"11:00"},{temp:"95.3 C",time:"10:00"},{temp:"75.3 C",time:"7:00"}],
         state:"close",
         lastUpdate :"2 feb 2017 11:00"
       },
         {
-        name:'senser 2',
+        name:'Sensor 2',
         tempInfo:[{temp:"105.3 C",time:"11:00"},{temp:"95.3 C",time:"10:00"},{temp:"75.3 C",time:"7:00"}],
         state:"open",
         lastUpdate :"3 feb 2017"
       },
       {
-        name:'senser 3',
+        name:'Sensor 3',
         tempInfo:[{temp:"95.3 C",time:"12:00"},{temp:"65.3 C",time:"4:00"},{temp:"45.3 C",time:"1:00"}],
         state:"close",
         lastUpdate :"12 feb 2017"
       },{
-        name:'senser 4',
+        name:'Sensor 4',
         tempInfo:[{temp:"107.3 C",time:"15:00"},{temp:"95.3 C",time:"13:00"},{temp:"75.3 C",time:"12:00"}],
         state:"close",
         lastUpdate :"22 feb 2017"
       },{
-        name:'senser 5',
+        name:'Sensor 5',
        tempInfo:[{temp:"35.3 C",time:"11:00"},{temp:"95.3 C",time:"10:00"},{temp:"75.3 C",time:"7:00"}],
         state:"open",
         lastUpdate :"2 April 2017"
       },{
-        name:'senser 6',
+        name:'Sensor 6',
         tempInfo:[{temp:"55.3 C",time:"04:00"},{temp:"65.3 C",time:"02:00"},{temp:"15.3 C",time:"01:00"}],
         state:"open",
         lastUpdate :"2 Jan 2017 04:00"
@@ -75,7 +74,7 @@ class MainPage extends React.Component {
 
   render() {
 
-    const SensorDetialModal = () =>{
+    const SensorDetailModal = () =>{
      var sensorDetail =this.state.selectedSensor;
      return <div className="static-modal">
             <Modal show={sensorDetail.hasOwnProperty("name")} container={this} style={{top:"125px"}}>
@@ -125,7 +124,7 @@ class MainPage extends React.Component {
               </div>
           </div>
 
-          <SensorDetialModal/>
+          <SensorDetailModal/>
       </div>
     );
   }

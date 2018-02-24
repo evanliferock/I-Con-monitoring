@@ -19,20 +19,7 @@ class UpcomingMaintenancePage extends Component {
 	constructor() {
 		super();
 		this.state = {
-			data: [
-					{start_date_time: new Date('12/01/2017 09:50:00'),equipment_name:'equipment'},
-					{start_date_time: new Date('11/08/2017 06:50:00'),equipment_name:'equipment1'},
-					{start_date_time: new Date('12/01/2017 07:55:00'),equipment_name:'equipment2'},
-					{start_date_time: new Date('12/02/2017 10:50:00'),equipment_name:'equipment3'},
-					{start_date_time: new Date('12/01/2017 09:50:00'),equipment_name:'equipment4'},
-					{start_date_time: new Date('02/11/2017 09:50:00'),equipment_name:'equipment5'},
-					{start_date_time: new Date('02/11/2017 10:50:00'),equipment_name:'equipment6'},
-					{start_date_time: new Date('12/01/2017 09:50:00'),equipment_name:'equipment7'},
-					{start_date_time: new Date('12/01/2017 03:50:00'),equipment_name:'equipment8'},
-					{start_date_time: new Date('12/01/2017 09:50:00'),equipment_name:'equipment9'},
-					{start_date_time: new Date('12/01/2017 10:50:00'),equipment_name:'equipment10'}
-					
-			      ],
+			data: [],
 			selected: [],
 		}
 	}
@@ -63,10 +50,10 @@ class UpcomingMaintenancePage extends Component {
 	}
 
 	componentWillMount() {
-		//this.updateData();
+		this.updateData();
 	}
 
-/* 	updateData() {
+	updateData() {
 		let user_id = jwt.decode(localStorage.getItem('token')).user_id;
 		let page = this;
 		dbapi.get('maintenance/' + user_id)
@@ -82,7 +69,7 @@ class UpcomingMaintenancePage extends Component {
 					data: [{ maintenance_id: -1, start_date_time: new Date(), equipment_name: "ERROR: Please Refresh" }],
 				})
 			})
-	} */
+	}
 
 	render() {
 		return (
@@ -120,9 +107,6 @@ class UpcomingMaintenancePage extends Component {
 
 
 				</div>
-
-				{/** back home button */}
-				<BackButton className="btn btn-info" redirectUrl={"/MainPage"} buttonProps={{ label: "Home", primary: false }} />
 
 			</div>
 		)

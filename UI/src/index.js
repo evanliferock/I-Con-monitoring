@@ -35,7 +35,7 @@ const muiTheme = getMuiTheme({
 });
 
 
-// localStorage.removeItem("token");
+ localStorage.removeItem("token");
 
 function isTokenExpired() {
   if (localStorage.getItem("token")) {
@@ -50,7 +50,7 @@ function isTokenExpired() {
 
 function isLoggedIn() {
   if (localStorage.getItem("token") == null || isTokenExpired())
-    return true; //switch back to false later
+    return false; 
   return true;
 }
 

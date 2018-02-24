@@ -93,7 +93,7 @@ class Login extends Component {
             floatingLabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}} hintStyle={{color:"#FFF"}}
           />
           <br />
-          <button type="button" className="btn btn-primary" style={{ marginTop: "55px", width: "100%" }}  onClick={(event) => this.handleClick(event)} >Login</button>
+          <button type="button" className="btn btn-secondary" style={{ marginTop: "55px", width: "100%" }}  onClick={(event) => this.handleClick(event)} >Login</button>
           <button type="button" className="btn btn-danger" style={{ marginTop: "15px", width: "100%" }}  onClick={(event) => this.handleClickForget(event)} >Forget?</button>
           
           <div className="col-md-12">
@@ -126,7 +126,7 @@ class LoginPage extends Component {
           padding: "0px", margin: "0px", height: "100%", width: "100%",top:"0px",
           background: 'url("https://www.parks.ca.gov/pages/499/images/img_5012.jpg") no-repeat center center fixed', backgroundSize: "cover"
         }}>
-          <div className="col-md-4 loginscreen" style={{ position: "fixed", height: "100%", backgroundColor: '#19171C', padding: '20px', paddingBottom: '40px' }}>
+          <div className="col-md-4 loginscreen" style={{ position: "fixed", height: "100%", backgroundColor: '#6441A4', padding: '20px', paddingBottom: '40px' }}>
             <div style={{ marginTop: '200px' }}>
               <Login />
             </div>

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import TimePicker from 'material-ui/TimePicker';
 import DatePicker from 'material-ui/DatePicker';
+import DateTimePicker from 'material-ui-datetimepicker';
+import DatePickerDialog from 'material-ui/DatePicker/DatePickerDialog'
+import TimePickerDialog from 'material-ui/TimePicker/TimePickerDialog';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
@@ -9,6 +12,8 @@ import Header from '../components/Header';
 import BackButton from '../components/BackButton';
 import SensorLayout from '../components/SensorLayout'
 import {Link} from 'react-router-dom';
+import dbapi from '../apirequests/dbapi';
+import jwt from 'jsonwebtoken';
 
 //it contains maintenance plan form
 class MaintenancePlanPage extends Component {
@@ -16,40 +21,70 @@ class MaintenancePlanPage extends Component {
         super(props);
 
         this.state = {
-            name: '',
-            date: '',
-            time: '',
-            machine: '',
-            location: ''
+            user_id: null,
+            start_date_time: null,
+            equipment_id: -1,
+            location_id: -1,
+            equipment:[],
+            locations:[]
         }
     }
 
-
-    handleChangeTimePicker(event,time) {
-        debugger;
-        this.setState({ time: time });
-    };
-
-    handleChangeName(event) {
-        this.setState({ name: event.target.value });
-    };
-
-    handleChangeDatePicker(event,date) {
-        debugger;
-        this.setState({ date: date});
-    };
+    handleChangeDateTimePicker = (dateTime) => this.setState({ start_date_time: dateTime});
+    
 
     handleChangeMachine(event, index, value) {
-        this.setState({ machine: value })
+        this.setState({ equipment_id: value })
     };
 
     handleChangeLocation(event, index, value) {
-        this.setState({ location: value })
+        this.setState({ location_id: value })
     };
 
+    handlePostRequest(){
+        this.state.start_date_time.toJSON();
+        dbapi.post('/maintenance', {
+        user_id: this.state.user_id,
+        start_date_time: this.state.start_date_time,
+        equipment_id: this.state.equipment_id,
+        location_id: this.state.location_id
+        })
+          .then(function (response) {
+            console.log("posted");
+          })
+          .catch(function (error) {
+            console.log("Error: " + error);
+          });
+      }
+
+          componentWillMount() {
+  		this.updateData();
+  	}
+
+  	updateData() {
+  		let user_id = jwt.decode(localStorage.getItem('token')).user_id;
+      this.setState({user_id: user_id});
+  		let page = this;
+  		dbapi.get('location')
+  			.then(function (response) {
+  				page.setState({ locations: response.data})
+  			})
+  			.catch(function (error) {
+  				console.log("Error getting location data: " + error);
+  			})
+      dbapi.get('equipment')
+  			.then(function (response) {
+  				page.setState({ equipment: response.data})
+
+  			})
+  			.catch(function (error) {
+  				console.log("Error getting equipment data: " + error);
+  			})
+  	}
 
 
     render() {
+
         return (
             <div>
                 {/** Nav bar */}
@@ -59,91 +94,63 @@ class MaintenancePlanPage extends Component {
 
                 {/** Body */}
 
-                <div className="col-md-12">
-                    <div className="col-md-6">
-                        <div className="col-md-12">
-                            <TextField floatingLabelText="Name" style={{ width: "100%" }} value={this.state.name} onChange={this.handleChangeName.bind(this)} />
-                        </div>
                     <div className="col-md-12">
-                       <DatePicker
-                            hintText="Date Input"
-                            floatingLabelText="Date"
-                            value={this.state.date}
-                            onChange={this.handleChangeDatePicker.bind(this)}
+                        <DateTimePicker
+                            floatingLabelText="Time"
+                            value={this.state.start_date_time}
+                            onChange={this.handleChangeDateTimePicker}
+                            DatePicker={DatePickerDialog}
+                            TimePicker={TimePickerDialog}
                             textFieldStyle={{ width: "100%" }}
-                            container="inline"
-                            minDate= {new Date()}
-                            autoOk={true}
-                            
                         />
-
-                       {/**  <TextField floatingLabelText="Date" className="datepicker" style={{ width: "100%" }} floatingLabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}}  value={this.state.date} onChange={this.handleChangeDatePicker.bind(this)} />
-                        */}
-                </div>
-
-                <div className="col-md-12">
-                    <TimePicker
-                        format="ampm"
-                        hintText="Time"
-                        floatingLabelText="Time"
-                        value={this.state.time}
-                        onChange={this.handleChangeTimePicker.bind(this)}
-                        textFieldStyle={{ width: "100%" }}
-                        container="inline"
-                        
-                        />
-                  
-                   {/**    <TextField floatingLabelText="Time" className="timepicker" style={{ width: "100%" }} floatingLabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}}  value={this.state.time} onChange={this.handleChangeTimePicker.bind(this)} />
-                  */}
                     
                 </div>
                 <div className="col-md-12">
 
                     <SelectField
+                        hintText="Machine"
                         floatingLabelText="Machine"
-                        value={this.state.machine}
+                        value={this.state.equipment_id}
                         onChange={this.handleChangeMachine.bind(this)}
-                        style={{ width: "100%", textAlign: "left" }}
+                        style={{ width: "100%", textAlign: "left"}}
                     >
-                        <MenuItem value={1} primaryText="Machine 1" />
-                        <MenuItem value={2} primaryText="Machine 2" />
-                        <MenuItem value={3} primaryText="Machine 3" />
-
+                        {this.state.equipment.map((e,i) => {
+                          return (
+                            <MenuItem value={e.equipment_id} primaryText={e.name}/>
+        									);
+                        })}
                     </SelectField>
                 </div>
                 <div className="col-md-12">
                     <SelectField
+                        hintText="Location"
                         floatingLabelText="Location"
-                        value={this.state.location}
+                        value={this.state.location_id}
                         onChange={this.handleChangeLocation.bind(this)}
                         style={{ width: "100%", textAlign: "left" }}
                     >
-                        <MenuItem value={1} primaryText="Location 1" />
-                        <MenuItem value={2} primaryText="Location 2" />
-                        <MenuItem value={3} primaryText="Location 3" />
-
+                    {this.state.locations.map((l,i) => {
+                      return (
+                        <MenuItem value={l.location_id} primaryText={l.name}/>
+                      );
+                    })}
                     </SelectField>
                 </div>
 
 
                         <div className="col-md-6">
-                            <button type="button" className="btn btn-primary"style={{ marginTop: "40px", width: "100%" }}>Submit</button>
+                            <button type="button" className="btn btn-primary" onClick={() => this.handlePostRequest()} primary={true} style={{ marginTop: "40px", width: "100%" }}>Submit</button>
                         </div>
                         <div className="col-md-6">
                             {/** Home button */}
                             <Link to="/MainPage" className="btn btn-danger"style={{ marginTop: "40px", width: "100%" }}>Cancel</Link>
-                            
-                            
                         </div>
-                    </div>
+                    
 
-                    <div className="col-md-6">
-                      <SensorLayout/>
-                    </div>
                 </div>    
 
                 
-            </div>
+        
         );
     }
 }

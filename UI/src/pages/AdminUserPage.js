@@ -45,9 +45,6 @@ class AdminUserPage extends Component {
                     </div>
                 </div>
 
-                {/** Home */}
-                <BackButton className="btn btn-info" redirectUrl="/MainPage" buttonProps={{ label: "Home", primary: false }} />
-
 
             </div>
         )

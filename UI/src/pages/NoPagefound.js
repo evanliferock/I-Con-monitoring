@@ -6,7 +6,7 @@ class MainPage extends Component {
     render(){
         return (
             <div className="container">
-               <div className="alert alert-warning">Sorry No page found</div>
+               <div className="alert alert-warning">Sorry no page found</div>
             </div>
         )
     }
