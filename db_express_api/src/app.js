@@ -54,32 +54,38 @@ app.use(detailsLogger);
 
 app.use(function (req, res, next) {
   if (req.url !== "/login" && req.method !== 'OPTIONS') {
-    // check header or url parameters or post parameters for token
-    var token = req.body.token || req.query.token || req.headers['token'];
-
+    if(req.url === "/login/refresh"){
+      var token = req.body.refresh_token || req.query.refresh_token || req.headers['refresh_token'];
+      var the_type = "refresh_token";
+    } else {
+      // check header or url parameters or post parameters for token
+      var token = req.body.token || req.query.token || req.headers['token'];
+      var the_type = "access token";
+    }
+    
     // decode token
     if (token) {
-
+      
       // verifies secret and checks exp
       jwt.verify(token, app.get('superSecret'), function (err, decoded) {
         if (err) {
-          return res.status(403).json({ success: false, message: 'Failed to authenticate token.', error: err });
+          return res.status(401).json({ success: false, message: 'Failed to authenticate ' + the_type, error: err });
         } else {
           // if everything is good, save to request for use in other routes
           req.decoded = decoded;
           next();
         }
       });
-
+      
     } else {
-
+      
       // if there is no token
       // return an error
-      return res.status(403).send({
+      return res.status(401).send({
         success: false,
-        message: 'No token provided.'
+        message: 'No ' + the_type + ' provided.'
       });
-
+      
     }
   } else {
     next();
@@ -109,7 +115,7 @@ app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
+  
   // render the error page
   res.status(err.status || 500);
   res.render('error');

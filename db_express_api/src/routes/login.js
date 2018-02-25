@@ -25,7 +25,7 @@ router.post('/', function (req, res) {
       }
     });
   }else{
-    res.status(400).send({
+    res.status(401).send({
       "failed": "no username and password provided for login"
     });
   }
@@ -34,22 +34,47 @@ router.post('/', function (req, res) {
 function comparePasswords(givenPassword, results, res){
   bcrypt.compare(givenPassword, results[0].password, function (err, doesMatch) {
     if (doesMatch) {
-      var payload = {
-        admin: Boolean(results[0].is_admin),
-        user_id:results[0].user_id,
-      };
-      var token = jwt.sign(payload, "thisIsTheSecret", {
-        expiresIn: '60m',// expires in 1 hr
-      });
-      res.status(201).send({
-        "success": "login sucessfull",
-        "token": token
-      });
+      sendTokens(res, results, "Login Successful");
     } else {
       res.status(401).send({
-        "success": "username and password does not match",
+        "failed": "username and password does not match",
       });
     }
+  });
+}
+
+router.post('/refresh', function(req, res){
+  connection.query('SELECT * FROM USER WHERE user_id = ?', [req.decoded.user_id], function (error, results, fields) {
+    if (error) {
+      res.status(500).send({ "failed": "error ocurred"});
+    } else {
+      if (results && results.length > 0 && !results[0].is_deleted) {
+        sendTokens(res, results, "Refresh Success");
+      } else {
+        res.status(401).send({
+          "failed": "Appears user does not exist or has been deleted"
+        });
+      }
+    }
+  });
+});
+
+
+function sendTokens(res, results, message){
+  var payload = {
+    admin: Boolean(results[0].is_admin),
+    user_id:results[0].user_id,
+  };
+  var access_token = jwt.sign(payload, "thisIsTheSecret", {
+    expiresIn: '60m',
+  });
+  var refresh_token = jwt.sign(payload, "thisIsTheSecret", {
+    expiresIn: '120m',
+  });
+  res.status(201).send({
+    "success": message,
+    "token": access_token,
+    "refresh_token": refresh_token,
   });
 }
 
