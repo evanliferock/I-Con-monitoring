@@ -69,7 +69,7 @@ function sendTokens(res, results, message){
     expiresIn: '60m',
   });
   var refresh_token = jwt.sign(payload, "thisIsTheSecret", {
-    expiresIn: '120m',
+    expiresIn: '240m',
   });
   res.status(201).send({
     "success": message,
