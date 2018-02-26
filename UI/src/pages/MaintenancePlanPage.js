@@ -36,6 +36,7 @@ class MaintenancePlanPage extends Component {
     };
 
     handlePostRequest(){
+      let page = this;
       this.state.start_date_time.toJSON();
       dbapi.post('/maintenance', {
       user_id: this.state.user_id,
@@ -44,10 +45,15 @@ class MaintenancePlanPage extends Component {
       location_id: this.state.location_id
       })
         .then(function (response) {
-          console.log("posted");
+            page.setState({
+            start_date_time: null,
+            equipment_id: -1,
+            location_id: -1,
+            })
+            window.alert('Success in posting Maintenance');
         })
         .catch(function (error) {
-          console.log("Error: " + error);
+            window.alert("Error posting maintenance: " + error);
         });
     }
 
@@ -57,7 +63,7 @@ class MaintenancePlanPage extends Component {
 
   	updateData() {
   		let user_id = jwt.decode(localStorage.getItem('token')).user_id;
-      this.setState({user_id: user_id});
+        this.setState({user_id: user_id});
   		let page = this;
   		dbapi.get('location')
   			.then(function (response) {
@@ -66,7 +72,7 @@ class MaintenancePlanPage extends Component {
   			.catch(function (error) {
   				console.log("Error getting location data: " + error);
   			})
-      dbapi.get('equipment')
+        dbapi.get('equipment')
   			.then(function (response) {
   				page.setState({ equipment: response.data})
 

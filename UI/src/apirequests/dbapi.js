@@ -13,8 +13,8 @@ var dbapi = axios.create({
 
 // Will try to refresh the tokens if access_token is expired
 dbapi.interceptors.response.use(undefined, function (err) {
-  return new Promise(function(resolve, reject){
-    if(err.response.status === 401 && err.response.data.message && !err.config._isRetryRequest){
+  if(err.response.status === 401 && err.response.data.message && !err.config._isRetryRequest){
+    return new Promise(function(resolve, reject){
       if(localStorage.getItem('refresh_token')){
         // here is where it will try to refresh the JWT
         dbapi.post('/login/refresh', {'refresh_token' : localStorage.getItem('refresh_token')})
@@ -35,8 +35,9 @@ dbapi.interceptors.response.use(undefined, function (err) {
           return reject(error, 'access token expired and error on token reset');
         });
       }
-    }
-  });
+    });
+  }
+  return Promise.reject(err);
 });
 
 export default dbapi;
