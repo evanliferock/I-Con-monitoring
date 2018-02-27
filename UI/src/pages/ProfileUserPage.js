@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Header from '../components/Header';
 import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import BackButton from '../components/BackButton';
 import {Modal,Button} from 'react-bootstrap';
@@ -40,7 +39,7 @@ class ProfileUserPage extends Component {
               window.alert("Error marking as complete: " + error.response.data.failed);
             })
           }
-      }
+      }  
 
       handlePasswordReset(){
         let newPassword = window.prompt('Enter a new password: ');
@@ -58,28 +57,27 @@ class ProfileUserPage extends Component {
         }
   }
 
-    updateData(){
-        let user_id = jwt.decode(localStorage.getItem('token')).user_id;
-        this.setState({user_id: user_id});
-        let page = this;
-        dbapi.get('user/'+user_id)
-        .then(function (response) {
-            console.log(response);
-            page.setState({ user: response.data[0]})
-            page.setState({userName: response.data[0].username})
-            page.setState({firstName: response.data[0].first_name})
-            page.setState({lastName: response.data[0].last_name})
-            page.setState({email: response.data[0].email})
-        })
-        .catch(function (error) {
-            console.log("Error getting user data: " + error);
-        })
-    }
+  updateData(){
+    let user_id = jwt.decode(localStorage.getItem('token')).user_id;
+    this.setState({user_id: user_id});
+    let page = this;
+    dbapi.get('user/'+user_id)
+      .then(function (response) {
+        console.log(response);
+        page.setState({ user: response.data[0]})
+        page.setState({userName: response.data[0].username})
+        page.setState({firstName: response.data[0].first_name})
+        page.setState({lastName: response.data[0].last_name})
+        page.setState({email: response.data[0].email})
+      })
+      .catch(function (error) {
+        console.log("Error getting user data: " + error);
+      })
+  }
 
 
 
     render() {
-
         return (
             <div>
                 {/** Nav bar */}
