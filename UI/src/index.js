@@ -14,12 +14,10 @@ import EditUserPage from './pages/EditUserPage';
 import ProfileUserPage from './pages/ProfileUserPage';
 import AdminUserPage from './pages/AdminUserPage';
 import NoPagefound from './pages/NoPagefound';
+import NotValidPermissionsPage from './pages/NotValidPermissionsPage';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import jwt from 'jsonwebtoken';
-
-
-
 import './stylesheets/index.css';
 
 const muiTheme = getMuiTheme({
@@ -35,13 +33,13 @@ const muiTheme = getMuiTheme({
 });
 
 
- localStorage.removeItem("token");
+ // localStorage.removeItem("token");
 
 function isTokenExpired() {
   if (localStorage.getItem("token")) {
     var decodedToken = jwt.decode(localStorage.getItem("token"));
     var dateNow = new Date();
-    if (decodedToken.exp < dateNow.getTime())
+    if (decodedToken.exp >  dateNow.getTime()   / 1000 )
       return false;
   }
   return true;
@@ -54,6 +52,28 @@ function isLoggedIn() {
   return true;
 }
 
+class AdminPages extends React.Component {
+  render(){
+    if(localStorage.getItem('token') && jwt.decode(localStorage.getItem('token')).admin){
+      return(
+        <Switch>
+          <Route path={"/AdminUser"} component={AdminUserPage} />
+          <Route path={"/CreateUser"} component={CreateUserPage} />
+          <Route path={"/EditUser"} component={EditUserPage} />
+        </Switch>
+      );
+    } else {
+      let defaultResponseComponent = NotValidPermissionsPage;
+      return(
+        <Switch>
+          <Route path={"/AdminUser"} component={defaultResponseComponent} />
+          <Route path={"/CreateUser"} component={defaultResponseComponent} />
+          <Route path={"/EditUser"} component={defaultResponseComponent} />
+        </Switch>
+      );
+    }
+  }
+}
 
 class App extends React.Component {
   render() {

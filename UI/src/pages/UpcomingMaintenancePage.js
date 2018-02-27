@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
 import Header from '../components/Header';
-import BackButton from '../components/BackButton';
 import jwt from 'jsonwebtoken';
 import dbapi from '../apirequests/dbapi';
 

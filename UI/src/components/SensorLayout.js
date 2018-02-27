@@ -1,9 +1,7 @@
 import React from 'react';
-import Header from '../components/Header'
 import { findDOMNode } from 'react-dom';
 import Popover from 'material-ui/Popover';
 import iotapi from '../apirequests/iotapi';
-import {Modal,Button} from 'react-bootstrap';
 
 class Sensor extends React.Component {
   constructor() {

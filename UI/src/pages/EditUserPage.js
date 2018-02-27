@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
 import Header from '../components//Header';
 import BackButton from '../components//BackButton';
-import TextField from 'material-ui/TextField';
-import {Modal,Button} from 'react-bootstrap';
 import dbapi from '../apirequests/dbapi';
 
 

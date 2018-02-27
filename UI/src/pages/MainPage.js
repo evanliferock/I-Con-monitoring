@@ -1,10 +1,7 @@
 import React from 'react';
 import Header from '../components/Header'
 import SensorLayout from '../components/SensorLayout'
-import { findDOMNode } from 'react-dom';
-import Popover from 'material-ui/Popover';
-import iotapi from '../apirequests/iotapi';
-import {Modal,Button} from 'react-bootstrap';
+import {Modal} from 'react-bootstrap';
 
 
 

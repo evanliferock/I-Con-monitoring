@@ -6,7 +6,6 @@ import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 import IconButton from 'material-ui/IconButton';
 import { Redirect } from 'react-router'
 import PropTypes from 'prop-types';
-import FlatButton from 'material-ui/FlatButton';
 import jwt from 'jsonwebtoken';
 
 
@@ -88,7 +87,7 @@ class Header extends Component {
   } else {
 
         /** Nav Right menu options */
-        var RightMenu = () => (
+        RightMenu = () => (
           <div>
             <button type="button" className="btn btn-info" style={{marginRight:"15px"}} onClick={this.handleClick.bind(this,"/CompleteCancel")}>Complete / Cancel</button>
             <button type="button" className="btn btn-info" style={{marginRight:"15px"}} onClick={this.handleClick.bind(this,"/UpcomingMaintenance")}>Upcoming</button>

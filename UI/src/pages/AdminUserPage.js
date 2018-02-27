@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import Header from '../components/Header';
-import BackButton from '../components/BackButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import { Redirect } from 'react-router'
 
 //its contains the admin user manage navigation buttons

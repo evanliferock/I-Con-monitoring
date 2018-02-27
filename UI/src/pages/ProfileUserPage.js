@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import Header from '../components/Header';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
-import BackButton from '../components/BackButton';
-import {Modal,Button} from 'react-bootstrap';
 import dbapi from '../apirequests/dbapi';
 import jwt from 'jsonwebtoken';
 
@@ -24,24 +22,24 @@ class ProfileUserPage extends Component {
     }
 
     componentWillMount() {
-        this.updateData();
-      }
+      this.updateData();
+    }
 
-      handleEmailReset(){
-        var user_id = this.state.user_id;
-        let newEmail = window.prompt('Enter a new email: ');
-        if(newEmail){
-          dbapi.put('user/' + user_id  + '/' + newEmail)
-            .then(function(response) {
-              window.alert('Success in updating email');
-            })
-            .catch(function (error){
-              window.alert("Error marking as complete: " + error.response.data.failed);
-            })
-          }
-      }  
+    handleEmailReset(){
+      var user_id = this.state.user_id;
+      let newEmail = window.prompt('Enter a new email: ');
+      if(newEmail){
+        dbapi.put('user/' + user_id  + '/' + newEmail)
+          .then(function(response) {
+            window.alert('Success in updating email');
+          })
+          .catch(function (error){
+            window.alert("Error marking as complete: " + error.response.data.failed);
+          })
+        }
+    }
 
-      handlePasswordReset(){
+    handlePasswordReset(){
         let newPassword = window.prompt('Enter a new password: ');
         if(newPassword){
             dbapi.put('/user/password/reset', {
@@ -57,25 +55,23 @@ class ProfileUserPage extends Component {
         }
   }
 
-  updateData(){
-    let user_id = jwt.decode(localStorage.getItem('token')).user_id;
-    this.setState({user_id: user_id});
-    let page = this;
-    dbapi.get('user/'+user_id)
-      .then(function (response) {
-        console.log(response);
-        page.setState({ user: response.data[0]})
-        page.setState({userName: response.data[0].username})
-        page.setState({firstName: response.data[0].first_name})
-        page.setState({lastName: response.data[0].last_name})
-        page.setState({email: response.data[0].email})
-      })
-      .catch(function (error) {
-        console.log("Error getting user data: " + error);
-      })
-  }
-
-
+    updateData(){
+      let user_id = jwt.decode(localStorage.getItem('token')).user_id;
+      this.setState({user_id: user_id});
+      let page = this;
+      dbapi.get('user/'+user_id)
+        .then(function (response) {
+          console.log(response);
+          page.setState({ user: response.data[0]})
+          page.setState({userName: response.data[0].username})
+          page.setState({firstName: response.data[0].first_name})
+          page.setState({lastName: response.data[0].last_name})
+          page.setState({email: response.data[0].email})
+        })
+        .catch(function (error) {
+          console.log("Error getting user data: " + error);
+        })
+    }
 
     render() {
         return (
@@ -89,19 +85,19 @@ class ProfileUserPage extends Component {
                 <div className="container" style={{ marginTop: "50px" }}>
                     <div className="col-md-12">
                         <div className="col-md-8">
-                            <FlatButton label= {"Username: " + this.state.userName} floatingLabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}}  fullWidth={true} />
+                            <FlatButton label= {"Username: " + this.state.userName} LabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}}  fullWidth={true} />
                         </div>
 
                         <div className="col-md-8">
-                            <FlatButton label= {"firstName: " + this.state.firstName} floatingLabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}}  fullWidth={true} />
+                            <FlatButton label= {"firstName: " + this.state.firstName} LabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}}  fullWidth={true} />
                         </div> 
 
                         <div className="col-md-8">
-                            <FlatButton label= {"lastName: " + this.state.lastName} floatingLabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}}  fullWidth={true} />
+                            <FlatButton label= {"lastName: " + this.state.lastName} LabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}}  fullWidth={true} />
                         </div>
 
                         <div className="col-md-8">
-                            <FlatButton label= {"email: " + this.state.email} floatingLabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}}  fullWidth={true} />
+                            <FlatButton label= {"email: " + this.state.email} LabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}}  fullWidth={true} />
                         </div>
 
                         <div className="col-md-4">

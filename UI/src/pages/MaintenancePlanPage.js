@@ -4,10 +4,7 @@ import DatePickerDialog from 'material-ui/DatePicker/DatePickerDialog'
 import TimePickerDialog from 'material-ui/TimePicker/TimePickerDialog';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import RaisedButton from 'material-ui/RaisedButton';
 import Header from '../components/Header';
-import BackButton from '../components/BackButton';
-import SensorLayout from '../components/SensorLayout'
 import {Link} from 'react-router-dom';
 import dbapi from '../apirequests/dbapi';
 import jwt from 'jsonwebtoken';
@@ -39,51 +36,51 @@ class MaintenancePlanPage extends Component {
     };
 
     handlePostRequest(){
-        let page = this;
-        this.state.start_date_time.toJSON();
-        dbapi.post('/maintenance', {
-        user_id: this.state.user_id,
-        start_date_time: this.state.start_date_time,
-        equipment_id: this.state.equipment_id,
-        location_id: this.state.location_id
+      let page = this;
+      this.state.start_date_time.toJSON();
+      dbapi.post('/maintenance', {
+      user_id: this.state.user_id,
+      start_date_time: this.state.start_date_time,
+      equipment_id: this.state.equipment_id,
+      location_id: this.state.location_id
+      })
+        .then(function (response) {
+            page.setState({
+            start_date_time: null,
+            equipment_id: -1,
+            location_id: -1,
+            })
+            window.alert('Success in posting Maintenance');
         })
-          .then(function (response) {
-              page.setState({
-              start_date_time: null,
-              equipment_id: -1,
-              location_id: -1,
-              })
-              window.alert('Success in posting Maintenance');
-          })
-          .catch(function (error) {
-              window.alert("Error posting maintenance: " + error);
-          });
-      }
+        .catch(function (error) {
+            window.alert("Error posting maintenance: " + error);
+        });
+    }
 
     componentWillMount() {
   		this.updateData();
   	}
 
   	updateData() {
-        let user_id = jwt.decode(localStorage.getItem('token')).user_id;
-      this.setState({user_id: user_id});
-        let page = this;
-        dbapi.get('location')
-            .then(function (response) {
-                page.setState({ locations: response.data})
-            })
-            .catch(function (error) {
-                console.log("Error getting location data: " + error);
-            })
-      dbapi.get('equipment')
-            .then(function (response) {
-                page.setState({ equipment: response.data})
+  		let user_id = jwt.decode(localStorage.getItem('token')).user_id;
+        this.setState({user_id: user_id});
+  		let page = this;
+  		dbapi.get('location')
+  			.then(function (response) {
+  				page.setState({ locations: response.data})
+  			})
+  			.catch(function (error) {
+  				console.log("Error getting location data: " + error);
+  			})
+        dbapi.get('equipment')
+  			.then(function (response) {
+  				page.setState({ equipment: response.data})
 
-            })
-            .catch(function (error) {
-                console.log("Error getting equipment data: " + error);
-            })
-    }
+  			})
+  			.catch(function (error) {
+  				console.log("Error getting equipment data: " + error);
+  			})
+  	}
 
 
     render() {

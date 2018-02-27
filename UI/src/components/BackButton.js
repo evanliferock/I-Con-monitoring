@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router'
-import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types'; 
 
 //it contains the back button functionality passing url and button property
