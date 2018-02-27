@@ -85,19 +85,19 @@ class ProfileUserPage extends Component {
                 <div className="container" style={{ marginTop: "50px" }}>
                     <div className="col-md-12">
                         <div className="col-md-8">
-                            <FlatButton label= {"Username: " + this.state.userName} LabelFocusStyle={{color:"#6441A4"}} fullWidth={true} />
+                            <FlatButton label= {"Username: " + this.state.userName} fullWidth={true} />
                         </div>
 
                         <div className="col-md-8">
-                            <FlatButton label= {"firstName: " + this.state.firstName} LabelFocusStyle={{color:"#6441A4"}} fullWidth={true} />
+                            <FlatButton label= {"firstName: " + this.state.firstName} fullWidth={true} />
                         </div> 
 
                         <div className="col-md-8">
-                            <FlatButton label= {"lastName: " + this.state.lastName} LabelFocusStyle={{color:"#6441A4"}} fullWidth={true} />
+                            <FlatButton label= {"lastName: " + this.state.lastName} fullWidth={true} />
                         </div>
 
                         <div className="col-md-8">
-                            <FlatButton label= {"email: " + this.state.email} LabelFocusStyle={{color:"#6441A4"}} fullWidth={true} />
+                            <FlatButton label= {"email: " + this.state.email} fullWidth={true} />
                         </div>
 
                         <div className="col-md-4">
