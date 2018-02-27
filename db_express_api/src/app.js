@@ -62,10 +62,10 @@ app.use(function (req, res, next) {
       var token = req.body.token || req.query.token || req.headers['token'];
       var the_type = "access token";
     }
-    
+
     // decode token
     if (token) {
-      
+
       // verifies secret and checks exp
       jwt.verify(token, app.get('superSecret'), function (err, decoded) {
         if (err) {
@@ -76,16 +76,16 @@ app.use(function (req, res, next) {
           next();
         }
       });
-      
+
     } else {
-      
+
       // if there is no token
       // return an error
       return res.status(401).send({
         success: false,
         message: 'No ' + the_type + ' provided.'
       });
-      
+
     }
   } else {
     next();
@@ -115,7 +115,7 @@ app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-  
+
   // render the error page
   res.status(err.status || 500);
   res.render('error');
