@@ -85,31 +85,31 @@ class ProfileUserPage extends Component {
                 <div className="container" style={{ marginTop: "50px" }}>
                     <div className="col-md-12">
                         <div className="col-md-8">
-                            <FlatButton label= {"Username: " + this.state.userName} LabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}}  fullWidth={true} />
+                            <FlatButton label= {"Username: " + this.state.userName} LabelFocusStyle={{color:"#6441A4"}} fullWidth={true} />
                         </div>
 
                         <div className="col-md-8">
-                            <FlatButton label= {"firstName: " + this.state.firstName} LabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}}  fullWidth={true} />
+                            <FlatButton label= {"firstName: " + this.state.firstName} LabelFocusStyle={{color:"#6441A4"}} fullWidth={true} />
                         </div> 
 
                         <div className="col-md-8">
-                            <FlatButton label= {"lastName: " + this.state.lastName} LabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}}  fullWidth={true} />
+                            <FlatButton label= {"lastName: " + this.state.lastName} LabelFocusStyle={{color:"#6441A4"}} fullWidth={true} />
                         </div>
 
                         <div className="col-md-8">
-                            <FlatButton label= {"email: " + this.state.email} LabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}}  fullWidth={true} />
+                            <FlatButton label= {"email: " + this.state.email} LabelFocusStyle={{color:"#6441A4"}} fullWidth={true} />
                         </div>
 
                         <div className="col-md-4">
-                            <RaisedButton label="Change Email" inputStyle={{ textAlign: 'center' }} primary={true} style={{ marginTop: "0px", width: "100%" }} onClick={this.handleEmailReset.bind(this)} />
+                            <RaisedButton label="Change Email" primary={true} style={{ marginTop: "0px", width: "100%" }} onClick={this.handleEmailReset.bind(this)} />
                         </div>
 
                         <div className="col-md-8">
-                            <RaisedButton label="Change Password" inputStyle={{ textAlign: 'center' }} primary={true} style={{ marginTop: "25px", width: "100%" }} onClick={this.handlePasswordReset.bind(this)} />
+                            <RaisedButton label="Change Password" primary={true} style={{ marginTop: "25px", width: "100%" }} onClick={this.handlePasswordReset.bind(this)} />
                         </div>
 
                         <div className="col-md-8">
-                            <RaisedButton label="Notification Preferences" inputStyle={{ textAlign: 'center' }} primary={true} style={{ marginTop: "25px", width: "100%" }} />
+                            <RaisedButton label="Notification Preferences" primary={true} style={{ marginTop: "25px", width: "100%" }} />
                         </div>
 
                     </div>
