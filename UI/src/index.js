@@ -96,10 +96,8 @@ class App extends React.Component {
                   <Route path={"/MaintenancePlan"} component={MaintenancePlanPage} />
                   <Route path={"/UpcomingMaintenance"} component={UpcomingMaintenancePage} />
                   <Route path={"/CompleteCancel"} component={CompleteCancelPage} />
-                  <Route path={"/CreateUser"} component={CreateUserPage} />
-                  <Route path={"/EditUser"} component={EditUserPage} />
                   <Route path={"/UserProfile"} component={ProfileUserPage} />
-                  <Route path={"/AdminUser"} component={AdminUserPage} />
+                  <AdminPages/>
                   <Route component={NoPagefound} />
                 </Switch>
               )
