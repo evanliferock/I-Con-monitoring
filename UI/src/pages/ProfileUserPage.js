@@ -100,15 +100,15 @@ class ProfileUserPage extends Component {
                             <FlatButton label= {"email: " + this.state.email} fullWidth={true}/>
                         </div>
                         <div className="col-md-4">
-                            <RaisedButton label="Change Email" inputStyle={{ textAlign: 'center' }} primary={true} style={{ marginTop: "25px", width: "100%" }} onClick={this.handleEmailReset.bind(this)} />
+                            <RaisedButton label="Change Email"  primary={true} style={{ marginTop: "25px", width: "100%" }} onClick={this.handleEmailReset.bind(this)} />
                         </div>
 
                         <div className="col-md-8">
-                            <RaisedButton label="Change Password" inputStyle={{ textAlign: 'center' }} primary={true} style={{ marginTop: "25px", width: "100%" }} onClick={this.handlePasswordReset.bind(this)} />
+                            <RaisedButton label="Change Password"  primary={true} style={{ marginTop: "25px", width: "100%" }} onClick={this.handlePasswordReset.bind(this)} />
                         </div>
 
                         <div className="col-md-8">
-                            <RaisedButton label="Notification Preferences" inputStyle={{ textAlign: 'center' }} primary={true} style={{ marginTop: "25px", width: "100%" }} />
+                            <RaisedButton label="Notification Preferences"  primary={true} style={{ marginTop: "25px", width: "100%" }} />
                         </div>
 
                     </div>
