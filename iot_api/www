@@ -5,15 +5,10 @@
  */
 
 var app = require('./src/app');
-var debug = require('debug')('db_express_api:server');
+var debug = require('debug')('iot_api:server');
 var https = require('https');
 var fs = require('fs');
 
-// If log folder doesn't exist create it
-var logDir =  './logs';
-if (!fs.existsSync(logDir)){
-  fs.mkdirSync(logDir);
-}
 
 var privateKey  = fs.readFileSync('src/resources/ssl.key', 'utf8');
 var certificate = fs.readFileSync('src/resources/ssl.crt', 'utf8');
@@ -23,7 +18,7 @@ var credentials = {key: privateKey, cert: certificate};
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3001');
+var port = normalizePort(process.env.PORT || '3002');
 app.set('port', port);
 
 /**
@@ -40,8 +35,6 @@ var httpsServer = https.createServer(credentials, app);
 httpsServer.listen(port);
 httpsServer.on('error', onError);
 httpsServer.on('listening', onListening);
-
-
 
 /**
  * Normalize a port into a number, string, or false.

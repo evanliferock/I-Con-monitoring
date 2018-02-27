@@ -1,11 +1,12 @@
 {
-  "name": "ICon_Monitoring",
+  "name": "icon_monitoring",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "axios": "^0.17.1",
     "jsonwebtoken": "^8.1.0",
     "material-ui": "^0.19.4",
+    "material-ui-datetimepicker": "1.0.5",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-dropzone": "^4.1.3",

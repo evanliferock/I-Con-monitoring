@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import BackButton from '../components/BackButton';
+import dbapi from '../apirequests/dbapi';
 
 // Contains the user creation form
 class CreateUserPage extends Component {
@@ -10,13 +11,42 @@ class CreateUserPage extends Component {
         super(props);
 
         this.state = {
-            email: ''
+            first_name: '',
+            last_name: '',
+            username: '',
+            password: '',
+            email: '',
         }
     }
 
-    handleChangeEmail(event) {
-        this.setState({ email: event.target.value });
+    handleChange = name => event => {
+        this.setState({
+            [name]: event.target.value,
+        });
     };
+
+    handleCreateUser(){
+        if(this.state.first_name && this.state.last_name && this.state.username && this.state.password && this.state.email){
+            dbapi.post('/register', {
+                ...this.state
+            })
+            .then((response) => {
+                window.alert('Success in creating user: ' + this.state.username);
+                this.setState({
+                    first_name: '',
+                    last_name: '',
+                    username: '',
+                    password: '',
+                    email: '',
+                });
+            })
+            .catch(function (error) {
+                window.alert('Error creating user: ' + error.response.data.failed);
+            });
+        } else {
+            window.alert('All fields must be filled in');
+        }
+    }
 
     render() {
         return (
@@ -30,10 +60,39 @@ class CreateUserPage extends Component {
                 <div className="container" style={{ marginTop: "50px" }}>
                     <div className="col-md-offset-3 col-md-6">
                         <div className="col-md-12">
-                            <TextField floatingLabelText="Email" style={{ width: "100%" }} value={this.state.email} onChange={this.handleChangeEmail.bind(this)} />
+                            <TextField 
+                                floatingLabelText="First Name"  
+                                value={this.state.first_name} 
+                                onChange={this.handleChange('first_name')} 
+                                style={{ width: "90%" }}  
+                            />
+                            <TextField 
+                                floatingLabelText="Last Name"  
+                                value={this.state.last_name} 
+                                onChange={this.handleChange('last_name')} 
+                                style={{ width: "90%" }}  
+                            />
+                            <TextField 
+                                floatingLabelText="Username"  
+                                value={this.state.username} 
+                                onChange={this.handleChange('username')} 
+                                style={{ width: "90%" }}  
+                            />
+                            <TextField 
+                                floatingLabelText="Password"  
+                                value={this.state.password} 
+                                onChange={this.handleChange('password')} 
+                                style={{ width: "90%" }}  
+                            />
+                            <TextField 
+                                floatingLabelText="Email"  
+                                value={this.state.email} 
+                                onChange={this.handleChange('email')} 
+                                style={{ width: "90%" }}  
+                            />
                         </div>
                         <div className="col-md-12">
-                            <RaisedButton label="Create" primary={true} style={{ marginTop: "25px", width: "100%" }} />
+                            <RaisedButton onClick={() => this.handleCreateUser()} label="Create" primary={true} style={{ marginTop: "25px", width: "90%" }} />
                         </div>
 
                     </div>
