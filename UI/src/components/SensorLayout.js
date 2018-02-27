@@ -108,7 +108,7 @@ class SensorLayout extends React.Component {
             });
         })
         .catch((error) => { // catch happens when promise is rejected
-            console.log(error);
+            console.log('Error updating sensors: ', error);
         });
   }
 

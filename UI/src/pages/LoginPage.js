@@ -27,9 +27,7 @@ class Login extends Component {
     }
     dbapi.post('login', payload)
       .then(function (response) {
-        console.log(response);
         if (response.status === 201) {
-          console.log("Login successful");
           Alert.success("Login successful", {
                position: 'bottom',
                effect: 'slide',
@@ -38,6 +36,8 @@ class Login extends Component {
                offset: 50
            });
           localStorage.setItem('token', response.data.token);
+          localStorage.setItem('refresh_token', response.data.refresh_token);
+          dbapi.defaults.headers.token = localStorage.getItem('token');
           window.setTimeout(() => {loginObject.setState({ loggedIn: true })}, 50);
         }
       })

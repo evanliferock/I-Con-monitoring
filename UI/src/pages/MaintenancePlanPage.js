@@ -42,6 +42,7 @@ class MaintenancePlanPage extends Component {
     };
 
     handlePostRequest(){
+        let page = this;
         this.state.start_date_time.toJSON();
         dbapi.post('/maintenance', {
         user_id: this.state.user_id,
@@ -50,41 +51,45 @@ class MaintenancePlanPage extends Component {
         location_id: this.state.location_id
         })
           .then(function (response) {
-            console.log("posted");
+              page.setState({
+              start_date_time: null,
+              equipment_id: -1,
+              location_id: -1,
+              })
+              window.alert('Success in posting Maintenance');
           })
           .catch(function (error) {
-            console.log("Error: " + error);
+              window.alert("Error posting maintenance: " + error);
           });
       }
 
-          componentWillMount() {
+    componentWillMount() {
   		this.updateData();
   	}
 
   	updateData() {
-  		let user_id = jwt.decode(localStorage.getItem('token')).user_id;
+        let user_id = jwt.decode(localStorage.getItem('token')).user_id;
       this.setState({user_id: user_id});
-  		let page = this;
-  		dbapi.get('location')
-  			.then(function (response) {
-  				page.setState({ locations: response.data})
-  			})
-  			.catch(function (error) {
-  				console.log("Error getting location data: " + error);
-  			})
+        let page = this;
+        dbapi.get('location')
+            .then(function (response) {
+                page.setState({ locations: response.data})
+            })
+            .catch(function (error) {
+                console.log("Error getting location data: " + error);
+            })
       dbapi.get('equipment')
-  			.then(function (response) {
-  				page.setState({ equipment: response.data})
+            .then(function (response) {
+                page.setState({ equipment: response.data})
 
-  			})
-  			.catch(function (error) {
-  				console.log("Error getting equipment data: " + error);
-  			})
-  	}
+            })
+            .catch(function (error) {
+                console.log("Error getting equipment data: " + error);
+            })
+    }
 
 
     render() {
-
         return (
             <div>
                 {/** Nav bar */}
@@ -96,6 +101,7 @@ class MaintenancePlanPage extends Component {
 
                     <div className="col-md-12">
                         <DateTimePicker
+                            hintText="Time"
                             floatingLabelText="Time"
                             value={this.state.start_date_time}
                             onChange={this.handleChangeDateTimePicker}
@@ -117,7 +123,7 @@ class MaintenancePlanPage extends Component {
                         {this.state.equipment.map((e,i) => {
                           return (
                             <MenuItem value={e.equipment_id} primaryText={e.name}/>
-        									);
+        				  );
                         })}
                     </SelectField>
                 </div>
@@ -136,8 +142,6 @@ class MaintenancePlanPage extends Component {
                     })}
                     </SelectField>
                 </div>
-
-
                         <div className="col-md-6">
                             <button type="button" className="btn btn-primary" onClick={() => this.handlePostRequest()} primary={true} style={{ marginTop: "40px", width: "100%" }}>Submit</button>
                         </div>
@@ -145,12 +149,7 @@ class MaintenancePlanPage extends Component {
                             {/** Home button */}
                             <Link to="/MainPage" className="btn btn-danger"style={{ marginTop: "40px", width: "100%" }}>Cancel</Link>
                         </div>
-                    
-
                 </div>    
-
-                
-        
         );
     }
 }

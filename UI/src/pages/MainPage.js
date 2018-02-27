@@ -73,7 +73,6 @@ class MainPage extends React.Component {
   
 
   render() {
-
     const SensorDetailModal = () =>{
      var sensorDetail =this.state.selectedSensor;
      return <div className="static-modal">

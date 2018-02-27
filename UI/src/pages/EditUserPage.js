@@ -66,6 +66,7 @@ class EditUserPage extends Component {
                 '\' with username: \'' + this.state.data[this.state.selected[0]].username + '\'');
                 if(newPassword){
                     dbapi.put('/user/password/reset', {
+                        user_id: user_id,
                         password: newPassword,
                     })
 					.then(function (response) {

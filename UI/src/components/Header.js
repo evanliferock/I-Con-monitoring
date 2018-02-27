@@ -39,15 +39,15 @@ class Header extends Component {
 
     const Logo = () => (
       <span>
-        <a href="/MainPage">
-        <img src={require('../resources/MineLogo.png')} alt={'Mine Logo'}
+          <a onClick={this.handleClick.bind(this,"/MainPage")} style={{cursor:'pointer'}}>
+            <img src={require('../resources/MineLogo.png')} alt={'Mine Logo'}
            width="35" height="35" style={{position:"relative",top:"-10px"}} />
         </a>
       </span>
     )
 
     /** Nav menu options */
-    Logged = (props) => (
+    var Logged = (props) => (
       <div>
       <IconMenu {...props} iconButtonElement={< IconButton iconStyle={{color:"#FFF"}}> <NavigationMenu /> </IconButton>}
      
@@ -71,16 +71,10 @@ class Header extends Component {
         <MenuItem primaryText="Complete Cancel" onClick={(event) => {
           this.handleClick("/CompleteCancel")
         }} />
-        <MenuItem primaryText="Create User" onClick={(event) => {
-          this.handleClick("/CreateUser")
-        }} />
-        <MenuItem primaryText="Edit User" onClick={(event) => {
-          this.handleClick("/EditUser")
-        }} />
         <MenuItem primaryText="User Profile" onClick={(event) => {
           this.handleClick("/UserProfile")
         }} />
-        <MenuItem primaryText="Admin User" onClick={(event) => {
+        <MenuItem primaryText="Administration" onClick={(event) => {
           this.handleClick("/AdminUser")
         }} />
         <MenuItem primaryText="Sign out" onClick={(event) => {
@@ -94,7 +88,7 @@ class Header extends Component {
   } else {
 
         /** Nav Right menu options */
-        RightMenu = () => (
+        var RightMenu = () => (
           <div>
             <button type="button" className="btn btn-info" style={{marginRight:"15px"}} onClick={this.handleClick.bind(this,"/CompleteCancel")}>Complete / Cancel</button>
             <button type="button" className="btn btn-info" style={{marginRight:"15px"}} onClick={this.handleClick.bind(this,"/UpcomingMaintenance")}>Upcoming</button>
@@ -104,7 +98,7 @@ class Header extends Component {
     
         const Logo = () => (
           <span>
-            <a href="/MainPage">
+            <a onClick={this.handleClick.bind(this,"/MainPage")} style={{cursor:'pointer'}}>
             <img src={require('../resources/MineLogo.png')} alt={'Mine Logo'}
                width="35" height="35" style={{position:"relative",top:"-10px"}} />
             </a>
@@ -112,10 +106,9 @@ class Header extends Component {
         )
     
         /** Nav menu options */
-        var Logged = (props) => (
+        Logged = (props) => (
           <div>
           <IconMenu {...props} iconButtonElement={< IconButton iconStyle={{color:"#FFF"}}> <NavigationMenu /> </IconButton>}
-         
             targetOrigin={{
               horizontal: 'right',
               vertical: 'top'
