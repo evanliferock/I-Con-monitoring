@@ -3,6 +3,18 @@ import Header from '../components/Header'
 import SensorLayout from '../components/SensorLayout'
 import {Modal} from 'react-bootstrap';
 
+<<<<<<< HEAD
+class Sensor extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      open: false,
+      anchorEl: null,
+      data: null
+    }
+  }
+=======
+>>>>>>> origin/develop
 
 
 
