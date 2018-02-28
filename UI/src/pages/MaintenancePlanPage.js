@@ -4,9 +4,8 @@ import DatePickerDialog from 'material-ui/DatePicker/DatePickerDialog'
 import TimePickerDialog from 'material-ui/TimePicker/TimePickerDialog';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import RaisedButton from 'material-ui/RaisedButton';
 import Header from '../components/Header';
-import BackButton from '../components/BackButton';
+import {Link} from 'react-router-dom';
 import dbapi from '../apirequests/dbapi';
 import jwt from 'jsonwebtoken';
 
@@ -26,6 +25,7 @@ class MaintenancePlanPage extends Component {
     }
 
     handleChangeDateTimePicker = (dateTime) => this.setState({ start_date_time: dateTime});
+    
 
     handleChangeMachine(event, index, value) {
         this.setState({ equipment_id: value })
@@ -88,39 +88,42 @@ class MaintenancePlanPage extends Component {
             <div>
                 {/** Nav bar */}
                 <Header
-                    title={"Maintenance Plan" }
+                    title={"Maintenance Plan Creation" }
                 />
 
                 {/** Body */}
 
-                <div className="col-md-12">
-                    <DateTimePicker
-                        hintText="Time"
-                        floatingLabelText="Time"
-                        value={this.state.start_date_time}
-                        onChange={this.handleChangeDateTimePicker}
-                        DatePicker={DatePickerDialog}
-                        TimePicker={TimePickerDialog}
-                        textFieldStyle={{ width: "100%" }}
-                      />
+                    <div className="col-md-12">
+                        <DateTimePicker
+                            hintText="Time"
+                            floatingLabelText="Time"
+                            value={this.state.start_date_time}
+                            onChange={this.handleChangeDateTimePicker}
+                            DatePicker={DatePickerDialog}
+                            TimePicker={TimePickerDialog}
+                            textFieldStyle={{ width: "100%" }}
+                        />
+                    
                 </div>
                 <div className="col-md-12">
 
                     <SelectField
+                        hintText="Machine"
                         floatingLabelText="Machine"
                         value={this.state.equipment_id}
                         onChange={this.handleChangeMachine.bind(this)}
-                        style={{ width: "100%", textAlign: "left" }}
+                        style={{ width: "100%", textAlign: "left"}}
                     >
                         {this.state.equipment.map((e,i) => {
                           return (
                             <MenuItem value={e.equipment_id} primaryText={e.name}/>
-        									);
+        				  );
                         })}
                     </SelectField>
                 </div>
                 <div className="col-md-12">
                     <SelectField
+                        hintText="Location"
                         floatingLabelText="Location"
                         value={this.state.location_id}
                         onChange={this.handleChangeLocation.bind(this)}
@@ -133,14 +136,14 @@ class MaintenancePlanPage extends Component {
                     })}
                     </SelectField>
                 </div>
-
-                <div className="col-md-12">
-                    <RaisedButton label="Submit" onClick={() => this.handlePostRequest()} primary={true} style={{ marginTop: "40px", width: "100%" }} />
-                </div>
-
-                {/** Home button */}
-                <BackButton redirectUrl="/MainPage" buttonProps={{ label: "Cancel", secondary: true }} />
-            </div>
+                        <div className="col-md-6">
+                            <button type="button" className="btn btn-primary" onClick={() => this.handlePostRequest()} primary={true} style={{ marginTop: "40px", width: "100%" }}>Submit</button>
+                        </div>
+                        <div className="col-md-6">
+                            {/** Home button */}
+                            <Link to="/MainPage" className="btn btn-danger"style={{ marginTop: "40px", width: "100%" }}>Cancel</Link>
+                        </div>
+                </div>    
         );
     }
 }

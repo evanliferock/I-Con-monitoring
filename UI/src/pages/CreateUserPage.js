@@ -5,6 +5,7 @@ import TextField from 'material-ui/TextField';
 import BackButton from '../components/BackButton';
 import dbapi from '../apirequests/dbapi';
 
+
 // Contains the user creation form
 class CreateUserPage extends Component {
     constructor(props) {
@@ -61,38 +62,39 @@ class CreateUserPage extends Component {
                     <div className="col-md-offset-3 col-md-6">
                         <div className="col-md-12">
                             <TextField 
-                                floatingLabelText="First Name"  
-                                value={this.state.first_name} 
-                                onChange={this.handleChange('first_name')} 
-                                style={{ width: "90%" }}  
+                                floatingLabelText="First Name"
+                                value={this.state.first_name}
+                                onChange={this.handleChange('first_name')}                          
+                                style={{ width: "100%" }} floatingLabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}}   
                             />
                             <TextField 
                                 floatingLabelText="Last Name"  
                                 value={this.state.last_name} 
                                 onChange={this.handleChange('last_name')} 
-                                style={{ width: "90%" }}  
+                                style={{ width: "100%" }} floatingLabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}}   
                             />
                             <TextField 
                                 floatingLabelText="Username"  
                                 value={this.state.username} 
                                 onChange={this.handleChange('username')} 
-                                style={{ width: "90%" }}  
+                                style={{ width: "100%" }} floatingLabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}}   
                             />
                             <TextField 
                                 floatingLabelText="Password"  
                                 value={this.state.password} 
                                 onChange={this.handleChange('password')} 
-                                style={{ width: "90%" }}  
+                                style={{ width: "100%" }} floatingLabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}}   
                             />
                             <TextField 
                                 floatingLabelText="Email"  
                                 value={this.state.email} 
                                 onChange={this.handleChange('email')} 
-                                style={{ width: "90%" }}  
+                                style={{ width: "100%" }} floatingLabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}}   
                             />
                         </div>
                         <div className="col-md-12">
-                            <RaisedButton onClick={() => this.handleCreateUser()} label="Create" primary={true} style={{ marginTop: "25px", width: "90%" }} />
+                            <RaisedButton onClick={() => this.handleCreateUser()} label="Create" primary={true} style={{ marginTop: "25px", width: "100%" }} />
+
                         </div>
 
                     </div>
@@ -101,7 +103,7 @@ class CreateUserPage extends Component {
                 </div>
 
                 {/** Home button */}
-                <BackButton redirectUrl="/AdminUser" buttonProps={{ label: "Back", secondary: true }} />
+                <BackButton className="btn btn-info" redirectUrl="/AdminUser" buttonProps={{ label: "Back", secondary: false }} />
             </div>
         )
     }

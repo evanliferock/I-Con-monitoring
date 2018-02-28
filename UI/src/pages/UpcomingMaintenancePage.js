@@ -13,7 +13,7 @@ import {
 } from 'material-ui/Table';
 
 //it contains table and button
-class CompleteCancelPage extends Component {
+class UpcomingMaintenancePage extends Component {
 	constructor() {
 		super();
 		this.state = {
@@ -73,14 +73,14 @@ class CompleteCancelPage extends Component {
 		return (
 			<div>
 				{/** Nav bar */}
-				<Header title={"Complete / Cancel"} />
+				<Header title={"Upcoming Maintenance"} />
 
 				{/**body */}
 				<div className="container" style={{ marginTop: "50px" }}>
-					<div className="col-md-10">
+					<div className="col-md-12">
 
 						{/** info list */}
-						<Table onRowSelection={(selectedRows) => this.handleRowSelection(selectedRows)} bodyStyle={{overflow:'x-scroll',height:"450px"}}>
+						<Table onRowSelection={(selectedRows) => this.handleRowSelection(selectedRows)} bodyStyle={{overflow:'x-scroll',height:"350px"}}>
 							<TableHeader displaySelectAll={false} adjustForCheckbox={false} >
 								<TableRow>
 									<TableHeaderColumn >Date</TableHeaderColumn>
@@ -103,13 +103,6 @@ class CompleteCancelPage extends Component {
 						</Table>
 					</div>
 
-					{/** right buttons */}
-					<div className="col-md-2">
-						<button type="button"  onClick={() => this.handlePutRequest('complete')} className="btn btn-primary" style={{ margin: "20px", width: "100%" }} >Complete</button>
-
-						<button type="button"  onClick={() => this.handlePutRequest('cancel')} className="btn btn-danger" style={{ margin: "40px 20px", width: "100%" }} >Cancel</button>
-					</div>
-
 
 				</div>
 
@@ -119,4 +112,4 @@ class CompleteCancelPage extends Component {
 }
 
 
-export default CompleteCancelPage;
+export default UpcomingMaintenancePage;

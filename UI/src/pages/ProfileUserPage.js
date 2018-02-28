@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import Header from '../components/Header';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
-import BackButton from '../components/BackButton';
 import dbapi from '../apirequests/dbapi';
 import jwt from 'jsonwebtoken';
+
 
 //it contains the user profile that can be changed
 class ProfileUserPage extends Component {
@@ -85,36 +85,35 @@ class ProfileUserPage extends Component {
                 <div className="container" style={{ marginTop: "50px" }}>
                     <div className="col-md-12">
                         <div className="col-md-8">
-                            <FlatButton label= {"Username: " + this.state.userName} fullWidth={true}/>
+                            <FlatButton label= {"Username: " + this.state.userName} fullWidth={true} />
                         </div>
 
                         <div className="col-md-8">
-                            <FlatButton label= {"firstName: " + this.state.firstName} fullWidth={true}/>
+                            <FlatButton label= {"firstName: " + this.state.firstName} fullWidth={true} />
+                        </div> 
+
+                        <div className="col-md-8">
+                            <FlatButton label= {"lastName: " + this.state.lastName} fullWidth={true} />
                         </div>
 
                         <div className="col-md-8">
-                            <FlatButton label= {"lastName: " + this.state.lastName} fullWidth={true}/>
+                            <FlatButton label= {"email: " + this.state.email} fullWidth={true} />
                         </div>
 
-                        <div className="col-md-8">
-                            <FlatButton label= {"email: " + this.state.email} fullWidth={true}/>
-                        </div>
                         <div className="col-md-4">
-                            <RaisedButton label="Change Email"  primary={true} style={{ marginTop: "25px", width: "100%" }} onClick={this.handleEmailReset.bind(this)} />
+                            <RaisedButton label="Change Email" primary={true} style={{ marginTop: "0px", width: "100%" }} onClick={this.handleEmailReset.bind(this)} />
                         </div>
 
                         <div className="col-md-8">
-                            <RaisedButton label="Change Password"  primary={true} style={{ marginTop: "25px", width: "100%" }} onClick={this.handlePasswordReset.bind(this)} />
+                            <RaisedButton label="Change Password" primary={true} style={{ marginTop: "25px", width: "100%" }} onClick={this.handlePasswordReset.bind(this)} />
                         </div>
 
                         <div className="col-md-8">
-                            <RaisedButton label="Notification Preferences"  primary={true} style={{ marginTop: "25px", width: "100%" }} />
+                            <RaisedButton label="Notification Preferences" primary={true} style={{ marginTop: "25px", width: "100%" }} />
                         </div>
 
                     </div>
 
-                    {/** Home button */}
-                    <BackButton redirectUrl="/MainPage" buttonProps={{ label: "Home", primary: true }} />
                 </div>
             </div>
         )
