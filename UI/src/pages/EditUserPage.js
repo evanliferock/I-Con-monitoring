@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
 import Header from '../components//Header';
 import BackButton from '../components//BackButton';
 import dbapi from '../apirequests/dbapi';
+
 
 import {
     Table,
@@ -16,24 +16,26 @@ import {
 
 //it contains the users list and delete/edit functionalities
 class EditUserPage extends Component {
-    constructor() {
-        super();
-        
+    constructor(props) {
+        super(props);
+
         this.state = {
             data: [],
-            selected: [],
+            selected : [],
         }
+
+
     }
-    
-    isSelected(i) {
+
+    isSelected(i){
 		return this.state.selected.indexOf(i) !== -1;
-    }
-    
+    };
+
     handleRowSelection(selectedRows) {
 		if (selectedRows.length !== 0)
         this.setState({ selected: selectedRows });
-    }
-    
+    };
+
     handleDeleteRequest(){
 		if (this.state.selected.length > 0) {
 			let user_id = this.state.data[this.state.selected[0]].user_id;
@@ -52,7 +54,7 @@ class EditUserPage extends Component {
 			}
 		}
     }
-    
+
     handlePasswordReset(){
 		if (this.state.selected.length > 0) {
             let user_id = this.state.data[this.state.selected[0]].user_id;
@@ -61,6 +63,7 @@ class EditUserPage extends Component {
                 '\' with username: \'' + this.state.data[this.state.selected[0]].username + '\'');
                 if(newPassword){
                     dbapi.put('/user/password/reset', {
+                        user_id: user_id,
                         password: newPassword,
                     })
 					.then(function (response) {
@@ -72,12 +75,12 @@ class EditUserPage extends Component {
                 }
 			}
 		}
-	}
-
+    }
+    
     componentWillMount() {
 		this.updateData();
     }
-    
+
     updateData() {
 		let page = this;
 		dbapi.get('user/')
@@ -94,13 +97,13 @@ class EditUserPage extends Component {
             })
         })
 	}
-    
+
     render() {
-        return (
+      return (
             <div>
             {/** Nav bar */}
             <Header
-            title={"Edit Users"}
+                title={"Edit Users"}
             />
             
             {/** Body */}
@@ -109,37 +112,37 @@ class EditUserPage extends Component {
             
             {/** Buttons */}
             <div className="pull-right">
-            <RaisedButton label="Edit User" primary={true} onClick={() => this.handlePasswordReset()} style={{ marginRight: '30px' }} />
-            <RaisedButton label="Delete User" secondary={true} onClick={() => this.handleDeleteRequest()}/>
+                <button type="button"className="btn btn-primary" label="Edit User" primary={true} style={{ marginRight: '30px' }} onClick={() => this.handlePasswordReset()}>Edit User</button>
+                <button type="button"className="btn btn-danger" label="Delete User" secondary={true} style={{ marginRight: '30px' }} onClick={() => this.handleDeleteRequest()}>Delete User</button>
             </div>
             
             {/** User List */}
             <div className="col-md-12">
-            <Table multiSelectable={false} onRowSelection={(selectedRows) => this.handleRowSelection(selectedRows)}>
-            <TableHeader  displaySelectAll={false} adjustForCheckbox={false}>
-            <TableRow>
-            <TableHeaderColumn>Name</TableHeaderColumn>
-            <TableHeaderColumn>Username</TableHeaderColumn>
-            <TableHeaderColumn>Email</TableHeaderColumn>
-            </TableRow>
-            </TableHeader>
-            <TableBody displayRowCheckbox={false} style={{ border: '1px solid rgb(224, 224, 224)' }} >
-            {this.state.data.map((user, i) => {
-                return (
-                    <TableRow key={i} selected={this.isSelected(i)}>
-                    <TableRowColumn style={{ borderRight: '1px solid rgb(224, 224, 224)' }}>{user.name}</TableRowColumn>
-                    <TableRowColumn style={{ borderRight: '1px solid rgb(224, 224, 224)' }}>{user.username}</TableRowColumn>
-                    <TableRowColumn style={{ borderRight: '1px solid rgb(224, 224, 224)' }}>{user.email}</TableRowColumn>
+                <Table multiSelectable={false} onRowSelection={(selectedRows) => this.handleRowSelection(selectedRows)}>
+                    <TableHeader  displaySelectAll={false} adjustForCheckbox={false}>
+                        <TableRow>
+                            <TableHeaderColumn>Name</TableHeaderColumn>
+                            <TableHeaderColumn>Username</TableHeaderColumn>
+                            <TableHeaderColumn>Email</TableHeaderColumn>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody displayRowCheckbox={false} style={{ border: '1px solid rgb(224, 224, 224)' }} >
+                        {this.state.data.map((user, i) => {
+                            return (
+                                <TableRow key={i} selected={this.isSelected(i)}>
+                                    <TableRowColumn style={{ borderRight: '1px solid rgb(224, 224, 224)' }}>{user.name}</TableRowColumn>
+                                    <TableRowColumn style={{ borderRight: '1px solid rgb(224, 224, 224)' }}>{user.username}</TableRowColumn>
+                                    <TableRowColumn style={{ borderRight: '1px solid rgb(224, 224, 224)' }}>{user.email}</TableRowColumn>
                     
-                    </TableRow>
-                );
-            })}
-            </TableBody>
-            </Table>
+                                </TableRow>
+                            );
+                        })}
+                    </TableBody>
+                </Table>
             </div>
             
             {/** Home */}
-            <BackButton redirectUrl="/AdminUser" buttonProps={{ label: "Back", secondary: true }} />
+            <BackButton  className="btn btn-info" redirectUrl="/AdminUser" buttonProps={{ label: "Back", secondary: false }} />
             
             </div>
             </div>
