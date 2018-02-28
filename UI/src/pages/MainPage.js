@@ -10,7 +10,7 @@ class Sensor extends React.Component {
     this.state = {
       open: false,
       anchorEl: null,
-      data: null,
+      data: null
     }
   }
 
@@ -91,23 +91,55 @@ class SensorLayout extends React.Component {
   }
 
   updateSensors() {
-    iotapi.get('iot') // returns a Promise. an async data holder
-        .then((response) => { // then happens when promise is fullfilled
-            console.log(response.data.state.reported.g1c);
+    iotapi.get('iot/temp/1') 
+        .then((response) => {
             this.setState({
-              doorOne: { id: this.state.doorOne.id, color: '#00cc00', value: response.data.state.reported.door1},
-              doorTwo: { id: this.state.doorTwo.id, color: '#00cc00', value: response.data.state.reported.door2},
-              tempOne: { id: this.state.tempOne.id, color: response.data.state.reported.t1c, value: response.data.state.reported.temp1},
-              tempTwo: { id: this.state.tempTwo.id, color: response.data.state.reported.t2c, value: response.data.state.reported.temp2},
-              switchOne: { id: this.state.switchOne.id, color: response.data.state.reported.g1c, value: response.data.state.reported.gate1},
-              switchTwo: { id: this.state.switchTwo.id, color: response.data.state.reported.g2c, value: response.data.state.reported.gate2},
-              switchThree: { id: this.state.switchThree.id, color: response.data.state.reported.g3c, value: response.data.state.reported.gate3},
-              switchFour: { id: this.state.switchFour.id, color: response.data.state.reported.g4c, value: response.data.state.reported.gate4},
+              tempOne: { color: response.data[0].color, value: response.data[0].temp }
             });
         })
-        .catch((error) => { // catch happens when promise is rejected
-            console.log(error);
-        });
+        .catch((error) => {
+          console.log(error);
+        })
+
+    iotapi.get('iot/temp/2') 
+        .then((response) => {
+            this.setState({
+              tempTwo: { color: response.data[0].color, value: response.data[0].temp }
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+      
+    iotapi.get('iot/door') 
+        .then((response) => {
+            this.setState({
+              doorOne: { color: response.data[0].color, value: response.data[0].temp },
+              doorTwo: { color: response.data[0].color, value: response.data[0].temp }
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+      
+    iotapi.get('iot/switch') 
+        .then((response) => {
+            var openString;
+            if(response.data[0].open == 1) {
+              openString = 'On';
+            } else {
+              openString = 'Off'
+            }
+            this.setState({
+              switchOne: { color: response.data[0].color, value: openString },
+              switchTwo: { color: response.data[0].color, value: openString },
+              switchThree: { color: response.data[0].color, value: openString },
+              switchFour: { color: response.data[0].color, value: openString }
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+        })
   }
 
   render() {
