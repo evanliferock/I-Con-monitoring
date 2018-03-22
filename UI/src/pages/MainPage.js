@@ -3,7 +3,7 @@ import Header from '../components/Header'
 import SensorLayout from '../components/SensorLayout'
 import {Modal} from 'react-bootstrap';
 
-<<<<<<< HEAD
+
 class Sensor extends React.Component {
   constructor() {
     super();
@@ -13,8 +13,7 @@ class Sensor extends React.Component {
       data: null
     }
   }
-=======
->>>>>>> origin/develop
+}
 
 
 
@@ -76,10 +75,10 @@ class MainPage extends React.Component {
         });
     }
 
-  
 
 
-  
+
+
 
   render() {
     const SensorDetailModal = () =>{
@@ -101,11 +100,11 @@ class MainPage extends React.Component {
                       return (<div> {s.time} &nbsp; : &nbsp; {s.temp}</div>)
                    })}</div>
 
-                   
+
                 </Modal.Body>
             </Modal>
     </div>
-  
+
   }
 
 
@@ -123,10 +122,10 @@ class MainPage extends React.Component {
               <div className="form-horizontal" >
                   {this.state.sensors.map((s,i) => {
                      return <div style={{padding:"20px",cursor:"pointer"}} className="row form-group" >
-                              <span className="col-md-3 control-label" style={{fontSize:"15px"}} for={s.name}>{s.name} :</span> 
+                              <span className="col-md-3 control-label" style={{fontSize:"15px"}} for={s.name}>{s.name} :</span>
                               <div className="col-md-8">
                                  <input className="btn-block btn btn-primary" onClick={this.sensorDetailHandler.bind(this,i)}  id={s.name} value={s.tempInfo[0].temp}/>
-                              </div>   
+                              </div>
                             </div>
                   })}
               </div>

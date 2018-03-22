@@ -49,6 +49,17 @@ router.post('/', function (req, res) {
     params.is_complete = 0;
     params.is_canceled = 0;
     // Based on Format YYYY-MM-DD
+
+    connection.query('SELECT start_date_time, equipment_id, location_id FROM MAINTENANCE WHERE start_date_time = ? AND equipment_id = ? AND location_id = ?', [params.start_date_time, params.equipment_id, params.location_id], function (error, results, fields) {
+        if (error) console.log(error);
+        else {
+          if (results[0]){
+              res.status(300);
+              res.send("ERROR: Maintenance already exists" )
+          }
+        }
+    });
+
     if (new Date().getTime() <= new Date(params.start_date_time).getTime()) {
         connection.query('INSERT INTO MAINTENANCE SET ?', [params], function (error, results, fields) {
             if (error) res.send(error);
