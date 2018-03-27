@@ -3,7 +3,7 @@ import Header from '../components/Header'
 import SensorLayout from '../components/SensorLayout'
 import {Modal} from 'react-bootstrap';
 
-<<<<<<< HEAD
+
 class Sensor extends React.Component {
   constructor() {
     super();
@@ -13,10 +13,7 @@ class Sensor extends React.Component {
       data: null
     }
   }
-=======
->>>>>>> origin/develop
-
-
+}
 
 class MainPage extends React.Component {
 

@@ -38,6 +38,7 @@ class CompleteCancelPage extends Component {
 				let page = this;
 				dbapi.put('/maintenance/' + toDo + '/' + toDoId)
 					.then(function (response) {
+						this.setState({ selected: [] });
 						page.updateData();
 					})
 					.catch(function (response) {

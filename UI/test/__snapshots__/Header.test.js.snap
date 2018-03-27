@@ -190,6 +190,7 @@ exports[`Admin Header matches Snapshot 1`] = `
       <div>
         <button
           className="btn btn-info"
+          id="ccbutton"
           onClick={[Function]}
           style={
             Object {
@@ -202,6 +203,7 @@ exports[`Admin Header matches Snapshot 1`] = `
         </button>
         <button
           className="btn btn-info"
+          id="upcombutton"
           onClick={[Function]}
           style={
             Object {
@@ -214,6 +216,7 @@ exports[`Admin Header matches Snapshot 1`] = `
         </button>
         <button
           className="btn btn-info"
+          id="planbutton"
           onClick={[Function]}
           style={
             Object {
@@ -420,6 +423,7 @@ exports[`Non Admin Header matches Snapshot 1`] = `
       <div>
         <button
           className="btn btn-info"
+          id="ccbutton"
           onClick={[Function]}
           style={
             Object {
@@ -432,6 +436,7 @@ exports[`Non Admin Header matches Snapshot 1`] = `
         </button>
         <button
           className="btn btn-info"
+          id="upcombutton"
           onClick={[Function]}
           style={
             Object {
@@ -444,6 +449,7 @@ exports[`Non Admin Header matches Snapshot 1`] = `
         </button>
         <button
           className="btn btn-info"
+          id="planbutton"
           onClick={[Function]}
           style={
             Object {
