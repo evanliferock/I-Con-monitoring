@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Header from '../components/Header';
-import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import dbapi from '../apirequests/dbapi';
 import jwt from 'jsonwebtoken';
@@ -101,15 +100,16 @@ class ProfileUserPage extends Component {
                         </div>
 
                         <div className="col-md-4">
-                            <RaisedButton label="Change Email" primary={true} style={{ marginTop: "0px", width: "100%" }} onClick={this.handleEmailReset.bind(this)} />
+                            <button type="button"  onClick={this.handleEmailReset.bind(this)} className="btn btn-danger" style={{ marginTop: "0px", width: "100%", fontWeight:"bold", fontSize:"13px" }} >Change Email</button>
+
                         </div>
 
                         <div className="col-md-8">
-                            <RaisedButton label="Change Password" primary={true} style={{ marginTop: "25px", width: "100%" }} onClick={this.handlePasswordReset.bind(this)} />
+                            <button type="button"  onClick={this.handlePasswordReset.bind(this)} className="btn btn-danger" style={{ marginTop: "25px", width: "100%", fontWeight:"bold", fontSize:"13px" }} >Change Password</button>
                         </div>
 
                         <div className="col-md-8">
-                            <RaisedButton label="Notification Preferences" primary={true} style={{ marginTop: "25px", width: "100%" }} />
+                            <button type="button" className="btn btn-warning" style={{ marginTop: "25px", width: "100%", fontWeight:"bold", fontSize:"13px" }} >Notification Preferences</button>
                         </div>
 
                     </div>

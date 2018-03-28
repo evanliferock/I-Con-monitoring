@@ -141,8 +141,9 @@ class CompleteCancelPage extends Component {
 
 					{/** right buttons */}
 					<div className="col-md-2">
-						<button type="button"  onClick={() => this.handlePutRequest('complete')} className="btn btn-primary" style={{ margin: "20px", width: "100%" }} >Complete</button>
-						<button type="button"  onClick={() => this.handlePutRequest('cancel')} className="btn btn-danger" style={{ margin: "40px 20px", width: "100%" }} >Cancel</button>
+						<button type="button"  onClick={() => this.handlePutRequest('complete')} className="btn btn-success" style={{ margin: "20px", width: "100%", fontWeight:"bold", fontSize:"13px" }} >Complete</button>
+
+						<button type="button"  onClick={() => this.handlePutRequest('cancel')} className="btn btn-danger" style={{ margin: "40px 20px", width: "100%", fontWeight:"bold", fontSize:"13px" }} >Cancel</button>
 					</div>
 
 
