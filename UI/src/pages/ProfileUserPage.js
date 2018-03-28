@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Header from '../components/Header';
-import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import dbapi from '../apirequests/dbapi';
 import jwt from 'jsonwebtoken';
