@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Header from '../components/Header';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 import jwt from 'jsonwebtoken';
 import dbapi from '../apirequests/dbapi';
 
@@ -19,6 +21,8 @@ class CompleteCancelPage extends Component {
 		this.state = {
 			data: [],
 			selected: [],
+			machines: [],
+			filterBy: 0,
 		}
 	}
 
@@ -60,14 +64,23 @@ class CompleteCancelPage extends Component {
 				for (let i = 0; i < response.data.length; i++) {
 					response.data[i].start_date_time = new Date(response.data[i].start_date_time);
 				}
-				page.setState({ data: response.data });
+				page.setState({ 
+					data: response.data,
+					machines: Array.from(new Set(response.data.map(a => a.equipment_name))),
+				 });
 			})
 			.catch(function (error) {
 				console.log("Error getting data: " + error);
 				page.setState({
 					data: [{ maintenance_id: -1, start_date_time: new Date(), equipment_name: "ERROR: Please Refresh" }],
-				})
+				});
 			})
+	}
+
+	handleChange = (event, index, value) => this.setState({filterBy:value});
+
+	isFiltered(row){
+		return this.state.filterBy === 0 || this.state.machines[this.state.filterBy - 1] === row.equipment_name;
 	}
 
 	render() {
@@ -78,6 +91,28 @@ class CompleteCancelPage extends Component {
 
 				{/**body */}
 				<div className="container" style={{ marginTop: "50px" }}>
+					<div>
+					<SelectField
+          				floatingLabelText="Filter By Machine"
+          				value={this.state.filterBy}
+						 onChange={this.handleChange}
+						 style={{
+						 	margin: '0 auto',
+							border: '2px solid #212121',
+							backgroundColor: '#D3D3D3'
+						}}
+						iconStyle={{
+							color:'#000000'
+						}}
+					>
+          				<MenuItem key={0} value={0} primaryText="None" />
+						{this.state.machines.map((d, i) => {
+							return (
+								<MenuItem key={i+1} value={i+1} primaryText={d} />
+							);
+						})}
+        			</SelectField>
+					</div>
 					<div className="col-md-10">
 
 						{/** info list */}
@@ -90,7 +125,7 @@ class CompleteCancelPage extends Component {
 								</TableRow>
 							</TableHeader>
 							<TableBody displayRowCheckbox={false} style={{ border: '1px solid rgb(224, 224, 224)' }}>
-								{this.state.data.map((d, i) => {
+								{this.state.data.filter((row) => this.isFiltered(row)).map((d, i) => {
 									return (
 										<TableRow key={i} selected={this.isSelected(i)}>
 											<TableRowColumn style={{ borderRight: '1px solid rgb(224, 224, 224)' }}>{d.start_date_time.toDateString()}</TableRowColumn>
@@ -107,7 +142,6 @@ class CompleteCancelPage extends Component {
 					{/** right buttons */}
 					<div className="col-md-2">
 						<button type="button"  onClick={() => this.handlePutRequest('complete')} className="btn btn-primary" style={{ margin: "20px", width: "100%" }} >Complete</button>
-
 						<button type="button"  onClick={() => this.handlePutRequest('cancel')} className="btn btn-danger" style={{ margin: "40px 20px", width: "100%" }} >Cancel</button>
 					</div>
 
