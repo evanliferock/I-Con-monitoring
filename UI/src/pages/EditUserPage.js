@@ -118,7 +118,7 @@ class EditUserPage extends Component {
             <h2 className="pull-left">
             Users
                 <TextField
-                    floatingLabelText="Search Username"
+                    floatingLabelText="Search Name"
                     value={this.state.first_name}
                     onChange={this.handleChange}                          
                     style={{left:'30px',
