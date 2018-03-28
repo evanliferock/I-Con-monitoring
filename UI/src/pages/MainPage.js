@@ -16,7 +16,6 @@ class Sensor extends React.Component {
 }
 
 
-
 class MainPage extends React.Component {
 
  constructor() {
