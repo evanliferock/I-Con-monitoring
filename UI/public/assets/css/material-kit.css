@@ -2433,15 +2433,15 @@ fieldset[disabled] a.btn {
 
 .btn-warning {
     color: #111;
-    background-color: #ffeb3b;
-    border-color: #ffeb3b;
+    background-color: #ffeb50;
+    border-color: #ffeb50;
     box-shadow: none;
 }
 
 .btn-warning:hover {
     color: #111;
-    background-color: #ffe715;
-    border-color: #ffe608;
+    background-color: #ffeb50;
+    border-color: #ffeb50;
 }
 
 .btn-warning:focus,
@@ -2458,9 +2458,9 @@ fieldset[disabled] a.btn {
 .btn-warning:active,
 .btn-warning.active,
 .show>.btn-warning.dropdown-toggle {
-    background-color: #ffe715;
+    background-color: #ffeb50;
     background-image: none;
-    border-color: #ffe608;
+    border-color: #ffeb50;
     box-shadow: none;
 }
 
@@ -8452,14 +8452,14 @@ button:focus {
 
 .btn.btn-info {
     color: #fff;
-    background-color: #0E9DD9;
-    border-color: #0E9DD9;
+    background-color: rgb(14, 126, 217);
+    border-color: rgb(14, 126, 217);
     box-shadow: 0 2px 2px 0 rgba(0, 188, 212, 0.14), 0 3px 1px -2px rgba(0, 188, 212, 0.2), 0 1px 5px 0 rgba(0, 188, 212, 0.12);
 }
 
 .btn.btn-info:hover {
     color: #fff;
-    background-color: #4db7e4;
+    background-color: rgb(14, 126, 217);
     border-color: #008697;
 }
 
@@ -8467,8 +8467,8 @@ button:focus {
 .btn.btn-info.focus,
 .btn.btn-info:hover {
     color: #fff;
-    background-color: #4db7e4;
-    border-color: #008697;
+    background-color: rgb(17, 142, 238);
+    border-color: #00a2ff;
 }
 
 .btn.btn-info:active,
@@ -8632,23 +8632,23 @@ button:focus {
 
 .btn.btn-warning {
     color: #fff;
-    background-color: #ff9800;
-    border-color: #ff9800;
+    background-color: #ffdd00;
+    border-color: #ffdd00;
     box-shadow: 0 2px 2px 0 rgba(255, 152, 0, 0.14), 0 3px 1px -2px rgba(255, 152, 0, 0.2), 0 1px 5px 0 rgba(255, 152, 0, 0.12);
 }
 
 .btn.btn-warning:hover {
     color: #fff;
-    background-color: #f08f00;
-    border-color: #c27400;
+    background-color: #ffeb50;
+    border-color: #ffeb50;
 }
 
 .btn.btn-warning:focus,
 .btn.btn-warning.focus,
 .btn.btn-warning:hover {
     color: #fff;
-    background-color: #f08f00;
-    border-color: #c27400;
+    background-color: #ffe551;
+    border-color: #ffdd00;
 }
 
 .btn.btn-warning:active,
@@ -13181,7 +13181,7 @@ textarea {
 
 .navbar.bg-primary {
     color: #fff;
-    background-color: #6441A4 !important;
+    background-color: #4b307b !important;
     box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(156, 39, 176, 0.46);
 }
 

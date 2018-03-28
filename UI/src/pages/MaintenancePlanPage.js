@@ -84,6 +84,7 @@ class MaintenancePlanPage extends Component {
 
 
     render() {
+        const today = new Date();
         return (
             <div>
                 {/** Nav bar */}
@@ -95,13 +96,15 @@ class MaintenancePlanPage extends Component {
 
                     <div className="col-md-12">
                         <DateTimePicker
-                            hintText="Time"
+                            hintText=" "
+                            minDate={today}                           
                             floatingLabelText="Time"
+                            floatingLabelStyle={{fontSize: "20px", color:"black"}}
                             value={this.state.start_date_time}
                             onChange={this.handleChangeDateTimePicker}
                             DatePicker={DatePickerDialog}
                             TimePicker={TimePickerDialog}
-                            textFieldStyle={{ width: "100%" }}
+                            textFieldStyle={{ width: "100%", fontSize: "30px" }}
                         />
                     
                 </div>
@@ -110,9 +113,10 @@ class MaintenancePlanPage extends Component {
                     <SelectField
                         hintText="Machine"
                         floatingLabelText="Machine"
+                        floatingLabelStyle={{fontSize: "20px", color:"black"}}                        
                         value={this.state.equipment_id}
                         onChange={this.handleChangeMachine.bind(this)}
-                        style={{ width: "100%", textAlign: "left"}}
+                        style={{ width: "100%", textAlign: "left", fontSize: "30px"}}
                     >
                         {this.state.equipment.map((e,i) => {
                           return (
@@ -125,9 +129,10 @@ class MaintenancePlanPage extends Component {
                     <SelectField
                         hintText="Location"
                         floatingLabelText="Location"
+                        floatingLabelStyle={{fontSize: "20px", color:"black"}}                                                
                         value={this.state.location_id}
                         onChange={this.handleChangeLocation.bind(this)}
-                        style={{ width: "100%", textAlign: "left" }}
+                        style={{ width: "100%", textAlign: "left", fontSize: "30px"}}
                     >
                     {this.state.locations.map((l,i) => {
                       return (
@@ -137,11 +142,11 @@ class MaintenancePlanPage extends Component {
                     </SelectField>
                 </div>
                         <div className="col-md-6">
-                            <button type="button" className="btn btn-primary" onClick={() => this.handlePostRequest()} primary={true} style={{ marginTop: "40px", width: "100%" }}>Submit</button>
+                            <button type="button" className="btn btn-success" onClick={() => this.handlePostRequest()} primary={true} style={{ marginTop: "40px", width: "100%", fontWeight:"Bold", fontSize:"15px" }}>Submit</button>
                         </div>
                         <div className="col-md-6">
                             {/** Home button */}
-                            <Link to="/MainPage" className="btn btn-danger"style={{ marginTop: "40px", width: "100%" }}>Cancel</Link>
+                            <Link to="/MainPage" className="btn btn-danger"style={{ marginTop: "40px", width: "100%", fontWeight:"Bold", fontSize:"15px" }}>Cancel</Link>
                         </div>
                 </div>    
         );

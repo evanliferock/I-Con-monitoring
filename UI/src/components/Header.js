@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
+import Drawer from 'material-ui/Drawer';
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 import IconButton from 'material-ui/IconButton';
 import { Redirect } from 'react-router'
 import PropTypes from 'prop-types';
 import jwt from 'jsonwebtoken';
-
 
 //**** It contains main Appbar and navigation menu.
 class Header extends Component {
@@ -24,15 +24,19 @@ class Header extends Component {
     this.setState({ redirectUrl: url });
   }
 
+  handleToggle = () => this.setState({open: !this.state.open});
+  
+  handleClose = () => this.setState({open: false});
+
   render() {
   if (jwt.decode(localStorage.getItem('token')) && jwt.decode(localStorage.getItem('token')).admin){
       
     /** Nav Right menu options */
     var RightMenu = () => (
       <div>
-        <button type="button" className="btn btn-info" style={{marginRight:"15px"}} onClick={this.handleClick.bind(this,"/CompleteCancel")}>Complete / Cancel</button>
-        <button type="button" className="btn btn-info" style={{marginRight:"15px"}} onClick={this.handleClick.bind(this,"/UpcomingMaintenance")}>Upcoming</button>
-        <button type="button" className="btn btn-info" style={{marginRight:"15px"}} onClick={this.handleClick.bind(this,"/MaintenancePlan")}>Plan</button>
+        <button type="button" className="btn btn-info" style={{marginRight:"15px", fontWeight:"bold", fontSize:"12px"}} onClick={this.handleClick.bind(this,"/CompleteCancel")}>Complete / Cancel</button>
+        <button type="button" className="btn btn-info" style={{marginRight:"15px", fontWeight:"bold", fontSize:"12px"}} onClick={this.handleClick.bind(this,"/UpcomingMaintenance")}>Upcoming</button>
+        <button type="button" className="btn btn-info" style={{marginRight:"15px", fontWeight:"bold", fontSize:"12px"}} onClick={this.handleClick.bind(this,"/MaintenancePlan")}>Plan</button>
       </div>
     );
 
@@ -40,7 +44,7 @@ class Header extends Component {
       <span>
           <a onClick={this.handleClick.bind(this,"/MainPage")} style={{cursor:'pointer'}}>
             <img src={require('../resources/MineLogo.png')} alt={'Mine Logo'}
-           width="35" height="35" style={{position:"relative",top:"-10px"}} />
+           width="35" height="35" style={{position:"relative",top:"-20px", left:"60px"}} />
         </a>
       </span>
     )
@@ -48,7 +52,15 @@ class Header extends Component {
     /** Nav menu options */
     var Logged = (props) => (
       <div>
-      <IconMenu {...props} iconButtonElement={< IconButton iconStyle={{color:"#FFF"}}> <NavigationMenu /> </IconButton>}
+      <button
+        bsSize="small"
+        label="Menu"
+        type="button" className="btn btn-secondary" style={{marginRight:"55px", top:"16px", fontSize:"12px", fontWeight:"bold"}}       
+        onClick={this.handleToggle}
+      > 
+        Menu
+      </button>
+      <Drawer overlayStyle={{opacity:"50"}}	style={{color:"red"}}docked={false} width={200} open={this.state.open} onRequestChange={(open)=> this.setState({open})} {...props} iconButtonElement={< IconButton iconStyle={{color:"#FFF"}}> <NavigationMenu /> </IconButton>}
      
         targetOrigin={{
           horizontal: 'right',
@@ -80,7 +92,7 @@ class Header extends Component {
           localStorage.removeItem("token");
           this.handleClick("/Login");
         }} />
-      </IconMenu>
+      </Drawer>
       <Logo/>
       </div>
     );
@@ -89,7 +101,7 @@ class Header extends Component {
         /** Nav Right menu options */
         RightMenu = () => (
           <div>
-            <button type="button" className="btn btn-info" style={{marginRight:"15px"}} onClick={this.handleClick.bind(this,"/CompleteCancel")}>Complete / Cancel</button>
+            <button type="button" className="btn btn-info" style={{marginRight:"15px", fontweight:"bold"}} onClick={this.handleClick.bind(this,"/CompleteCancel")}>Complete / Cancel</button>
             <button type="button" className="btn btn-info" style={{marginRight:"15px"}} onClick={this.handleClick.bind(this,"/UpcomingMaintenance")}>Upcoming</button>
             <button type="button" className="btn btn-info" style={{marginRight:"15px"}} onClick={this.handleClick.bind(this,"/MaintenancePlan")}>Plan</button>
           </div>
