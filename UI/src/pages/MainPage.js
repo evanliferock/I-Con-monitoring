@@ -3,26 +3,13 @@ import Header from '../components/Header'
 import SensorLayout from '../components/SensorLayout'
 import {Modal} from 'react-bootstrap';
 
-
-class Sensor extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      open: false,
-      anchorEl: null,
-      data: null
-    }
-  }
-}
-
-
 class MainPage extends React.Component {
 
  constructor() {
     super();
     this.state = {
       sensors :[{
-        name:'Sensor 1',
+        name:'Temp 1',
         tempInfo:[{temp:"105.3 C",time:"11:00"},{temp:"95.3 C",time:"10:00"},{temp:"75.3 C",time:"7:00"}],
         state:"close",
         lastUpdate :"2 feb 2017 11:00"
@@ -74,11 +61,6 @@ class MainPage extends React.Component {
         });
     }
 
-
-
-
-
-
   render() {
     const SensorDetailModal = () =>{
      var sensorDetail =this.state.selectedSensor;
@@ -105,9 +87,6 @@ class MainPage extends React.Component {
     </div>
 
   }
-
-
-
 
     return (
       <div>
