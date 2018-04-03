@@ -31,22 +31,6 @@ class UpcomingMaintenancePage extends Component {
 			this.setState({ selected: selectedRows });
 	}
 
-	handlePutRequest(toDo){
-		if (this.state.selected.length > 0) {
-			let toDoId = this.state.data[this.state.selected[0]].maintenance_id;
-			if (toDoId !== -1) {
-				let page = this;
-				dbapi.put('/maintenance/' + toDo + '/' + toDoId)
-					.then(function (response) {
-						page.updateData();
-					})
-					.catch(function (response) {
-						console.log("Error marking as complete");
-					});
-			}
-		}
-	}
-
 	componentWillMount() {
 		this.updateData();
 	}

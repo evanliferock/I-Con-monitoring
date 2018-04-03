@@ -4,6 +4,7 @@ import TextField from 'material-ui/TextField';
 import dbapi from '../apirequests/dbapi';
 import Alert from 'react-s-alert';
 import { Redirect } from 'react-router';
+import Background from '../resources/mine-picture.jpg';
 
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
@@ -62,7 +63,7 @@ class Login extends Component {
   }
 
   handleClickForget(event) {
-
+    window.alert('Please contact your administrator with your self identification materials for help!');    
   }
 
   render() {
@@ -75,25 +76,25 @@ class Login extends Component {
             hintText="Enter your username"
             floatingLabelText="Username"
             style={{ width: '100%' }}
-            floatingLabelStyle={{ color: '#FFF' }}
+            floatingLabelStyle={{fontWeight: "bold", color: "#FFF"}}            
             inputStyle={{ color: '#FFF' }}
             onChange={(event, newValue) => this.setState({ username: newValue })}
-            floatingLabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}} hintStyle={{color:"#FFF"}}
+            floatingLabelFocusStyle={{color:"#FFF"}} underlineFocusStyle={{borderColor:"#FFF"}} hintStyle={{color:"#FFF"}}
           />
           <br />
           <TextField
             type="password"
             style={{ width: '100%' }}
-            floatingLabelStyle={{ color: '#FFF' }}
-            hintText="Enter your Password"
+            hintText="Enter your password"
             inputStyle={{ color: '#FFF' }}
             floatingLabelText="Password"
+            floatingLabelStyle={{fontWeight: "bold", color: "#FFF"}}
             onChange={(event, newValue) => this.setState({ password: newValue })}
-            floatingLabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}} hintStyle={{color:"#FFF"}}
+            floatingLabelFocusStyle={{color:"#FFF"}} underlineFocusStyle={{borderColor:"#FFF"}} hintStyle={{color:"#FFF"}}
           />
           <br />
-          <button type="button" className="btn btn-secondary" style={{ marginTop: "55px", width: "100%" }}  onClick={(event) => this.handleClick(event)} >Login</button>
-          <button type="button" className="btn btn-danger" style={{ marginTop: "15px", width: "100%" }}  onClick={(event) => this.handleClickForget(event)} >Forget?</button>
+          <button type="button" className="btn btn-success" style={{ marginTop: "55px", width: "100%", fontWeight: "bold", fontSize: "15px" }}  onClick={(event) => this.handleClick(event)} >Login</button>
+          <button type="button" className="btn btn-danger" style={{ marginTop: "15px", width: "100%", fontWeight: "bold", fontSize: "15px" }}  onClick={(event) => this.handleClickForget(event)} >Forget?</button>
           
           <div className="col-md-12">
             <div className="pull-left" style={{ width: '' }} >
@@ -109,23 +110,24 @@ class Login extends Component {
 class LoginPage extends Component {
   render() {
     return (
-      <div style={{ position: "fixed", width: "100%", backgroundColor: '#19171C' }}>
+      <div style={{position: "fixed", width: "100%", backgroundColor: '#19171C' }}>
         <div style={{}}>
           <AppBar
-            titleStyle={{ textAlign: "center" }}
+            titleStyle={{ textAlign: "center"}}
             title="NIOSH I-Con-monitoring Login"
             showMenuIconButton={false}
-            className="navbar navbar-dark bg-primary" 
+            className="navbar navbar-dark bg-primary"
           />
 
         
         </div>
         <div className="" style={{
           position: "fixed",
+          
           padding: "0px", margin: "0px", height: "100%", width: "100%",top:"0px",
-          background: 'url("https://www.parks.ca.gov/pages/499/images/img_5012.jpg") no-repeat center center fixed', backgroundSize: "cover"
+          backgroundImage: "url(" + Background + ")", backgroundSize: "cover"
         }}>
-          <div className="col-md-4 loginscreen" style={{ position: "fixed", height: "100%", backgroundColor: '#6441A4', padding: '20px', paddingBottom: '40px' }}>
+          <div className="col-md-4 loginscreen" style={{ position: "fixed", height: "100%", backgroundColor: '#4b307b', padding: '20px', paddingBottom: '40px' }}>
             <div style={{ marginTop: '200px' }}>
               <Login />
             </div>

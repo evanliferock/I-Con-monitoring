@@ -33,11 +33,11 @@ class AdminUserPage extends Component {
                 <div className="container" style={{ marginTop: "50px" }}>
                     <div className="col-md-offset-3 col-md-6">
                         <div className="col-md-12">
-                            <button type="button" className="btn btn-primary"  onClick={this.handleClick.bind(this, "/CreateUser")} style={{ marginTop: "25px", width: "100%" }} >Add Users</button>
+                            <button type="button" className="btn btn-success"  onClick={this.handleClick.bind(this, "/CreateUser")} style={{ marginTop: "25px", width: "100%", fontWeight:"bold", fontSize:"15px" }} >Add Users</button>
                         </div>
 
                         <div className="col-md-12">
-                            <button type="button" className="btn btn-danger" onClick={this.handleClick.bind(this, "/EditUser")} style={{ marginTop: "25px", width: "100%" }} >Edit / Delete Users</button>
+                            <button type="button" className="btn btn-danger" onClick={this.handleClick.bind(this, "/EditUser")} style={{ marginTop: "25px", width: "100%", fontWeight:"bold", fontSize:"15px" }} >Edit / Delete Users</button>
                         </div>
 
                     </div>

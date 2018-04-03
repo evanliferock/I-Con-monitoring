@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from '../components//Header';
 import BackButton from '../components//BackButton';
 import dbapi from '../apirequests/dbapi';
+import TextField from 'material-ui/TextField';
 
 
 import {
@@ -22,10 +23,15 @@ class EditUserPage extends Component {
         this.state = {
             data: [],
             selected : [],
+            nameFilter: '',
         }
 
 
     }
+
+    handleChange = (event) => {
+        this.setState({nameFilter:event.target.value,selected:[]})
+    };
 
     isSelected(i){
 		return this.state.selected.indexOf(i) !== -1;
@@ -37,6 +43,7 @@ class EditUserPage extends Component {
     };
 
     handleDeleteRequest(){
+        console.log(this.state.usernameFilter);
 		if (this.state.selected.length > 0) {
 			let user_id = this.state.data[this.state.selected[0]].user_id;
             if (user_id !== -1 && window.confirm('Are you sure you want to delete user: \'' + this.state.data[this.state.selected[0]].name +  
@@ -45,6 +52,7 @@ class EditUserPage extends Component {
                     user_id: user_id,
                 })
                 .then((response) => {
+                    this.setState({ selected: [] });
                     this.updateData();
                     window.alert('Success in deleting user');
                 })
@@ -108,7 +116,19 @@ class EditUserPage extends Component {
             
             {/** Body */}
             <div className="container" style={{ marginTop: "50px" }}>
-            <h2 className="pull-left">Users</h2>
+            <h2 className="pull-left">
+            Users
+                <TextField
+                    floatingLabelText="Search Name"
+                    value={this.state.first_name}
+                    onChange={this.handleChange}                          
+                    style={{left:'30px',
+                    border: '2px solid #212121',
+                    }}
+                    floatingLabelFocusStyle={{color:"#6441A4"}}
+                    underlineFocusStyle={{borderColor:"#6441A4"}}   
+                />
+            </h2>
             
             {/** Buttons */}
             <div className="pull-right">
@@ -127,7 +147,7 @@ class EditUserPage extends Component {
                         </TableRow>
                     </TableHeader>
                     <TableBody displayRowCheckbox={false} style={{ border: '1px solid rgb(224, 224, 224)' }} >
-                        {this.state.data.map((user, i) => {
+                        {this.state.data.filter((user) => user.name.startsWith(this.state.nameFilter)).map((user, i) => {
                             return (
                                 <TableRow key={i} selected={this.isSelected(i)}>
                                     <TableRowColumn style={{ borderRight: '1px solid rgb(224, 224, 224)' }}>{user.name}</TableRowColumn>
