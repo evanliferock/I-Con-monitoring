@@ -42,8 +42,8 @@ class CompleteCancelPage extends Component {
 				let page = this;
 				dbapi.put('/maintenance/' + toDo + '/' + toDoId)
 					.then(function (response) {
+						page.updateData();						
 						this.setState({ selected: [] });
-						page.updateData();
 					})
 					.catch(function (response) {
 						console.log("Error marking as complete");
@@ -91,36 +91,44 @@ class CompleteCancelPage extends Component {
 
 				{/**body */}
 				<div className="container" style={{ marginTop: "50px" }}>
-					<div>
-					<SelectField
-          				floatingLabelText="Filter By Machine"
-          				value={this.state.filterBy}
-						 onChange={this.handleChange}
-						 style={{
-						 	margin: '0 auto',
-							border: '2px solid #212121',
-							backgroundColor: '#D3D3D3'
+				<h2 className="pull-left" style={{marginLeft: "20px", fontWeight: "bold", fontSize:"30px"}}>
+				
+				<div>
+					<SelectField					  
+						autoWidth='true'
+						floatingLabelText='Sort by Machine'
+						floatingLabelStyle={{ color:"#4b307b", fontWeight:"bold", right: '55px', width: '100%', transformOrigin: 'center top 0px'}}	
+						value={this.state.filterBy}
+						onChange={this.handleChange}
+						style={{
+						backgroundColor: '#D3D3D3',
+						textAlign: 'center',
+						margin: '0',
+						border: '2px solid #212121',
+						borderRadius: '50px',
+						borderColor:"black"
 						}}
-						iconStyle={{
-							color:'#000000'
-						}}
-					>
-          				<MenuItem key={0} value={0} primaryText="None" />
+						underlineFocusStyle={{borderColor:"black"}}   
+						underlineStyle={{borderColor: "black", width: "200px", left:"30px"}}
+						>
+						<MenuItem key={0} value={0} primaryText="No filter" />
 						{this.state.machines.map((d, i) => {
-							return (
-								<MenuItem key={i+1} value={i+1} primaryText={d} />
-							);
+						return (
+							<MenuItem key={i+1} value={i+1} primaryText={d} />
+						);
 						})}
-        			</SelectField>
+						</SelectField>
+									
 					</div>
+					</h2>
 					<div className="col-md-10">
 
 						{/** info list */}
 						<Table onRowSelection={(selectedRows) => this.handleRowSelection(selectedRows)} bodyStyle={{overflow:'x-scroll',height:"450px"}}>
 							<TableHeader displaySelectAll={false} adjustForCheckbox={false} >
 								<TableRow>
-									<TableHeaderColumn >Date</TableHeaderColumn>
-									<TableHeaderColumn >Time</TableHeaderColumn>
+									<TableHeaderColumn>Date</TableHeaderColumn>
+									<TableHeaderColumn>Time</TableHeaderColumn>
 									<TableHeaderColumn>Machine</TableHeaderColumn>
 								</TableRow>
 							</TableHeader>
@@ -145,10 +153,7 @@ class CompleteCancelPage extends Component {
 
 						<button type="button"  onClick={() => this.handlePutRequest('cancel')} className="btn btn-danger" style={{ margin: "40px 20px", width: "100%", fontWeight:"bold", fontSize:"13px" }} >Cancel</button>
 					</div>
-
-
 				</div>
-
 			</div>
 		)
 	}

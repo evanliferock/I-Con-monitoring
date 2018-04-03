@@ -53,8 +53,8 @@ class EditUserPage extends Component {
                     user_id: user_id,
                 })
                 .then((response) => {
+                    this.updateData();                    
                     this.setState({ selected: [] });
-                    this.updateData();
                     window.alert('Success in deleting user');
                 })
                 .catch(function (error) {
