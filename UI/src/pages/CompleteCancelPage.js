@@ -96,7 +96,7 @@ class CompleteCancelPage extends Component {
 				<div>
 					<SelectField					  
 						autoWidth='true'
-						floatingLabelText='Sort by Machine'
+						floatingLabelText='Sort by Machine: '
 						floatingLabelStyle={{ color:"#4b307b", fontWeight:"bold", right: '55px', width: '100%', transformOrigin: 'center top 0px'}}	
 						value={this.state.filterBy}
 						onChange={this.handleChange}
