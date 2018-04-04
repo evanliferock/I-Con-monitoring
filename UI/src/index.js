@@ -18,6 +18,7 @@ import NotValidPermissionsPage from './pages/NotValidPermissionsPage';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import jwt from 'jsonwebtoken';
+import PATHS from './global/paths';
 import './stylesheets/index.css';
 
 const muiTheme = getMuiTheme({
@@ -57,18 +58,18 @@ class AdminPages extends React.Component {
     if(localStorage.getItem('token') && jwt.decode(localStorage.getItem('token')).admin){
       return(
         <Switch>
-          <Route path={"/AdminUser"} component={AdminUserPage} />
-          <Route path={"/CreateUser"} component={CreateUserPage} />
-          <Route path={"/EditUser"} component={EditUserPage} />
+          <Route path={PATHS.ADMIN_PATHS.ADMIN} component={AdminUserPage} />
+          <Route path={PATHS.ADMIN_PATHS.CREATE_USER} component={CreateUserPage} />
+          <Route path={PATHS.ADMIN_PATHS.EDIT_USER} component={EditUserPage} />
         </Switch>
       );
     } else {
       let defaultResponseComponent = NotValidPermissionsPage;
       return(
         <Switch>
-          <Route path={"/AdminUser"} component={defaultResponseComponent} />
-          <Route path={"/CreateUser"} component={defaultResponseComponent} />
-          <Route path={"/EditUser"} component={defaultResponseComponent} />
+          <Route path={PATHS.ADMIN_PATHS.ADMIN} component={defaultResponseComponent} />
+          <Route path={PATHS.ADMIN_PATHS.CREATE_USER} component={defaultResponseComponent} />
+          <Route path={PATHS.ADMIN_PATHS.EDIT_USER} component={defaultResponseComponent} />
         </Switch>
       );
     }
@@ -80,23 +81,23 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Route path={"/Login"} render={() => (
+          <Route path={PATHS.LOGIN} render={() => (
             !isLoggedIn() ? (
               <LoginPage />
             ) : (
-              <Redirect to={"/MainPage"} />
+              <Redirect to={PATHS.MAIN} />
             )
           )} />
           <Route path={'/'} render={() => (
             !isLoggedIn() ? (
-              <Redirect to={"/Login"} />
+              <Redirect to={PATHS.LOGIN} />
             ) : (
                 <Switch>
-                  <Route exact path={"/(|MainPage)"} component={MainPage} />
-                  <Route path={"/MaintenancePlan"} component={MaintenancePlanPage} />
-                  <Route path={"/UpcomingMaintenance"} component={UpcomingMaintenancePage} />
-                  <Route path={"/CompleteCancel"} component={CompleteCancelPage} />
-                  <Route path={"/UserProfile"} component={ProfileUserPage} />
+                  <Route exact path={PATHS.MAIN_MATCHING} component={MainPage} />
+                  <Route path={PATHS.PLAN} component={MaintenancePlanPage} />
+                  <Route path={PATHS.UPCOMING} component={UpcomingMaintenancePage} />
+                  <Route path={PATHS.COMPLETE_CANCEL} component={CompleteCancelPage} />
+                  <Route path={PATHS.PROFILE} component={ProfileUserPage} />
                   <AdminPages/>
                   <Route component={NoPagefound} />
                 </Switch>

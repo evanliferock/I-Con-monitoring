@@ -4,6 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import BackButton from '../components/BackButton';
 import dbapi from '../apirequests/dbapi';
+import PATHS from '../global/paths';
 
 
 // Contains the user creation form
@@ -103,7 +104,7 @@ class CreateUserPage extends Component {
                 </div>
 
                 {/** Home button */}
-                <BackButton className="btn btn-info" redirectUrl="/AdminUser" buttonProps={{ label: "Back", secondary: false }} />
+                <BackButton className="btn btn-info" redirectUrl={PATHS.ADMIN_PATHS.ADMIN} buttonProps={{ label: "Back", secondary: false }} />
             </div>
         )
     }

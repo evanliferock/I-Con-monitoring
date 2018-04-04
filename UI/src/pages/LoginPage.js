@@ -5,6 +5,7 @@ import dbapi from '../apirequests/dbapi';
 import Alert from 'react-s-alert';
 import { Redirect } from 'react-router';
 import Background from '../resources/mine-picture.jpg';
+import PATHS from '../global/paths';
 
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
@@ -68,7 +69,7 @@ class Login extends Component {
 
   render() {
     if (this.state.loggedIn) {
-      return (<Redirect to={"/MainPage"} />);
+      return (<Redirect to={PATHS.MAIN} />);
     } else {
       return (
         <div>

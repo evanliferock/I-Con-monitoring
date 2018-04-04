@@ -6,6 +6,8 @@ import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 import IconButton from 'material-ui/IconButton';
 import PropTypes from 'prop-types';
 import jwt from 'jsonwebtoken';
+import PATHS from '../global/paths';
+import NAMES from '../global/page_names';
 
 //**** It contains main Appbar and navigation menu.
 class Header extends Component {
@@ -31,18 +33,27 @@ class Header extends Component {
     /** Nav Right menu options */
     var RightMenu = () => (
       <div>
-        <button id="ccbutton" type="button" className="btn btn-info" style={{marginRight:"15px", fontWeight:"bold", fontSize:"12px"}} onClick={this.handleClick.bind(this,"/CompleteCancel")}>Complete / Cancel</button>
-        <button id="upcombutton" type="button" className="btn btn-info" style={{marginRight:"15px", fontWeight:"bold", fontSize:"12px"}} onClick={this.handleClick.bind(this,"/UpcomingMaintenance")}>Upcoming</button>
-        <button id="planbutton" type="button" className="btn btn-info" style={{marginRight:"15px", fontWeight:"bold", fontSize:"12px"}} onClick={this.handleClick.bind(this,"/MaintenancePlan")}>Plan</button>
+      <button id="ccbutton" type="button" className="btn btn-info" style={{marginRight:"15px", fontWeight:"bold", fontSize:"12px"}}
+          onClick={this.handleClick.bind(this,PATHS.COMPLETE_CANCEL)}
+       >Complete / Cancel
+       </button>
+      <button id="upcombutton" type="button" className="btn btn-info" style={{marginRight:"15px", fontWeight:"bold", fontSize:"12px"}} 
+          onClick={this.handleClick.bind(this,PATHS.UPCOMING)}>
+        Upcoming
+      </button>
+      <button id="planbutton" type="button" className="btn btn-info" style={{marginRight:"15px", fontWeight:"bold", fontSize:"12px"}} 
+        onClick={this.handleClick.bind(this,PATHS.PLAN)}>
+          Plan
+      </button>
       </div>
     );
 
     const Logo = () => (
       <span>
-          <a onClick={this.handleClick.bind(this,"/MainPage")} style={{cursor:'pointer'}}>
-          <img src={require('../resources/MineLogo.png')} alt={'Mine Logo'}
-          width="35" height="35" style={{position:"relative",top:"-20px", left:"60px"}} />
-        </a>
+      <a onClick={this.handleClick.bind(this,PATHS.MAIN)} style={{cursor:'pointer'}}>
+      <img src={require('../resources/MineLogo.png')} alt={'Mine Logo'}
+      width="35" height="35" style={{position:"relative",top:"-20px", left:"60px"}} />
+      </a>
       </span>
     )
     if (jwt.decode(localStorage.getItem('token')) && jwt.decode(localStorage.getItem('token')).admin){  
@@ -67,28 +78,28 @@ class Header extends Component {
           horizontal: 'right',
           vertical: 'top'
         }}>
-
-        <MenuItem primaryText="Main Page" onClick={(event) => {
-          this.handleClick("/MainPage")
+        
+        <MenuItem primaryText={NAMES.MAIN} onClick={(event) => {
+          this.handleClick(PATHS.MAIN)
         }} />
-        <MenuItem primaryText="Maintenance Plan" onClick={(event) => {
-          this.handleClick("/MaintenancePlan")
+        <MenuItem primaryText={NAMES.PLAN} onClick={(event) => {
+          this.handleClick(PATHS.PLAN)
         }} />
-        <MenuItem primaryText="Upcoming Maintenance" onClick={(event) => {
-          this.handleClick("/UpcomingMaintenance")
+        <MenuItem primaryText={NAMES.UPCOMING} onClick={(event) => {
+          this.handleClick(PATHS.UPCOMING)
         }} />
-        <MenuItem primaryText="Complete Cancel" onClick={(event) => {
-          this.handleClick("/CompleteCancel")
+        <MenuItem primaryText={NAMES.COMPLETE_CANCEL} onClick={(event) => {
+          this.handleClick(PATHS.COMPLETE_CANCEL)
         }} />
-        <MenuItem primaryText="User Profile" onClick={(event) => {
-          this.handleClick("/UserProfile")
+        <MenuItem primaryText={NAMES.PROFILE} onClick={(event) => {
+          this.handleClick(PATHS.PROFILE)
         }} />
-        <MenuItem primaryText="Administration" onClick={(event) => {
-          this.handleClick("/AdminUser")
+        <MenuItem primaryText={NAMES.ADMIN} onClick={(event) => {
+          this.handleClick(PATHS.ADMIN_PATHS.ADMIN)
         }} />
-        <MenuItem primaryText="Sign out" onClick={(event) => {
+        <MenuItem primaryText={NAMES.SIGN_OUT} onClick={(event) => {
           localStorage.removeItem("token");
-          this.handleClick("/Login");
+          this.handleClick(PATHS.LOGIN);
         }} />
       </Drawer>
       <Logo/>
@@ -116,27 +127,24 @@ class Header extends Component {
               vertical: 'top'
             }}>
     
-            <MenuItem primaryText="Main Page" onClick={(event) => {
-              this.handleClick("/MainPage")
+            <MenuItem primaryText={NAMES.MAIN} onClick={(event) => {
+              this.handleClick(PATHS.MAIN)
             }} />
-            <MenuItem primaryText="Maintenance Plan" onClick={(event) => {
-              this.handleClick("/MaintenancePlan")
+            <MenuItem primaryText={NAMES.PLAN} onClick={(event) => {
+              this.handleClick(PATHS.PLAN)
             }} />
-            <MenuItem primaryText="Upcoming Maintenance" onClick={(event) => {
-              this.handleClick("/UpcomingMaintenance")
+            <MenuItem primaryText={NAMES.UPCOMING} onClick={(event) => {
+              this.handleClick(PATHS.UPCOMING)
             }} />
-            <MenuItem primaryText="Complete Cancel" onClick={(event) => {
-              this.handleClick("/CompleteCancel")
+            <MenuItem primaryText={NAMES.COMPLETE_CANCEL} onClick={(event) => {
+             this.handleClick(PATHS.COMPLETE_CANCEL)
             }} />
-            <MenuItem primaryText="User Profile" onClick={(event) => {
-              this.handleClick("/UserProfile")
+            <MenuItem primaryText={NAMES.PROFILE} onClick={(event) => {
+              this.handleClick(PATHS.PROFILE)
             }} />
-            <MenuItem primaryText="Administration" onClick={(event) => {
-              this.handleClick("/AdminUser")
-            }} />
-            <MenuItem primaryText="Sign out" onClick={(event) => {
+            <MenuItem primaryText={NAMES.SIGN_OUT} onClick={(event) => {
               localStorage.removeItem("token");
-              this.handleClick("/Login");
+              this.handleClick(PATHS.LOGIN);
             }} />
           </Drawer>
           <Logo/>

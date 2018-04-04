@@ -7,6 +7,7 @@ import { BrowserRouter, Redirect } from 'react-router-dom';
 import jsonwebtoken from 'jsonwebtoken';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
+import PATHS from '../src/global/paths';
 
 jest.mock('jsonwebtoken');
 
@@ -58,7 +59,7 @@ test('Complete Cancel top button redirects properly', () => {
       </MuiThemeProvider>
   );
   header.find('#ccbutton').simulate('click');
-  expect(window.location.pathname).toEqual('/CompleteCancel');
+  expect(window.location.pathname).toEqual(PATHS.COMPLETE_CANCEL);
 });
 
 test('Upcoming top button redirects properly', () => {
@@ -69,7 +70,7 @@ test('Upcoming top button redirects properly', () => {
       </MuiThemeProvider>
   );
   header.find('#upcombutton').simulate('click');
-  expect(window.location.pathname).toEqual('/UpcomingMaintenance');
+  expect(window.location.pathname).toEqual(PATHS.UPCOMING);
 });
 
 test('Planning top button redirects properly', () => {
@@ -80,7 +81,7 @@ test('Planning top button redirects properly', () => {
       </MuiThemeProvider>
   );
   header.find('#planbutton').simulate('click');
-  expect(window.location.pathname).toEqual('/MaintenancePlan');
+  expect(window.location.pathname).toEqual(PATHS.PLAN);
 });
 
 // Can't seem to get access to MenuItems to check functionality :/
@@ -95,7 +96,7 @@ test('Planning top button redirects properly', () => {
 //   console.log(JSON.stringify(header.find(IconMenu).children()));
 //   //header.find(MenuItem).simulate('click');
 //   //console.log(header.find(MenuItem));
-//   expect(window.location.pathname).toEqual('/MainPage');
+//   expect(window.location.pathname).toEqual(PATHS.MAIN);
 // });
 
 function clickChecker(check,url){

@@ -8,6 +8,7 @@ import Header from '../components/Header';
 import {Link} from 'react-router-dom';
 import dbapi from '../apirequests/dbapi';
 import jwt from 'jsonwebtoken';
+import PATHS from '../global/paths';
 
 //it contains maintenance plan form
 class MaintenancePlanPage extends Component {
@@ -146,7 +147,9 @@ class MaintenancePlanPage extends Component {
                         </div>
                         <div className="col-md-6">
                             {/** Home button */}
-                            <Link to="/MainPage" className="btn btn-danger"style={{ marginTop: "40px", width: "100%", fontWeight:"Bold", fontSize:"15px" }}>Cancel</Link>
+                            <Link to={PATHS.MAIN} className="btn btn-danger"style={{ marginTop: "40px", width: "100%", fontWeight:"Bold", fontSize:"15px" }}>
+                                Cancel
+                            </Link>
                         </div>
                 </div>    
         );

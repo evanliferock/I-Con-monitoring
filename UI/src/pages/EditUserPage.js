@@ -3,6 +3,7 @@ import Header from '../components//Header';
 import BackButton from '../components//BackButton';
 import dbapi from '../apirequests/dbapi';
 import TextField from 'material-ui/TextField';
+import PATHS from '../global/paths';
 
 
 import {
@@ -162,7 +163,7 @@ class EditUserPage extends Component {
             </div>
             
             {/** Home */}
-            <BackButton  className="btn btn-info" redirectUrl="/AdminUser" buttonProps={{ label: "Back", secondary: false }} />
+            <BackButton  className="btn btn-info" redirectUrl={PATHS.ADMIN_PATHS.ADMIN} buttonProps={{ label: "Back", secondary: false }} />
             
             </div>
             </div>
