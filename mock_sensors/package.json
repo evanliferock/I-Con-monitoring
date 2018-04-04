@@ -1,0 +1,20 @@
+{
+  "name": "mock_sensors",
+  "version": "1.0.0",
+  "description": "mock sensors",
+  "main": "mock_sensors.js",
+  "dependencies": {
+    "mysql": "^2.15.0",
+    "nodemailer": "^4.6.4",
+    "tunnel-ssh": "^4.1.4"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1"
+  },
+  "scripts": {
+    "start": "node mock_sensors.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -1,4 +1,4 @@
-var sql = require('./connections/sql');
+var sql = require('./connections/db');
 
 var getTempColor = function(data) {
     if(data < 60) {

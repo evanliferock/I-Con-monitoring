@@ -13,8 +13,10 @@ function getRandomInt(min, max) {
 //var t2 = getRandomInt(1000, 1500);
 //var d1 = 0;
 //var d2 = 0;
-var switches = true; // Change accordingly for testing
+var switches = false; // Change accordingly for testing
 var state;
+
+
 setInterval(function () {
     /*
     // Random number to use for various things
@@ -37,16 +39,15 @@ setInterval(function () {
         d2 += 1;
     }*/
 
+
     // Insert mock data into DB
     var switchColor = checkSwitch(switches);
     var postSwitches = {sensor: 'switch', open: Number(switches), color: switchColor};
-    sql.query('INSERT INTO SENSOR_DATA SET ?', post, function(err, result) {
+    sql.query('INSERT INTO SENSOR_DATA SET ?', postSwitches, function(err, result) {
         if(!err) {
-            console.log('Mock Sensors Updated');
+            console.log('Mock Sensors Updated' + switchColor);
         } else {
             console.log('There was an error inserting mock state into the database');
         }
-    }); 
+    });
 }, 5000);
-
-
