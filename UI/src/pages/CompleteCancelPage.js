@@ -22,6 +22,7 @@ class CompleteCancelPage extends Component {
 			data: [],
 			selected: [],
 			machines: [],
+			filteredIndexes: [],
 			filterBy: 0,
 		}
 	}
@@ -37,16 +38,17 @@ class CompleteCancelPage extends Component {
 
 	handlePutRequest(toDo){
 		if (this.state.selected.length > 0) {
-			let toDoId = this.state.data[this.state.selected[0]].maintenance_id;
+			let index = this.state.filteredIndexes[this.state.selected[0]];
+			let toDoId = this.state.data[index].maintenance_id;
 			if (toDoId !== -1) {
-				let page = this;
 				dbapi.put('/maintenance/' + toDo + '/' + toDoId)
-					.then(function (response) {
+					.then((response) => {
 						this.setState({ selected: [] });
-						page.updateData();
+						this.updateData();
 					})
-					.catch(function (response) {
+					.catch(function (error) {
 						console.log("Error marking as complete");
+						console.log(error);
 					});
 			}
 		}
@@ -58,29 +60,44 @@ class CompleteCancelPage extends Component {
 
 	updateData() {
 		let user_id = jwt.decode(localStorage.getItem('token')).user_id;
-		let page = this;
 		dbapi.get('maintenance/' + user_id)
-			.then(function (response) {
+			.then((response) => {
 				for (let i = 0; i < response.data.length; i++) {
 					response.data[i].start_date_time = new Date(response.data[i].start_date_time);
 				}
-				page.setState({ 
+				this.setState({ 
 					data: response.data,
+					filteredIndexes: [],
 					machines: Array.from(new Set(response.data.map(a => a.equipment_name))),
-				 });
+				});
+				this.filterData(this.state.filterBy);
 			})
-			.catch(function (error) {
-				console.log("Error getting data: " + error);
-				page.setState({
+			.catch((error) => {
+				console.log("Error updating data");
+				console.log(error);
+				this.setState({
 					data: [{ maintenance_id: -1, start_date_time: new Date(), equipment_name: "ERROR: Please Refresh" }],
+					filteredIndexes:[0],
 				});
 			})
 	}
 
-	handleChange = (event, index, value) => this.setState({filterBy:value});
+	handleChange = (event, index, value) => this.filterData(value);
 
-	isFiltered(row){
-		return this.state.filterBy === 0 || this.state.machines[this.state.filterBy - 1] === row.equipment_name;
+	filterData(value){
+		var arr = [];
+		this.state.data.forEach((d,i) => {
+			if (!this.isFiltered(d,value))
+				arr.push(i);
+		});
+		this.setState({
+			filteredIndexes:arr,
+			filterBy:value,
+		});
+	}
+
+	isFiltered(row, value){
+		return value !== 0 && this.state.machines[value - 1] !== row.equipment_name;
 	}
 
 	render() {
@@ -125,7 +142,8 @@ class CompleteCancelPage extends Component {
 								</TableRow>
 							</TableHeader>
 							<TableBody displayRowCheckbox={false} style={{ border: '1px solid rgb(224, 224, 224)' }}>
-								{this.state.data.filter((row) => this.isFiltered(row)).map((d, i) => {
+								{this.state.filteredIndexes.map((value, i) => {
+									let d=this.state.data[value];
 									return (
 										<TableRow key={i} selected={this.isSelected(i)}>
 											<TableRowColumn style={{ borderRight: '1px solid rgb(224, 224, 224)' }}>{d.start_date_time.toDateString()}</TableRowColumn>
