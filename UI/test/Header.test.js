@@ -85,7 +85,7 @@ test('Planning top button redirects properly', () => {
   expect(window.location.pathname).toEqual(PATHS.PLAN);
 });
 
-// // Can't seem to get access a single MenuItem to check functionality :/
+// // Can't seem to get access a single MenuItem to check functionality :/ .first()
 // test('Main Page menu button redirects properly', () => {
 //   jsonwebtoken.decode.mockReturnValue({admin:true});
 //   const header = mount(

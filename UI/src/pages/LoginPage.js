@@ -34,19 +34,16 @@ class Login extends Component {
                effect: 'slide',
                beep: false,
                timeout: 1000,
-               offset: 50
+               offset: 50,
            });
           localStorage.setItem('token', response.data.token);
           localStorage.setItem('refresh_token', response.data.refresh_token);
           dbapi.defaults.headers.token = localStorage.getItem('token');
-          window.setTimeout(() => {loginObject.setState({ loggedIn: true })}, 50);
+          window.location.pathname = PATHS.MAIN;
         }
       })
       .catch(function (error) {
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          if (error.response.status === 401) {
-            console.log("Username password do not match");
+        if (error.response && error.response.status === 401) {
             Alert.warning("Username and password do not match", {
               position: 'top-left',
               effect: 'slide',
@@ -54,13 +51,10 @@ class Login extends Component {
               timeout: 5000,
               offset: 50
             });
-          } else {
-            console.log(error);
-          }
         } else {
-          console.log("Error on db api end: " + error);
+            console.log(error);
         }
-      })
+      });
   }
 
   handleClickForget(event) {
@@ -68,9 +62,6 @@ class Login extends Component {
   }
 
   render() {
-    if (this.state.loggedIn) {
-      return (<Redirect to={PATHS.MAIN} />);
-    } else {
       return (
         <div>
           <TextField
@@ -94,7 +85,7 @@ class Login extends Component {
             floatingLabelFocusStyle={{color:"#FFF"}} underlineFocusStyle={{borderColor:"#FFF"}} hintStyle={{color:"#FFF"}}
           />
           <br />
-          <button type="button" className="btn btn-success" style={{ marginTop: "55px", width: "100%", fontWeight: "bold", fontSize: "15px" }}  onClick={(event) => this.handleClick(event)} >Login</button>
+          <button id='loginbutton' type="button" className="btn btn-success" style={{ marginTop: "55px", width: "100%", fontWeight: "bold", fontSize: "15px" }}  onClick={(event) => this.handleClick(event)} >Login</button>
           <button type="button" className="btn btn-danger" style={{ marginTop: "15px", width: "100%", fontWeight: "bold", fontSize: "15px" }}  onClick={(event) => this.handleClickForget(event)} >Forget?</button>
           
           <div className="col-md-12">
@@ -103,7 +94,6 @@ class Login extends Component {
           </div>
         </div>
       );
-    }
   }
 }
 
