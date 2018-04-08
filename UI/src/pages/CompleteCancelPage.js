@@ -93,6 +93,7 @@ class CompleteCancelPage extends Component {
 		this.setState({
 			filteredIndexes:arr,
 			filterBy:value,
+			selected:[],
 		});
 	}
 

@@ -24,6 +24,7 @@ class EditUserPage extends Component {
         this.state = {
             data: [],
             selected : [],
+            filteredIndexes: [],
             nameFilter: '',
         }
 
@@ -31,7 +32,7 @@ class EditUserPage extends Component {
     }
 
     handleChange = (event) => {
-        this.setState({nameFilter:event.target.value,selected:[]})
+        this.filterData(event.target.value);
     };
 
     isSelected(i){
@@ -44,11 +45,11 @@ class EditUserPage extends Component {
     };
 
     handleDeleteRequest(){
-        console.log(this.state.usernameFilter);
 		if (this.state.selected.length > 0) {
-			let user_id = this.state.data[this.state.selected[0]].user_id;
-            if (user_id !== -1 && window.confirm('Are you sure you want to delete user: \'' + this.state.data[this.state.selected[0]].name +  
-            '\' with username: \'' + this.state.data[this.state.selected[0]].username + '\'')) {
+            let index = this.state.filteredIndexes[this.state.selected[0]];
+			let user_id = this.state.data[index].user_id;
+            if (user_id !== -1 && window.confirm('Are you sure you want to delete user: \'' + this.state.data[index].name +  
+            '\' with username: \'' + this.state.data[index].username + '\'')) {
 				dbapi.put('/user/remove/', {
                     user_id: user_id,
                 })
@@ -66,10 +67,11 @@ class EditUserPage extends Component {
 
     handlePasswordReset(){
 		if (this.state.selected.length > 0) {
-            let user_id = this.state.data[this.state.selected[0]].user_id;
+            let index = this.state.filteredIndexes[this.state.selected[0]];
+			let user_id = this.state.data[index].user_id;
             if (user_id !== -1) {
-                let newPassword = window.prompt('Enter a new password for user: \'' + this.state.data[this.state.selected[0]].name +  
-                '\' with username: \'' + this.state.data[this.state.selected[0]].username + '\'');
+                let newPassword = window.prompt('Enter a new password for user: \'' + this.state.data[index].name +  
+                '\' with username: \'' + this.state.data[index].username + '\'');
                 if(newPassword){
                     dbapi.put('/user/password/reset', {
                         user_id: user_id,
@@ -91,20 +93,36 @@ class EditUserPage extends Component {
     }
 
     updateData() {
-		let page = this;
 		dbapi.get('user/')
-        .then(function (response) {
+        .then((response) => {
             for (let i = 0; i < response.data.length; i++) {
                 response.data[i].name = response.data[i].first_name + ' ' + response.data[i].last_name;
             }
-            page.setState({ data: response.data });
+            this.setState({
+                data: response.data,
+                filteredIndexes: [],
+            });
+            this.filterData(this.state.nameFilter);
         })
-        .catch(function (error) {
+        .catch((error) => {
             console.log("Error getting data: " + error);
-            page.setState({
+            this.setState({
                 data: [{ user_id: -1, name: "ERROR: Please Refresh", username: "ERROR: Please Refresh", equipment_nam: "ERROR: Please Refresh" }],
             })
         })
+    }
+    
+    filterData(value){
+		var arr = [];
+		this.state.data.forEach((user,i) => {
+			if (user.name.startsWith(value))
+				arr.push(i);
+		});
+		this.setState({
+			filteredIndexes:arr,
+            nameFilter:value,
+            selected:[],
+		});
 	}
 
     render() {
@@ -133,8 +151,8 @@ class EditUserPage extends Component {
             
             {/** Buttons */}
             <div className="pull-right">
-                <button type="button"className="btn btn-primary" label="Edit User" primary={true} style={{ marginRight: '30px' }} onClick={() => this.handlePasswordReset()}>Edit User</button>
-                <button type="button"className="btn btn-danger" label="Delete User" secondary={true} style={{ marginRight: '30px' }} onClick={() => this.handleDeleteRequest()}>Delete User</button>
+                <button type="button"className="btn btn-primary" label="Edit User" style={{ marginRight: '30px' }} onClick={() => this.handlePasswordReset()}>Edit User</button>
+                <button type="button"className="btn btn-danger" label="Delete User" style={{ marginRight: '30px' }} onClick={() => this.handleDeleteRequest()}>Delete User</button>
             </div>
             
             {/** User List */}
@@ -148,7 +166,8 @@ class EditUserPage extends Component {
                         </TableRow>
                     </TableHeader>
                     <TableBody displayRowCheckbox={false} style={{ border: '1px solid rgb(224, 224, 224)' }} >
-                        {this.state.data.filter((user) => user.name.startsWith(this.state.nameFilter)).map((user, i) => {
+                        {this.state.filteredIndexes.map((index, i) => {
+                            let user=this.state.data[index];
                             return (
                                 <TableRow key={i} selected={this.isSelected(i)}>
                                     <TableRowColumn style={{ borderRight: '1px solid rgb(224, 224, 224)' }}>{user.name}</TableRowColumn>
