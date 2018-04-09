@@ -11,101 +11,100 @@ import NAMES from '../src/global/page_names';
 
 jest.mock('jsonwebtoken');
 
-// // Snapshot testing blocked by buttonEl.blur (I believe this comes from our crazy theme files)
-// test('Admin Header matches Snapshot', () => {
-//   jsonwebtoken.decode.mockReturnValue({admin:true});
-//   const component = renderer.create(
-//     <MuiThemeProvider>
-//     <Header title={"Test"}/>
-//     </MuiThemeProvider>
-//   );
-//   let tree = component.toJSON();
-//   expect(tree).toMatchSnapshot();
-// });
+beforeEach(() => {
+  localStorage.clear();
+  window.location.pathname = "/";
+});
 
-// test('Non Admin Header matches Snapshot', () => {
-//   jsonwebtoken.decode.mockReturnValue({admin:false});
-//   const component = renderer.create(
-//     <MuiThemeProvider>
-//     <Header title={"Test"}/>
-//     </MuiThemeProvider>
-//   );
-//   let tree = component.toJSON();
-//   expect(tree).toMatchSnapshot();
-// });
-
-// test('Admin Header and Non Admin Header are differnt', () => {
-//   jsonwebtoken.decode.mockReturnValue({admin:true});
-//   const admin = renderer.create(
-//     <MuiThemeProvider>
-//     <Header title={"Test"}/>
-//     </MuiThemeProvider>
-//   );
-//   let admin_tree = admin.toJSON();
-//   jsonwebtoken.decode.mockReturnValue({admin:false});
-//   const non_admin = renderer.create(
-//     <MuiThemeProvider>
-//     <Header title={"Test"}/>
-//     </MuiThemeProvider>
-//   );
-//   let non_admin_tree = non_admin.toJSON();
-//   expect(admin_tree).not.toEqual(non_admin_tree);
-// });
-
-test('Complete Cancel top button redirects properly', () => {
-  jsonwebtoken.decode.mockReturnValue({admin:true});
-  const header = mount(
+test('Non_admin header has 6 menu items', () => {
+  jsonwebtoken.decode.mockReturnValue({admin:false});
+  const non_admin = mount(
       <MuiThemeProvider>
         <Header title={"Test"}/>
       </MuiThemeProvider>
   );
-  header.find('#ccbutton').simulate('click');
-  expect(window.location.pathname).toEqual(PATHS.COMPLETE_CANCEL);
+  non_admin.find(Drawer).simulate('click');
+  expect(non_admin.find(MenuItem).length).toBe(6);
+});
+
+test('Admin header to have one more item than non admin header', ()=>{
+  jsonwebtoken.decode.mockReturnValue({admin:true});
+  const admin = mount(
+      <MuiThemeProvider>
+        <Header title={"Test"}/>
+      </MuiThemeProvider>
+  );
+  jsonwebtoken.decode.mockReturnValue({admin:false});
+  const non_admin = mount(
+      <MuiThemeProvider>
+        <Header title={"Test"}/>
+      </MuiThemeProvider>
+  );
+  admin.find(Drawer).simulate('click');
+  non_admin.find(Drawer).simulate('click');
+  expect(admin.find(MenuItem).length).toBe(non_admin.find(MenuItem).length + 1);
+});
+
+test('Complete Cancel top button redirects properly', () => {
+  buttonClickChecker('#ccbutton', PATHS.COMPLETE_CANCEL);
 });
 
 test('Upcoming top button redirects properly', () => {
-  jsonwebtoken.decode.mockReturnValue({admin:true});
-  const header = mount(
-      <MuiThemeProvider>
-        <Header title={"Test"}/>
-      </MuiThemeProvider>
-  );
-  header.find('#upcombutton').simulate('click');
-  expect(window.location.pathname).toEqual(PATHS.UPCOMING);
+  buttonClickChecker('#upcombutton', PATHS.UPCOMING);
 });
 
 test('Planning top button redirects properly', () => {
+  buttonClickChecker('#planbutton', PATHS.PLAN);
+});
+
+function buttonClickChecker(check,url){
   jsonwebtoken.decode.mockReturnValue({admin:true});
   const header = mount(
       <MuiThemeProvider>
         <Header title={"Test"}/>
       </MuiThemeProvider>
   );
-  header.find('#planbutton').simulate('click');
-  expect(window.location.pathname).toEqual(PATHS.PLAN);
+  header.find(check).simulate('click');
+  expect(window.location.pathname).toEqual(url);
+}
+
+test('Main Page menu button redirects properly', () => {
+  menuClickChecker('#main_menu_item', PATHS.MAIN)
 });
 
-// // Can't seem to get access a single MenuItem to check functionality :/ .first()
-// test('Main Page menu button redirects properly', () => {
-//   jsonwebtoken.decode.mockReturnValue({admin:true});
-//   const header = mount(
-//       <MuiThemeProvider>
-//         <Header title={"Test"}/>
-//       </MuiThemeProvider>
-//   );
-//   header.find(Drawer).simulate('click');
-//   // console.log(header.find({primaryText:NAMES.MAIN}))
-//   header.find('#main_menu_item').find('[primaryText='+NAMES.MAIN}).simulate('click');
-//   expect(window.location.pathname).toEqual(PATHS.MAIN);
-// });
+test('Plan page menu button redirects properly', () =>{
+  menuClickChecker('#plan_menu_item', PATHS.PLAN);
+});
 
-// function clickChecker(check,url){
-//   jsonwebtoken.decode.mockReturnValue({admin:true});
-//   const header = mount(
-//       <MuiThemeProvider>
-//         <Header title={"Test"}/>
-//       </MuiThemeProvider>
-//   );
-//   header.find(check).simulate('click');
-//   expect(window.location.pathname).toEqual(url);
-// }
+test('Upcoming page menu button redirects properly', () =>{
+  menuClickChecker('#upcoming_menu_item', PATHS.UPCOMING);
+});
+
+test('Complete Cancel page menu button redirects properly', () =>{
+  menuClickChecker('#cc_menu_item', PATHS.COMPLETE_CANCEL);
+});
+
+test('Profile page menu button redirects properly', () =>{
+  menuClickChecker('#profile_menu_item', PATHS.PROFILE);
+});
+
+test('Admin page menu button redirects properly', () =>{
+  menuClickChecker('#admin_menu_item', PATHS.ADMIN_PATHS.ADMIN);
+});
+
+test('Sign out menu button logs out', () =>{
+  menuClickChecker('#sign_out_menu_item', PATHS.LOGIN);
+  expect(localStorage.removeItem).toHaveBeenCalledTimes(2);
+});
+
+function menuClickChecker(check,url){
+  jsonwebtoken.decode.mockReturnValue({admin:true});
+  const header = mount(
+      <MuiThemeProvider>
+        <Header title={"Test"}/>
+      </MuiThemeProvider>
+  );
+  header.find(Drawer).simulate('click');
+  header.find(check).last().simulate('click');
+  expect(window.location.pathname).toEqual(url);
+}

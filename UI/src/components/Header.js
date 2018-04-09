@@ -77,27 +77,28 @@ class Header extends Component {
         <MenuItem id="main_menu_item" primaryText={NAMES.MAIN} onClick={(event) => {
           this.handleClick(PATHS.MAIN)
         }} />
-        <MenuItem primaryText={NAMES.PLAN} onClick={(event) => {
+        <MenuItem id='plan_menu_item' primaryText={NAMES.PLAN} onClick={(event) => {
           this.handleClick(PATHS.PLAN)
         }} />
-        <MenuItem primaryText={NAMES.UPCOMING} onClick={(event) => {
+        <MenuItem id='upcoming_menu_item' primaryText={NAMES.UPCOMING} onClick={(event) => {
           this.handleClick(PATHS.UPCOMING)
         }} />
-        <MenuItem primaryText={NAMES.COMPLETE_CANCEL} onClick={(event) => {
+        <MenuItem id='cc_menu_item' primaryText={NAMES.COMPLETE_CANCEL} onClick={(event) => {
           this.handleClick(PATHS.COMPLETE_CANCEL)
         }} />
-        <MenuItem primaryText={NAMES.PROFILE} onClick={(event) => {
+        <MenuItem id='profile_menu_item' primaryText={NAMES.PROFILE} onClick={(event) => {
           this.handleClick(PATHS.PROFILE)
         }} />
         {jwt.decode(localStorage.getItem('token')) && jwt.decode(localStorage.getItem('token')).admin ?  
-            <MenuItem primaryText={NAMES.ADMIN} onClick={(event) => {
+            <MenuItem id='admin_menu_item' primaryText={NAMES.ADMIN} onClick={(event) => {
               this.handleClick(PATHS.ADMIN_PATHS.ADMIN)
             }} />
           :
           null
           }
-        <MenuItem primaryText={NAMES.SIGN_OUT} onClick={(event) => {
+        <MenuItem id='sign_out_menu_item' primaryText={NAMES.SIGN_OUT} onClick={(event) => {
           localStorage.removeItem("token");
+          localStorage.removeItem("refresh_token");
           this.handleClick(PATHS.LOGIN);
         }} />
       </Drawer>
