@@ -120,7 +120,8 @@ class MaintenancePlanPage extends Component {
                     >
                         {this.state.equipment.map((e,i) => {
                           return (
-                            <MenuItem value={e.equipment_id} primaryText={e.name}/>
+                            <MenuItem key={i} value={e.equipment_id} primaryText={e.name}/>
+                            
         				  );
                         })}
                     </SelectField>
@@ -136,13 +137,13 @@ class MaintenancePlanPage extends Component {
                     >
                     {this.state.locations.map((l,i) => {
                       return (
-                        <MenuItem value={l.location_id} primaryText={l.name}/>
+                        <MenuItem key={i} value={l.location_id} primaryText={l.name}/>
                       );
                     })}
                     </SelectField>
                 </div>
                         <div className="col-md-6">
-                            <button type="button" className="btn btn-success" onClick={() => this.handlePostRequest()} primary={true} style={{ marginTop: "40px", width: "100%", fontWeight:"Bold", fontSize:"15px" }}>Submit</button>
+                            <button type="button" className="btn btn-success" onClick={() => this.handlePostRequest()} style={{ marginTop: "40px", width: "100%", fontWeight:"Bold", fontSize:"15px" }}>Submit</button>
                         </div>
                         <div className="col-md-6">
                             {/** Home button */}

@@ -125,7 +125,7 @@ class SensorLayout extends React.Component {
     iotapi.get('iot/switch') 
         .then((response) => {
             var openString;
-            if(response.data[0].open == 1) {
+            if(response.data[0].open === 1) {
               openString = 'On';
             } else {
               openString = 'Off'
