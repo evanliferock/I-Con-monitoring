@@ -149,6 +149,7 @@ class EditUserPage extends Component {
             <SearchIcon style={{position: 'absolute', right: -30, top: 0, width: 40, height: 40}}/>
 
                 <TextField
+                    id="searchbar"
                     value={this.state.first_name}
                     onChange={(event) => this.handleChange(event)}
                     style={{left:'30px',
