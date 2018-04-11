@@ -125,7 +125,7 @@ class CreateUserPage extends Component {
 
                 {/** Home button */}
                 <div className="pull-left">
-                <button type="button"className="btn btn-info" label="Back" secondary={true} style={{ fontWeight:"bold", fontSize:"15px",left:"10px", top:"70px"}}
+                <button type="button"className="btn btn-info" label="Back" style={{ fontWeight:"bold", fontSize:"15px",left:"10px", top:"70px"}}
                   onClick={(event) => this.handleClick(PATHS.ADMIN_PATHS.ADMIN)}
                 >
                     Back
