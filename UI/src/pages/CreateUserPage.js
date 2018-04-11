@@ -114,7 +114,7 @@ class CreateUserPage extends Component {
                             />
                         </div>
                         <div className="col-md-12">
-                            <button type="button"className="btn btn-success" label="Back" parimary={true} style={{ marginTop: '25px', width:"100%", fontWeight:"bold", fontSize:"20px"}}   onClick={(event) => this.handleCreateUser()}>CREATE</button>
+                            <button type="button"className="btn btn-success" label="Back" style={{ marginTop: '25px', width:"100%", fontWeight:"bold", fontSize:"20px"}}   onClick={(event) => this.handleCreateUser()}>CREATE</button>
                         </div>
 
                     </div>
@@ -125,7 +125,7 @@ class CreateUserPage extends Component {
                 {/** Home button */}
 
                 <div className="pull-left">
-                <button type="button"className="btn btn-info" label="Back" secondary={true} style={{ fontWeight:"bold", fontSize:"15px",left:"10px", top:"70px"}}  onClick={(event) => this.handleClick("/AdminUser")}>Back</button>
+                <button type="button"className="btn btn-info" label="Back" style={{ fontWeight:"bold", fontSize:"15px",left:"10px", top:"70px"}}  onClick={(event) => this.handleClick("/AdminUser")}>Back</button>
                 </div>
             </div>
         )

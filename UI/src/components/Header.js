@@ -51,7 +51,6 @@ class Header extends Component {
     var Logged = (props) => (
       <div>
       <button
-        bsSize="small"
         label="Menu"
         type="button" className="btn btn-secondary" style={{marginRight:"55px", top:"16px", fontSize:"12px", fontWeight:"bold"}}       
         onClick={this.handleToggle}
@@ -99,7 +98,6 @@ class Header extends Component {
         Logged = (props) => (
           <div>
           <button
-            bsSize="small"
             label="Menu"
             type="button" className="btn btn-secondary" style={{marginRight:"55px", top:"16px", fontSize:"12px", fontWeight:"bold"}}       
             onClick={this.handleToggle}

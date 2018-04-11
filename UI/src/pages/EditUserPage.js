@@ -122,13 +122,14 @@ class EditUserPage extends Component {
             {/** Body */}
             <div className="container" style={{ marginTop: "50px" }}>
             <h2 className="pull-left" style={{marginLeft: "20px", fontWeight: "bold", fontSize:"30px"}}>
-            <button type="button"className="btn btn-info" label="Back" secondary={true} style={{ position:"relative", marginRight: '-100px', fontWeight:"bold", fontSize:"10px", right: 10, top: -60}}   onClick={(event) => this.handleClick("/AdminUser")}>Back</button>
+            <button type="button"className="btn btn-info" label="Back" style={{ position:"relative", marginRight: '-100px', fontWeight:"bold", fontSize:"10px", right: 10, top: -60}}   onClick={(event) => this.handleClick("/AdminUser")}>Back</button>
 
             Users
             <div style={{position: 'relative', display: 'inline-block'}}>
             <SearchIcon style={{position: 'absolute', right: -30, top: 0, width: 40, height: 40}}/>
 
                 <TextField
+                    id="searchbar"
                     value={this.state.first_name}
                     onChange={this.handleChange}
                     style={{left:'30px',
@@ -143,8 +144,8 @@ class EditUserPage extends Component {
             {/** Buttons */}
             <div className="pull-right">
 
-                <button type="button"className="btn btn-success" label="Edit User" primary={true} style={{ marginRight: '30px', fontWeight:"bold" }} onClick={() => this.handlePasswordReset()}>Edit User</button>
-                <button type="button"className="btn btn-danger" label="Delete User" secondary={true} style={{ marginRight: '30px', fontWeight:"bold" }} onClick={() => this.handleDeleteRequest()}>Delete User</button>
+                <button type="button"className="btn btn-success" label="Edit User" style={{ marginRight: '30px', fontWeight:"bold" }} onClick={() => this.handlePasswordReset()}>Edit User</button>
+                <button type="button"className="btn btn-danger" label="Delete User" style={{ marginRight: '30px', fontWeight:"bold" }} onClick={() => this.handleDeleteRequest()}>Delete User</button>
 
             </div>
 
