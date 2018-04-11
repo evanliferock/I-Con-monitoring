@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from '../components/Header';
 import TextField from 'material-ui/TextField';
 import dbapi from '../apirequests/dbapi';
+import PATHS from '../global/paths';
 
 
 
@@ -123,9 +124,12 @@ class CreateUserPage extends Component {
                 </div>
 
                 {/** Home button */}
-
                 <div className="pull-left">
-                <button type="button"className="btn btn-info" label="Back" style={{ fontWeight:"bold", fontSize:"15px",left:"10px", top:"70px"}}  onClick={(event) => this.handleClick("/AdminUser")}>Back</button>
+                <button type="button"className="btn btn-info" label="Back" style={{ fontWeight:"bold", fontSize:"15px",left:"10px", top:"70px"}}
+                  onClick={(event) => this.handleClick(PATHS.ADMIN_PATHS.ADMIN)}
+                >
+                    Back
+                </button>
                 </div>
             </div>
         )

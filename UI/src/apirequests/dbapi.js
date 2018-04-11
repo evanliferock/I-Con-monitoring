@@ -1,5 +1,6 @@
 import axios from 'axios';
 import https from 'https';
+import PATHS from '../global/paths';
 
 
 var dbapi = axios.create({
@@ -31,7 +32,7 @@ dbapi.interceptors.response.use(undefined, function (err) {
           // failed to refresh tokens
           localStorage.removeItem('token');
           localStorage.removeItem('refresh_token');
-          window.location.pathname = '/login';
+          window.location.pathname = PATHS.LOGIN;
           return reject(error, 'access token expired and error on token reset');
         });
       }
