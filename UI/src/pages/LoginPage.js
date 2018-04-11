@@ -4,9 +4,8 @@ import TextField from 'material-ui/TextField';
 import dbapi from '../apirequests/dbapi';
 import Alert from 'react-s-alert';
 import { Redirect } from 'react-router';
-import Background from '../resources/mine-picture.jpg';
 import PATHS from '../global/paths';
-
+import Background from '../resources/mining-picture.jpg';
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 

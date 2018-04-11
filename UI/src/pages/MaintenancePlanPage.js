@@ -114,7 +114,7 @@ class MaintenancePlanPage extends Component {
                     <SelectField
                         hintText="Machine"
                         floatingLabelText="Machine"
-                        floatingLabelStyle={{fontSize: "20px", color:"black"}}                        
+                        floatingLabelStyle={{fontSize: "20px", color:"black"}}
                         value={this.state.equipment_id}
                         onChange={this.handleChangeMachine.bind(this)}
                         style={{ width: "100%", textAlign: "left", fontSize: "30px"}}
