@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Header from '../components/Header';
-import { Redirect } from 'react-router';
 import PATHS from '../global/paths';
 
 

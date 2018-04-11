@@ -3,7 +3,6 @@ import AppBar from 'material-ui/AppBar';
 import TextField from 'material-ui/TextField';
 import dbapi from '../apirequests/dbapi';
 import Alert from 'react-s-alert';
-import { Redirect } from 'react-router';
 import PATHS from '../global/paths';
 import Background from '../resources/mining-picture.jpg';
 import 'react-s-alert/dist/s-alert-default.css';
@@ -15,12 +14,10 @@ class Login extends Component {
     this.state = {
       username: null,
       password: null,
-      loggedIn: false,
     };
   }
 
   handleClick(event) {
-    let loginObject = this;
     var payload = {
       "username": this.state.username,
       "password": this.state.password,
