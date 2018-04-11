@@ -32,7 +32,7 @@ class EditUserPage extends Component {
 
     }
 
-    handleChange = (event) => {
+    handleChange(event) {
         this.filterData(event.target.value);
     };
 
@@ -141,7 +141,8 @@ class EditUserPage extends Component {
             {/** Body */}
             <div className="container" style={{ marginTop: "50px" }}>
             <h2 className="pull-left" style={{marginLeft: "20px", fontWeight: "bold", fontSize:"30px"}}>
-            <button type="button"className="btn btn-info" label="Back" secondary={true} style={{ position:"relative", marginRight: '-100px', fontWeight:"bold", fontSize:"10px", right: 10, top: -60}}   onClick={(event) => this.handleClick("/AdminUser")}>Back</button>
+            <button type="button"className="btn btn-info" label="Back" secondary={true} style={{ position:"relative", marginRight: '-100px', fontWeight:"bold", fontSize:"10px", right: 10, top: -60}}
+               onClick={(event) => this.handleClick(PATHS.ADMIN_PATHS.ADMIN)}>Back</button>
 
             Users
             <div style={{position: 'relative', display: 'inline-block'}}>
@@ -149,7 +150,7 @@ class EditUserPage extends Component {
 
                 <TextField
                     value={this.state.first_name}
-                    onChange={this.handleChange}
+                    onChange={(event) => this.handleChange(event)}
                     style={{left:'30px',
                     }}
                     underlineFocusStyle={{borderColor:"black"}}   

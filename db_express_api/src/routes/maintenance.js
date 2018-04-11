@@ -8,7 +8,7 @@ var connection = require('../sql/db');
 
 // GET ALL UPCOMING MAINTENANCE
 router.get('/', function (req, res) {
-    connection.query('SELECT * FROM MAINTENANCE WHERE start_date_time >= NOW()', function (error, results, fields) {
+    connection.query('SELECT * FROM MAINTENANCE WHERE start_date_time >= NOW() ORDER BY start_date_time ASC', function (error, results, fields) {
         if (error) res.send(error);
         else res.send(results);
     });
@@ -27,7 +27,7 @@ router.get('/:user_id', function (req, res) {
     var params = req.params;
     connection.query('SELECT maintenance_id, start_date_time, name AS equipment_name FROM MAINTENANCE, EQUIPMENT ' +
             'WHERE MAINTENANCE.equipment_id = EQUIPMENT.equipment_id ' +
-            'AND is_complete = 0 AND is_canceled = 0 AND user_id = ?', [params.user_id],
+            'AND is_complete = 0 AND is_canceled = 0 AND user_id = ? ORDER BY start_date_time ASC', [params.user_id],
         function (error, results, fields) {
             if (error) res.send(error);
             else res.send(results);

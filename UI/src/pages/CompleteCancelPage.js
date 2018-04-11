@@ -82,7 +82,9 @@ class CompleteCancelPage extends Component {
 			})
 	}
 
-	handleChange = (event, index, value) => this.filterData(value);
+	handleChange(event, index, value){
+		this.filterData(value)
+	};
 
 	filterData(value){
 		var arr = [];
@@ -117,7 +119,7 @@ class CompleteCancelPage extends Component {
 						floatingLabelText='Sort by Machine: '
 						floatingLabelStyle={{ color:"#4b307b", fontWeight:"bold", right: '55px', width: '100%', transformOrigin: 'center top 0px'}}	
 						value={this.state.filterBy}
-						onChange={this.handleChange}
+						onChange={(event, index, value) => this.handleChange(event, index, value)}
 						style={{
 						backgroundColor: '#D3D3D3',
 						textAlign: 'center',
