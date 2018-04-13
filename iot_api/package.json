@@ -4,6 +4,7 @@
   "description": "Handles all functionality for the Internet of Things",
   "main": "index.js",
   "dependencies": {
+    "apidoc": "^0.17.6",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "jade": "^1.11.0",
