@@ -6,7 +6,18 @@ var connection = require('../sql/db');;
 var jwt = require("jsonwebtoken");
 var bcrypt = require('bcryptjs');
 
-// GET USER BASEDN ON ID
+/**
+ * @api {get} /user/:user_id Get user
+ * @apiVersion 1.0.0
+ * @apiName GetUserByID
+ * @apiGroup User
+ * @apiPermission none
+ * 
+ * @apiDescription Fetches a given user based on the provided ID
+ * 
+ * @apiParam {Number} user_id Unique ID number of desired user
+ * 
+ */
 router.get('/:user_id', function (req, res) {
     var params = req.params;
     connection.query('SELECT * FROM USER WHERE user_id = ?', [params.user_id], function (error, results, fields) {
@@ -15,7 +26,18 @@ router.get('/:user_id', function (req, res) {
     });
 });
 
-
+/**
+ * @api {put} /user/:user_id/:newEmail Update email 
+ * @apiVersion 1.0.0
+ * @apiName ChangeEmail
+ * @apiGroup User
+ * @apiPermission none
+ * 
+ * @apiDescription Updates a specific user's email in the table
+ * 
+ * @apiParam {Number} user_id Unique ID number of user with email to change
+ * @apiParam {String} newEmail Desired new email address for user
+ */
 router.put('/:user_id/:newEmail', function (req,res) {
   var params = req.params;
   connection.query('UPDATE USER SET email = ? WHERE user_id = ?', [params.newEmail, params.user_id],
@@ -33,6 +55,15 @@ router.put('/:user_id/:newEmail', function (req,res) {
 }
 )
 
+/**
+ * @api {get} /user Get all users
+ * @apiVersion 1.0.0
+ * @apiName AllUsers
+ * @apiGroup User
+ * @apiPermission Admin
+ * 
+ * @apiDescription Fetches all user's and their information from the table
+ */
 router.get('/', function (req, res) {
     if(req.decoded.admin){
         connection.query("SELECT user_id, username, email, first_name, last_name FROM USER WHERE is_deleted = 0;",
@@ -52,7 +83,15 @@ router.get('/', function (req, res) {
     }
 });
 
-
+/**
+ * @api {put} /user/remove Remove user
+ * @apiVersion 1.0.0
+ * @apiName Remove
+ * @apiGroup User
+ * @apiPermission Admin
+ * 
+ * @apiDescription Marks a specified user in the table by updateing their is_deleted field to 1.
+ */
 router.put('/remove', function (req, res) {
     if(req.body && req.body.user_id && req.decoded.admin){
         connection.query("UPDATE USER SET is_deleted = 1 WHERE user_id = ?", [req.body.user_id],
@@ -74,8 +113,15 @@ router.put('/remove', function (req, res) {
     }
 });
 
-
-
+/**
+ * @api {put} /user/password/reset Reset password
+ * @apiVersion 1.0.0
+ * @apiName ResetPassword
+ * @apiGroup User
+ * @apiPermission none
+ * 
+ * @apiDescription Resets/updates a user's password
+ */
 router.put('/password/reset', function (req, res) {
     if(req.body && req.body.password){
         var user_id;
