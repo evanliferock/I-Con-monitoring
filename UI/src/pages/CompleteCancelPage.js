@@ -28,6 +28,7 @@ class CompleteCancelPage extends Component {
 			filteredIndexes: [],
 			machineFilter: 0,
 			usernameFilter:'',
+			timeFilter:0,
 		}
 	}
 
@@ -115,7 +116,13 @@ class CompleteCancelPage extends Component {
 				usernameFilter:value,
 				selected:[],
 			});
-		} else {
+		} else if (type === 'time'){
+			this.setState({
+				filteredIndexes:arr,
+				timeFilter:value,
+				selected:[],
+			});
+		}else {
 			this.setState({
 				filteredIndexes:arr,
 				selected:[],
@@ -125,17 +132,31 @@ class CompleteCancelPage extends Component {
 
 	isFiltered(row, type, value){
 		if(type === 'machine'){
-			return (value !== 0 
-				&& this.state.machines[value - 1] !== row.equipment_name)
-				|| !row.username.startsWith(this.state.usernameFilter);
+			return (value !== 0 && this.state.machines[value - 1] !== row.equipment_name)
+				|| !row.username.startsWith(this.state.usernameFilter)
+				|| (this.state.timeFilter !== 0 && this.checkDate(row, this.state.timeFilter === 1));
 		} else if (type === 'username') {
 			return (this.state.machineFilter !== 0 
 				&& this.state.machines[this.state.machineFilter - 1] !== row.equipment_name)
-				|| !row.username.startsWith(value);
+				|| !row.username.startsWith(value)
+				|| (this.state.timeFilter !== 0 && this.checkDate(row, this.state.timeFilter === 1));
+		} else if (type === 'time'){
+			return (this.state.machineFilter !== 0
+				&& this.state.machines[this.state.machineFilter - 1] !== row.equipment_name)
+				|| !row.username.startsWith(this.state.usernameFilter)
+				|| (value !== 0 && this.checkDate(row, value === 1));
 		} else {
 			return (this.state.machineFilter !== 0 //machine is being filtered
 				&& this.state.machines[this.state.machineFilter - 1] !== row.equipment_name) // machine filter does not match
 				|| !row.username.startsWith(this.state.usernameFilter); // or doesn't match username filter
+		}
+	}
+
+	checkDate(row, isPast){
+		if(isPast){
+			return row.start_date_time >= new Date();
+		} else {
+			return row.start_date_time <= new Date();
 		}
 	}
 
@@ -185,7 +206,28 @@ class CompleteCancelPage extends Component {
 							underlineFocusStyle={{borderColor:"black"}}   
 							underlineStyle={{borderColor: "black"}}
 						/>
-					</div>		
+					</div>
+					<SelectField					  
+						floatingLabelText='Sort by Time:'
+						floatingLabelStyle={{ color:"#4b307b", fontWeight:"bold", right: '55px', width: '100%', transformOrigin: 'center top 0px'}}	
+						value={this.state.timeFilter}
+						onChange={(event, index, value) => this.handleChange(event, index, value, 'time')}
+						style={{
+							right:'-50px',
+							backgroundColor: '#D3D3D3',
+							textAlign: 'center',
+							margin: '0',
+							border: '2px solid #212121',
+							borderRadius: '50px',
+							borderColor:"black"
+						}}
+						underlineFocusStyle={{borderColor:"black"}}   
+						underlineStyle={{borderColor: "black", width: "200px", left:"30px"}}
+					>
+							<MenuItem value={0} primaryText="No filter" />
+							<MenuItem value={1} primaryText="Past" />
+							<MenuItem value={2} primaryText="Future" />
+					</SelectField>		
 					</div>
 					</h2>
 					<div className="col-md-10">
