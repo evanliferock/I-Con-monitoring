@@ -4,6 +4,9 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import jwt from 'jsonwebtoken';
 import dbapi from '../apirequests/dbapi';
+import SearchIcon from 'material-ui/svg-icons/action/search';
+import TextField from 'material-ui/TextField';
+
 
 import {
 	Table,
@@ -23,7 +26,8 @@ class CompleteCancelPage extends Component {
 			selected: [],
 			machines: [],
 			filteredIndexes: [],
-			filterBy: 0,
+			machineFilter: 0,
+			usernameFilter:'',
 		}
 	}
 
@@ -39,8 +43,12 @@ class CompleteCancelPage extends Component {
 	handlePutRequest(toDo){
 		if (this.state.selected.length > 0) {
 			let index = this.state.filteredIndexes[this.state.selected[0]];
-			let toDoId = this.state.data[index].maintenance_id;
-			if (toDoId !== -1) {
+			let user_id = jwt.decode(localStorage.getItem('token')).user_id;
+			if(user_id !== this.state.data[index].user_id){
+				alert('You can only complete or cancel your own maintenance');
+			} else {
+				let toDoId = this.state.data[index].maintenance_id;
+				if (toDoId !== -1) {
 				dbapi.put('/maintenance/' + toDo + '/' + toDoId)
 					.then((response) => {
 						this.setState({ selected: [] });
@@ -50,6 +58,7 @@ class CompleteCancelPage extends Component {
 						console.log("Error marking as complete");
 						console.log(error);
 					});
+				}
 			}
 		}
 	}
@@ -59,7 +68,6 @@ class CompleteCancelPage extends Component {
 	}
 
 	updateData() {
-		let user_id = jwt.decode(localStorage.getItem('token')).user_id;
 		dbapi.get('maintenance')
 			.then((response) => {
 				for (let i = 0; i < response.data.length; i++) {
@@ -70,7 +78,7 @@ class CompleteCancelPage extends Component {
 					filteredIndexes: [],
 					machines: Array.from(new Set(response.data.map(a => a.equipment_name))),
 				});
-				this.filterData(this.state.filterBy);
+				this.filterData('general', null);
 			})
 			.catch((error) => {
 				console.log("Error updating data");
@@ -82,25 +90,50 @@ class CompleteCancelPage extends Component {
 			})
 	}
 
-	handleChange(event, index, value){
-		this.filterData(value)
+	handleChange(event, index, value, type){
+		this.filterData(type, value)
 	};
 
-	filterData(value){
+	filterData(type,value){
 		var arr = [];
 		this.state.data.forEach((d,i) => {
-			if (!this.isFiltered(d,value))
+			if (!this.isFiltered(d,type,value))
 				arr.push(i);
 		});
-		this.setState({
-			filteredIndexes:arr,
-			filterBy:value,
-			selected:[],
-		});
+		if(type === 'machine'){
+			this.setState({
+				filteredIndexes:arr,
+				machineFilter:value,
+				selected:[],
+			});
+		} else if (type === 'username'){
+			this.setState({
+				filteredIndexes:arr,
+				usernameFilter:value,
+				selected:[],
+			});
+		} else {
+			this.setState({
+				filteredIndexes:arr,
+				selected:[],
+			});
+		}
 	}
 
-	isFiltered(row, value){
-		return value !== 0 && this.state.machines[value - 1] !== row.equipment_name;
+	isFiltered(row, type, value){
+		if(type === 'machine'){
+			return (value !== 0 
+				&& this.state.machines[value - 1] !== row.equipment_name)
+				|| !row.username.startsWith(this.state.usernameFilter);
+		} else if (type === 'username') {
+			return (this.state.machineFilter !== 0 
+				&& this.state.machines[this.state.machineFilter - 1] !== row.equipment_name)
+				|| !row.username.startsWith(value);
+		} else {
+			return (this.state.machineFilter !== 0 //machine is being filtered
+				&& this.state.machines[this.state.machineFilter - 1] !== row.equipment_name) // machine filter does not match
+				|| !row.username.startsWith(this.state.usernameFilter); // or doesn't match username filter
+		}
 	}
 
 	render() {
@@ -117,8 +150,8 @@ class CompleteCancelPage extends Component {
 					<SelectField					  
 						floatingLabelText='Sort by Machine: '
 						floatingLabelStyle={{ color:"#4b307b", fontWeight:"bold", right: '55px', width: '100%', transformOrigin: 'center top 0px'}}	
-						value={this.state.filterBy}
-						onChange={(event, index, value) => this.handleChange(event, index, value)}
+						value={this.state.machineFilter}
+						onChange={(event, index, value) => this.handleChange(event, index, value, 'machine')}
 						style={{
 						backgroundColor: '#D3D3D3',
 						textAlign: 'center',
@@ -137,7 +170,19 @@ class CompleteCancelPage extends Component {
 						);
 						})}
 					</SelectField>
-									
+					<div style={{position: 'relative', display: 'inline-block'}}>
+						<SearchIcon style={{position: 'absolute', right: -30, top: 0, width: 40, height: 40}}/>
+
+						<TextField
+							id="searchbar"
+							placeholder="Search by Username"
+							value={this.state.usernameFilter}
+							onChange={(event) => this.handleChange(event, null, event.target.value, 'username')}
+							style={{left:'30px',}}
+							underlineFocusStyle={{borderColor:"black"}}   
+							underlineStyle={{borderColor: "black"}}
+						/>
+					</div>		
 					</div>
 					</h2>
 					<div className="col-md-10">

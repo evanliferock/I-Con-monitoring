@@ -8,7 +8,7 @@ var connection = require('../sql/db');
 
 // GET ALL UPCOMING MAINTENANCE with corresponding usernames
 router.get('/', function (req, res) {
-    connection.query('SELECT m.maintenance_id, m.start_date_time, e.name AS equipment_name, u.username ' +
+    connection.query('SELECT m.maintenance_id, m.start_date_time, e.name AS equipment_name, u.username, u.user_id ' +
     'FROM MAINTENANCE m, EQUIPMENT e, USER u ' +
     'WHERE m.equipment_id = e.equipment_id AND m.user_id = u.user_id AND is_complete = 0 AND is_canceled = 0 ' +
     'ORDER BY start_date_time ASC;', function (error, results, fields) {
