@@ -24,7 +24,7 @@ test('Non_admin header has 6 menu items', () => {
       </MuiThemeProvider>
   );
   non_admin.find(Drawer).simulate('click');
-  expect(non_admin.find(MenuItem).length).toBe(6);
+  expect(non_admin.find(MenuItem).length).toBe(5);
 });
 
 test('Admin header to have one more item than non admin header', ()=>{
@@ -49,10 +49,6 @@ test('Complete Cancel top button redirects properly', () => {
   buttonClickChecker('#ccbutton', PATHS.COMPLETE_CANCEL);
 });
 
-test('Upcoming top button redirects properly', () => {
-  buttonClickChecker('#upcombutton', PATHS.UPCOMING);
-});
-
 test('Planning top button redirects properly', () => {
   buttonClickChecker('#planbutton', PATHS.PLAN);
 });
@@ -74,10 +70,6 @@ test('Main Page menu button redirects properly', () => {
 
 test('Plan page menu button redirects properly', () =>{
   menuClickChecker('#plan_menu_item', PATHS.PLAN);
-});
-
-test('Upcoming page menu button redirects properly', () =>{
-  menuClickChecker('#upcoming_menu_item', PATHS.UPCOMING);
 });
 
 test('Complete Cancel page menu button redirects properly', () =>{
