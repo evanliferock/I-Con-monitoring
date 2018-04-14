@@ -43,10 +43,13 @@ class CompleteCancelPage extends Component {
 	handlePutRequest(toDo){
 		if (this.state.selected.length > 0) {
 			let index = this.state.filteredIndexes[this.state.selected[0]];
-			let user_id = jwt.decode(localStorage.getItem('token')).user_id;
-			if(user_id !== this.state.data[index].user_id){
+			let token = jwt.decode(localStorage.getItem('token'));
+			if(token.user_id !== this.state.data[index].user_id && !token.admin){
 				alert('You can only complete or cancel your own maintenance');
-			} else {
+			} else if(token.user_id === this.state.data[index].user_id 
+				|| (token.admin && window.confirm('This is not your maintenance, but as an admin you can ' + toDo + 
+						' it.\nWould you like to ' + toDo + ' the maintenance for username: \'' + 
+						this.state.data[index].username + '\''))) {
 				let toDoId = this.state.data[index].maintenance_id;
 				if (toDoId !== -1) {
 				dbapi.put('/maintenance/' + toDo + '/' + toDoId)
