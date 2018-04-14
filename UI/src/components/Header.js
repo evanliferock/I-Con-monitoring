@@ -34,10 +34,6 @@ class Header extends Component {
           onClick={this.handleClick.bind(this,PATHS.COMPLETE_CANCEL)}
        >Complete / Cancel
        </button>
-      <button id="upcombutton" type="button" className="btn btn-info" style={{marginRight:"15px", fontWeight:"bold", fontSize:"12px"}} 
-          onClick={this.handleClick.bind(this,PATHS.UPCOMING)}>
-        Upcoming
-      </button>
       <button id="planbutton" type="button" className="btn btn-info" style={{marginRight:"15px", fontWeight:"bold", fontSize:"12px"}} 
         onClick={this.handleClick.bind(this,PATHS.PLAN)}>
           Plan
@@ -79,9 +75,6 @@ class Header extends Component {
         }} />
         <MenuItem id='plan_menu_item' primaryText={NAMES.PLAN} onClick={(event) => {
           this.handleClick(PATHS.PLAN)
-        }} />
-        <MenuItem id='upcoming_menu_item' primaryText={NAMES.UPCOMING} onClick={(event) => {
-          this.handleClick(PATHS.UPCOMING)
         }} />
         <MenuItem id='cc_menu_item' primaryText={NAMES.COMPLETE_CANCEL} onClick={(event) => {
           this.handleClick(PATHS.COMPLETE_CANCEL)

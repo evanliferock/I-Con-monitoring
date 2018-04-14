@@ -7,7 +7,6 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import MainPage from './pages/MainPage';
 import LoginPage from './pages/LoginPage';
 import MaintenancePlanPage from './pages/MaintenancePlanPage';
-import UpcomingMaintenancePage from './pages/UpcomingMaintenancePage';
 import CompleteCancelPage from './pages/CompleteCancelPage';
 import CreateUserPage from './pages/CreateUserPage';
 import EditUserPage from './pages/EditUserPage';
@@ -95,7 +94,6 @@ class App extends React.Component {
                 <Switch>
                   <Route exact path={PATHS.MAIN_MATCHING} component={MainPage} />
                   <Route path={PATHS.PLAN} component={MaintenancePlanPage} />
-                  <Route path={PATHS.UPCOMING} component={UpcomingMaintenancePage} />
                   <Route path={PATHS.COMPLETE_CANCEL} component={CompleteCancelPage} />
                   <Route path={PATHS.PROFILE} component={ProfileUserPage} />
                   <AdminPages/>
