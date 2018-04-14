@@ -60,7 +60,7 @@ class CompleteCancelPage extends Component {
 
 	updateData() {
 		let user_id = jwt.decode(localStorage.getItem('token')).user_id;
-		dbapi.get('maintenance/' + user_id)
+		dbapi.get('maintenance')
 			.then((response) => {
 				for (let i = 0; i < response.data.length; i++) {
 					response.data[i].start_date_time = new Date(response.data[i].start_date_time);
@@ -136,7 +136,7 @@ class CompleteCancelPage extends Component {
 							<MenuItem key={i+1} value={i+1} primaryText={d} />
 						);
 						})}
-						</SelectField>
+					</SelectField>
 									
 					</div>
 					</h2>
@@ -144,14 +144,15 @@ class CompleteCancelPage extends Component {
 
 						{/** info list */}
 						<Table onRowSelection={(selectedRows) => this.handleRowSelection(selectedRows)} bodyStyle={{overflow:'x-scroll',height:"450px"}}>
-							<TableHeader displaySelectAll={false} adjustForCheckbox={false} >
+							<TableHeader displaySelectAll={false} adjustForCheckbox={true} >
 								<TableRow>
 									<TableHeaderColumn>Date</TableHeaderColumn>
 									<TableHeaderColumn>Time</TableHeaderColumn>
 									<TableHeaderColumn>Machine</TableHeaderColumn>
+									<TableHeaderColumn>Username</TableHeaderColumn>
 								</TableRow>
 							</TableHeader>
-							<TableBody displayRowCheckbox={false} style={{ border: '1px solid rgb(224, 224, 224)' }}>
+							<TableBody displayRowCheckbox={true} style={{ border: '1px solid rgb(224, 224, 224)' }}>
 								{this.state.filteredIndexes.map((value, i) => {
 									let d=this.state.data[value];
 									return (
@@ -159,7 +160,7 @@ class CompleteCancelPage extends Component {
 											<TableRowColumn style={{ borderRight: '1px solid rgb(224, 224, 224)' }}>{d.start_date_time.toDateString()}</TableRowColumn>
 											<TableRowColumn style={{ borderRight: '1px solid rgb(224, 224, 224)' }}>{d.start_date_time.toLocaleTimeString()}</TableRowColumn>
 											<TableRowColumn>{d.equipment_name}</TableRowColumn>
-
+											<TableRowColumn>{d.username}</TableRowColumn>
 										</TableRow>
 									);
 								})}
