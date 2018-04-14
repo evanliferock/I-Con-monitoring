@@ -78,21 +78,38 @@ router.post('/', function (req, res) {
 // SET AS COMPLETE
 router.put('/complete/:id', function (req, res) {
     var params = req.params;
-    connection.query('UPDATE MAINTENANCE SET is_complete = 1 WHERE is_complete = 0 AND is_canceled = 0 AND maintenance_id = ?',
-        [params.id], function (error, results, fields) {
+    modify_maintenance(req, res, params.id, 
+        () => connection.query('UPDATE MAINTENANCE SET is_complete = 1 WHERE is_complete = 0 AND is_canceled = 0 AND maintenance_id = ?',
+            [params.id], function (error, results, fields) {
             if (error) res.send(error);
             else res.send(results);
-        });
+        })
+    )
 });
 
 // SET AS CANCELED
 router.put('/cancel/:id', function (req, res) {
     var params = req.params;
-    connection.query('UPDATE MAINTENANCE SET is_canceled = 1 WHERE is_complete = 0 AND is_canceled = 0 AND maintenance_id = ?',
-        [params.id], function (error, results, fields) {
-            if (error) res.send(error);
-            else res.send(results);
-        });
+    modify_maintenance(req, res, params.id, 
+        () => connection.query('UPDATE MAINTENANCE SET is_canceled = 1 WHERE is_complete = 0 AND is_canceled = 0 AND maintenance_id = ?',
+                [params.id], function (error, results, fields) {
+                if (error) res.send(error);
+                else res.send(results);
+        })
+    )
 });
+
+function modify_maintenance(req, res, maintenance_id, cb){
+    if(req.decoded.admin){
+        cb();
+    } else {
+        connection.query("SELECT user_id FROM MAINTENANCE WHERE maintenance_id = ?", [maintenance_id],
+        function (error, results, fields) {
+            if (error) res.send(error);
+            else if(results && results[0].user_id === req.decoded.user_id) cb();
+            else res.status(401).send({"failed":"You do not have valid permissions"});
+        });
+    }
+}
 
 module.exports = router;
