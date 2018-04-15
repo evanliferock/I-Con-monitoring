@@ -27,6 +27,7 @@ class MainPage extends React.Component {
     }
 
   render() {
+    document.title = "Main Page - ICon Monitoring";        
     return (
       <div>
         <div>
@@ -35,9 +36,8 @@ class MainPage extends React.Component {
         <div className="col-md-6">
           <SensorLayout />
         </div>
-         <div className="col-md-6" style={{width:"100%",margin:'50px auto',height:"450px",overflowY:"scroll"}}>
-          </div>
-
+         <div className="col-md-6" style={{ width:"100%",margin:'50px auto',height:"450px",overflowY:"scroll"}}>
+        </div>
       </div>
     );
   }
