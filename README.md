@@ -53,12 +53,15 @@ and
 
 Then perform the following commands in three different command prompt/terminals and run db_api, UI, iot_api, all at once as directed below:
 
+#### Terminal 1:
     $ cd db_express_api/src
     $ npm install
     $ npm start
+#### Terminal 2:
     $ cd iot_api/src
     $ npm install
     $ npm start
+#### Terminal 3:
     $ cd UI/src
     $ npm install
     $ npm start
