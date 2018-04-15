@@ -26,9 +26,9 @@ Also, be sure to have `git` available in your PATH, `npm` might need it.
 You will need to use Terminal. On OS X, you can find the default terminal in
 `/Applications/Utilities/Terminal.app`.
 
-Please install [Homebrew](http://brew.sh/) if it's not already done with the following command.
+Please install [Homebrew](http://brew.sh/) if it's not already.
 
-If everything when fine, you should run
+When Homebrew is correctly installed, you should run
 
     brew install node
 
@@ -65,14 +65,14 @@ Then perform the following commands in three different command prompt/terminals 
 
 ## Update sources
 
-Some packages usages might change so you should run `npm prune` & `npm install` often.
+Some packages usage might change so you should run `npm prune` & `npm install` often.
 A common way to update is by doing
 
     $ git pull
     $ npm prune
     $ npm install
 
-To run those 3 commands you can just do
+To run those 3 commands at once you can enter
 
     $ npm run pull
 
