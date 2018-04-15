@@ -66,7 +66,7 @@ Then perform the following commands in three different command prompt/terminals 
     $ npm install
     $ npm start
 
-## Update sources
+## Updating Sources
 
 Some packages usage might change so you should run `npm prune` & `npm install` often.
 A common way to update is by doing
