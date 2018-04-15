@@ -31,27 +31,6 @@ class Header extends Component {
   // Sets the drawer menu to close
   handleClose(){this.setState({open: false});}
 
-  submit = () => {
-    confirmAlert({
-      title: 'Signing Out',
-      message: 'Are you sure you want to signout?',
-      buttons: [
-        {
-          label: 'Yes',
-          onClick: () => {
-          localStorage.removeItem("token")
-          localStorage.removeItem("refresh_token")
-          this.handleClick(PATHS.LOGIN) // Handles signing out of the application, clearing the token and redirecting
-          } 
-        },
-        {
-          label: 'No',
-          onClick: () => null
-        }
-      ]
-    })
-  };
-
   render() {      
     /** Navigation right menu buttons */
     var RightMenu = () => (
