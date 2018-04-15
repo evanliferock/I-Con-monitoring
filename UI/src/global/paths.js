@@ -4,7 +4,6 @@ const PATHS = {
     MAIN: '/MainPage',
     MAIN_MATCHING: '/(|MainPage)',
     PLAN: '/MaintenancePlan',
-    UPCOMING: '/UpcomingMaintenance',
     COMPLETE_CANCEL: '/CompleteCancel',
     PROFILE: '/UserProfile',
     ADMIN_PATHS: {
