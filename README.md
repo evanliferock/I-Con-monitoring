@@ -18,7 +18,7 @@ Run the following commands in command prompt/terminal after the installation pro
     
 #### Node installation on Windows
 
-Just go on [official Node.js website](http://nodejs.org/) & grab the installer.
+Just go on the [official Node.js website](http://nodejs.org/) & grab the installer.
 Also, be sure to have `git` available in your PATH, `npm` might need it.
 
 #### Node installation on OS X
