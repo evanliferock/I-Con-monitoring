@@ -93,7 +93,7 @@ class Header extends Component {
           :
           null
           }
-        <MenuItem id='sign_out_menu-item' primaryText={NAMES.SIGN_OUT} onClick={(event) => {
+        <MenuItem id='sign_out_menu_item' primaryText={NAMES.SIGN_OUT} onClick={(event) => {
           this.handleClose();
           confirmAlert({
             title: 'Signing Out',
