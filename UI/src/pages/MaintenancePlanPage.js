@@ -85,8 +85,10 @@ class MaintenancePlanPage extends Component {
 
 
     render() {
+        document.title = "Plan Maintenance - ICon Monitoring";            
         const today = new Date();
         return (
+            
             <div>
                 {/** Nav bar */}
                 <Header
@@ -97,9 +99,13 @@ class MaintenancePlanPage extends Component {
 
                     <div className="col-md-12">
                         <DateTimePicker
+                            clearIcon={<null/>}
+                            datePickerMode="landscape"
                             hintText=" "
-                            minDate={today}                           
-                            floatingLabelText="Time"
+                            minDate={today} 
+                            floatingLabelText="Time: "
+                            underlineFocusStyle={{borderColor:"black", width:"1311px"}}
+                            underlineStyle={{borderColor:"#708090", width:"1311px"}}  
                             floatingLabelStyle={{fontSize: "20px", color:"black"}}
                             value={this.state.start_date_time}
                             onChange={this.handleChangeDateTimePicker}
@@ -112,8 +118,10 @@ class MaintenancePlanPage extends Component {
                 <div className="col-md-12">
 
                     <SelectField
-                        hintText="Machine"
-                        floatingLabelText="Machine"
+                        hintText="Machine: "
+                        underlineFocusStyle={{borderColor:"black"}}
+                        underlineStyle={{borderColor:"#708090"}}  
+                        floatingLabelText="Machine: "
                         floatingLabelStyle={{fontSize: "20px", color:"black"}}
                         value={this.state.equipment_id}
                         onChange={this.handleChangeMachine.bind(this)}
@@ -129,8 +137,10 @@ class MaintenancePlanPage extends Component {
                 </div>
                 <div className="col-md-12">
                     <SelectField
-                        hintText="Location"
-                        floatingLabelText="Location"
+                        hintText="Location: "
+                        underlineFocusStyle={{borderColor:"black"}}
+                        underlineStyle={{borderColor:"#708090"}}                         
+                        floatingLabelText="Location: "
                         floatingLabelStyle={{fontSize: "20px", color:"black"}}                                                
                         value={this.state.location_id}
                         onChange={this.handleChangeLocation.bind(this)}
@@ -143,14 +153,17 @@ class MaintenancePlanPage extends Component {
                     })}
                     </SelectField>
                 </div>
-                        <div className="col-md-6">
-                            <button type="button" className="btn btn-success" onClick={() => this.handlePostRequest()} style={{ marginTop: "40px", width: "100%", fontWeight:"Bold", fontSize:"15px" }}>Submit</button>
-                        </div>
+
                         <div className="col-md-6">
                             {/** Home button */}
                             <Link to={PATHS.MAIN} className="btn btn-danger"style={{ marginTop: "40px", width: "100%", fontWeight:"Bold", fontSize:"15px" }}>
                                 Cancel
                             </Link>
+                        </div>
+                        <div className="col-md-6">
+                            <button type="button" className="btn btn-success" onClick={() => this.handlePostRequest()} style={{ marginTop: "40px", width: "100%", fontWeight:"Bold", fontSize:"15px" }}>
+                                Submit
+                            </button>
                         </div>
                 </div>    
         );

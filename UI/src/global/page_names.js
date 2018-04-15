@@ -1,3 +1,4 @@
+// Defines the page names
 const NAMES = {
     MAIN: 'Main Page',
     PLAN: 'Maintenance Plan',
