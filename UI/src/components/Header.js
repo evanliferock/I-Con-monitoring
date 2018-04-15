@@ -9,6 +9,7 @@ import NAMES from '../global/page_names';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
 
+
 //**** It contains main Appbar and navigation menu.
 class Header extends Component {
   constructor(props) {
@@ -55,13 +56,16 @@ class Header extends Component {
     /** Navigation right menu buttons */
     var RightMenu = () => (
       <div>
+      <span class="maintenanceHead">
+      Maintenance: 
+     </span>
       <button id="planbutton" type="button" className="btn btn-info" style={{right: "100px", bottom: "2px", marginRight: "15px", fontWeight:"bold", fontSize:"12px"}} 
         onClick={this.handleClick.bind(this,PATHS.PLAN)} // Handles the Plan Maintenance button placement and redirect
       >Plan
       </button>
       <button id="ccbutton" type="button" className="btn btn-info" style={{right: "100px", bottom: "2px", marginRight: "15px", fontWeight:"bold", fontSize:"12px"}}
         onClick={this.handleClick.bind(this,PATHS.COMPLETE_CANCEL)} // Handles the Complete/Cancel button placement and redirect
-       >Complete / Cancel
+       >Complete or Cancel
        </button>
 
        <button // Defines the Menu button and places it on screen

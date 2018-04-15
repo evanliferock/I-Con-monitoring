@@ -117,7 +117,7 @@ class CompleteCancelPage extends Component {
 		return (
 			<div>
 				{/** Navigation bar */}
-				<Header title={"Complete / Cancel"} />
+				<Header title={"Complete or Cancel"} />
 
 				{/** Page body */}
 				<div className="container" style={{ marginTop: "50px" }}>
@@ -146,7 +146,7 @@ class CompleteCancelPage extends Component {
 							<MenuItem key={i+1} value={i+1} primaryText={d} />
 						);
 						})}
-						</SelectField>
+					</SelectField>
 									
 					</div>
 					</h2>
