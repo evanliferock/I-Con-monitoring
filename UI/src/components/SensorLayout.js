@@ -10,7 +10,8 @@ class Sensor extends React.Component {
       open: false,
       anchorEl: null,
       data: null,
-      
+      average: null,
+      max: null
     }
   }
 
@@ -25,6 +26,8 @@ class Sensor extends React.Component {
       open: true,
       anchorEl: this.state.anchorEl ? this.state.anchorEl : findDOMNode(this.sensor),
       data: this.props.value,
+      average: this.props.average,
+      max: this.props.max
     });
   }
 
@@ -56,6 +59,8 @@ class Sensor extends React.Component {
           }}
         >
           <div style={{ margin: '5px' }}>Data: {this.state.data}</div>
+          <div style={{ margin: '5px' }}>Avg: {this.state.average}</div>
+          <div style={{ margin: '5px' }}>Max: {this.state.max}</div>
         </Popover>
       </div>
     );
@@ -91,11 +96,48 @@ class SensorLayout extends React.Component {
   }
 
   updateSensors() {
+    var avg1, avg2;
+    var max1, max2 = 0;
+    iotapi.get('iot/lasthour/temp1')
+      .then((response) => {
+        var w = 0;
+        var total = 0;
+        while(response.data[w]) {
+          if(response.data[w].temp > max1) {
+            max1 = response.data[w].temp;
+          }
+          total += response.data[w].temp;
+          w += 1;
+        }
+        avg1 = (total / w).toFixed(2);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+
+    iotapi.get('iot/lasthour/temp2')
+      .then((response) => {
+        var w = 0;
+        var total = 0;
+        while(response.data[w]) {
+          if(response.data[w].temp > max2) {
+            max2 = response.data[w].temp;
+          }
+          total += response.data[w].temp;
+          w += 1;
+        }
+        avg2 = (total / w).toFixed(2);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+
     iotapi.get('iot/temp/1') 
         .then((response) => {
             this.setState({
-              tempOne: { color: response.data[0].color, value: response.data[0].temp }
+              tempOne: { color: response.data[0].color, value: response.data[0].temp, average: avg1, max: max1 }
             });
+            console.log(avg1);
         })
         .catch((error) => {
           console.log(error);
@@ -104,7 +146,7 @@ class SensorLayout extends React.Component {
     iotapi.get('iot/temp/2') 
         .then((response) => {
             this.setState({
-              tempTwo: { color: response.data[0].color, value: response.data[0].temp }
+              tempTwo: { color: response.data[0].color, value: response.data[0].temp, average: avg2, max: max2 }
             });
         })
         .catch((error) => {
@@ -114,8 +156,8 @@ class SensorLayout extends React.Component {
     iotapi.get('iot/door') 
         .then((response) => {
             this.setState({
-              doorOne: { color: response.data[0].color, value: response.data[0].temp },
-              doorTwo: { color: response.data[0].color, value: response.data[0].temp }
+              doorOne: { color: response.data[0].color, value: response.data[0].temp, average: 'N/A', max: 'N/A' },
+              doorTwo: { color: response.data[0].color, value: response.data[0].temp, average: 'N/A', max: 'N/A' }
             });
         })
         .catch((error) => {
@@ -131,10 +173,10 @@ class SensorLayout extends React.Component {
               openString = 'Off'
             }
             this.setState({
-              switchOne: { color: response.data[0].color, value: openString },
-              switchTwo: { color: response.data[0].color, value: openString },
-              switchThree: { color: response.data[0].color, value: openString },
-              switchFour: { color: response.data[0].color, value: openString }
+              switchOne: { color: response.data[0].color, value: openString, average: 'N/A', max: 'N/A' },
+              switchTwo: { color: response.data[0].color, value: openString, average: 'N/A', max: 'N/A' },
+              switchThree: { color: response.data[0].color, value: openString, average: 'N/A', max: 'N/A' },
+              switchFour: { color: response.data[0].color, value: openString, average: 'N/A', max: 'N/A' }
             });
         })
         .catch((error) => {
