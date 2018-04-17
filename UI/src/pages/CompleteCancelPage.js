@@ -55,6 +55,10 @@ class CompleteCancelPage extends Component {
 				if (toDoId !== -1) {
 				dbapi.put('/maintenance/' + toDo + '/' + toDoId)
 					.then((response) => {
+						if(toDo === 'complete')
+							window.alert('Successfully ' + toDo + 'd maintenance');
+						else
+							window.alert('Successfully ' + toDo + 'ed maintenance');
 						this.setState({ selected: [] });
 						this.updateData();
 					})
@@ -133,22 +137,23 @@ class CompleteCancelPage extends Component {
 	isFiltered(row, type, value){
 		if(type === 'machine'){
 			return (value !== 0 && this.state.machines[value - 1] !== row.equipment_name)
-				|| !row.username.startsWith(this.state.usernameFilter)
+				|| !row.username.toLowerCase().startsWith(this.state.usernameFilter.toLowerCase())
 				|| (this.state.timeFilter !== 0 && this.checkDate(row, this.state.timeFilter === 1));
 		} else if (type === 'username') {
 			return (this.state.machineFilter !== 0 
 				&& this.state.machines[this.state.machineFilter - 1] !== row.equipment_name)
-				|| !row.username.startsWith(value)
+				|| !row.username.toLowerCase().startsWith(value.toLowerCase())
 				|| (this.state.timeFilter !== 0 && this.checkDate(row, this.state.timeFilter === 1));
 		} else if (type === 'time'){
 			return (this.state.machineFilter !== 0
 				&& this.state.machines[this.state.machineFilter - 1] !== row.equipment_name)
-				|| !row.username.startsWith(this.state.usernameFilter)
+				|| !row.username.toLowerCase().startsWith(this.state.usernameFilter.toLowerCase())
 				|| (value !== 0 && this.checkDate(row, value === 1));
 		} else {
 			return (this.state.machineFilter !== 0 //machine is being filtered
 				&& this.state.machines[this.state.machineFilter - 1] !== row.equipment_name) // machine filter does not match
-				|| !row.username.startsWith(this.state.usernameFilter); // or doesn't match username filter
+				|| !row.username.toLowerCase().startsWith(this.state.usernameFilter.toLowerCase()) // or doesn't match username filter
+				|| (this.state.timeFilter !== 0 && this.checkDate(row, this.state.timeFilter === 1)); // or is not matching the timeFilter
 		}
 	}
 

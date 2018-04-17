@@ -4,6 +4,7 @@ import dbapi from '../apirequests/dbapi';
 import TextField from 'material-ui/TextField';
 import PATHS from '../global/paths';
 import SearchIcon from 'material-ui/svg-icons/action/search';
+import jwt from 'jsonwebtoken';
 
 
 import {
@@ -118,9 +119,10 @@ class EditUserPage extends Component {
     }
     
     filterData(value){
-		var arr = [];
+        var arr = [];
+        var the_user_id = jwt.decode(localStorage.getItem('token')).user_id;
 		this.state.data.forEach((user,i) => {
-			if (user.name.startsWith(value))
+			if (user.user_id !== the_user_id && user.name.toLowerCase().startsWith(value.toLowerCase()))
 				arr.push(i);
 		});
 		this.setState({
