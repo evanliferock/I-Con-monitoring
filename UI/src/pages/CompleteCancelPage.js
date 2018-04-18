@@ -8,6 +8,7 @@ import SearchIcon from 'material-ui/svg-icons/action/search';
 import TextField from 'material-ui/TextField';
 
 
+// Imports necessary tools to make a table in material-ui
 import {
 	Table,
 	TableBody,
@@ -17,7 +18,7 @@ import {
 	TableRowColumn,
 } from 'material-ui/Table';
 
-//it contains table and button
+// Class creation and state definition
 class CompleteCancelPage extends Component {
 	constructor() {
 		super();
@@ -32,15 +33,18 @@ class CompleteCancelPage extends Component {
 		}
 	}
 
+	// If a row is selected know which it is
 	isSelected(i) {
 		return this.state.selected.indexOf(i) !== -1;
 	}
 
+	// Handles row selection
 	handleRowSelection(selectedRows) {
 		if (selectedRows.length !== 0)
 			this.setState({ selected: selectedRows });
 	}
 
+	// Handles completing and cancelling maintenance
 	handlePutRequest(toDo){
 		if (this.state.selected.length > 0) {
 			let index = this.state.filteredIndexes[this.state.selected[0]];
@@ -71,10 +75,13 @@ class CompleteCancelPage extends Component {
 		}
 	}
 
+	// Updates table data
 	componentWillMount() {
+		document.title = "Complete/Cancel - ICon Monitoring";    		
 		this.updateData();
 	}
 
+	// Accesses the maintenance database to get up to date data
 	updateData() {
 		dbapi.get('maintenance')
 			.then((response) => {
@@ -98,10 +105,12 @@ class CompleteCancelPage extends Component {
 			})
 	}
 
+	// Handles change of filtered table data
 	handleChange(event, index, value, type){
 		this.filterData(type, value)
 	};
 
+	// Filters the table data per user request
 	filterData(type,value){
 		var arr = [];
 		this.state.data.forEach((d,i) => {
@@ -134,6 +143,7 @@ class CompleteCancelPage extends Component {
 		}
 	}
 
+	// Checks if the row should be filtered out
 	isFiltered(row, type, value){
 		if(type === 'machine'){
 			return (value !== 0 && this.state.machines[value - 1] !== row.equipment_name)
@@ -168,14 +178,14 @@ class CompleteCancelPage extends Component {
 	render() {
 		return (
 			<div>
-				{/** Nav bar */}
-				<Header title={"Complete / Cancel"} />
+				{/** Navigation bar */}
+				<Header title={"Complete or Cancel"} />
 
-				{/**body */}
+				{/** Page body */}
 				<div className="container" style={{ marginTop: "50px" }}>
 				<h2 className="pull-left" style={{marginLeft: "20px", fontWeight: "bold", fontSize:"30px"}}>
-				
 				<div>
+					{/** Filtering element */}
 					<SelectField					  
 						floatingLabelText='Sort by Machine: '
 						floatingLabelStyle={{ color:"#4b307b", fontWeight:"bold", right: '55px', width: '100%', transformOrigin: 'center top 0px'}}	
@@ -237,10 +247,11 @@ class CompleteCancelPage extends Component {
 					</h2>
 					<div className="col-md-10">
 
-						{/** info list */}
+						{/** Maintenance info list */}
 						<Table onRowSelection={(selectedRows) => this.handleRowSelection(selectedRows)} bodyStyle={{overflow:'x-scroll',height:"450px"}}>
 							<TableHeader displaySelectAll={false} adjustForCheckbox={true} >
 								<TableRow>
+									{/** Column definitions */}
 									<TableHeaderColumn>Date</TableHeaderColumn>
 									<TableHeaderColumn>Time</TableHeaderColumn>
 									<TableHeaderColumn>Machine</TableHeaderColumn>
@@ -252,6 +263,7 @@ class CompleteCancelPage extends Component {
 									let d=this.state.data[value];
 									return (
 										<TableRow key={i} selected={this.isSelected(i)}>
+											{/** Column borders */}
 											<TableRowColumn style={{ borderRight: '1px solid rgb(224, 224, 224)' }}>{d.start_date_time.toDateString()}</TableRowColumn>
 											<TableRowColumn style={{ borderRight: '1px solid rgb(224, 224, 224)' }}>{d.start_date_time.toLocaleTimeString()}</TableRowColumn>
 											<TableRowColumn>{d.equipment_name}</TableRowColumn>
@@ -263,10 +275,9 @@ class CompleteCancelPage extends Component {
 						</Table>
 					</div>
 
-					{/** right buttons */}
+					{/** Complete/Cancel buttons */}
 					<div className="col-md-2">
 						<button type="button"  onClick={() => this.handlePutRequest('complete')} className="btn btn-success" style={{ margin: "20px", width: "100%", fontWeight:"bold", fontSize:"13px" }} >Complete</button>
-
 						<button type="button"  onClick={() => this.handlePutRequest('cancel')} className="btn btn-danger" style={{ margin: "40px 20px", width: "100%", fontWeight:"bold", fontSize:"13px" }} >Cancel</button>
 					</div>
 				</div>
@@ -274,6 +285,5 @@ class CompleteCancelPage extends Component {
 		)
 	}
 }
-
 
 export default CompleteCancelPage;

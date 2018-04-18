@@ -73,6 +73,7 @@ class ProfileUserPage extends Component {
     }
 
     render() {
+        document.title = "User Profile - ICon Monitoring";            
         return (
             <div>
                 {/** Nav bar */}

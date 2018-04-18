@@ -1,3 +1,4 @@
+// Defining the path extensions including the admin pages
 const PATHS = {
     LOGIN: '/Login',
     MAIN: '/MainPage',

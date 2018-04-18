@@ -96,6 +96,7 @@ class Login extends Component {
 
 class LoginPage extends Component {
   render() {
+    document.title = "Login Page - ICon Monitoring";        
     return (
       <div style={{position: "fixed", width: "100%", backgroundColor: '#19171C' }}>
         <div style={{}}>

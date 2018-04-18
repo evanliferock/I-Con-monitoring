@@ -10,7 +10,7 @@ import PATHS from '../global/paths';
 class CreateUserPage extends Component {
     constructor(props) {
         super(props);
-
+        {/** State initialization */}
         this.state = {
             first_name: '',
             last_name: '',
@@ -19,9 +19,13 @@ class CreateUserPage extends Component {
             email: '',
         }
     }
+
+    // Handles click redirect
     handleClick(path) {
         window.location.pathname = path;
     }
+
+    // Handles changing the targeted value
     handleChange = name => event => {
         this.setState({
             [name]: event.target.value,
@@ -52,17 +56,19 @@ class CreateUserPage extends Component {
     }
 
     render() {
+        document.title = "Create User - ICon Monitoring";            
         return (
             <div>
-                {/** Nav bar */}
+                {/** Navigation bar */}
                 <Header
                     title={"Create User"}
                 />
 
-                {/** Body */}
+                {/** Page body */}
                 <div className="container" style={{ marginTop: "50px" }}>
                     <div className="col-md-offset-3 col-md-6">
                         <div className="col-md-12">
+                            {/** User creation specification fields */}
                             <TextField 
                                 floatingLabelText="First Name"
                                 floatingLabelStyle={{color:"#708090"}}
@@ -94,6 +100,7 @@ class CreateUserPage extends Component {
                                 style={{ width: "100%" }}  
                             />
                             <TextField 
+                                type="password"                                        
                                 floatingLabelText="Password"
                                 floatingLabelStyle={{color:"#708090"}}
                                 floatingLabelFocusStyle={{color:"#708090"}}
@@ -114,27 +121,15 @@ class CreateUserPage extends Component {
                                 style={{ width: "100%" }}
                             />
                         </div>
+                        {/** User creation confirmation button */}
                         <div className="col-md-12">
                             <button type="button"className="btn btn-success" label="Back" style={{ marginTop: '25px', width:"100%", fontWeight:"bold", fontSize:"20px"}}   onClick={(event) => this.handleCreateUser()}>CREATE</button>
                         </div>
-
                     </div>
-
-
-                </div>
-
-                {/** Home button */}
-                <div className="pull-left">
-                <button type="button"className="btn btn-info" label="Back" style={{ fontWeight:"bold", fontSize:"15px",left:"10px", top:"70px"}}
-                  onClick={(event) => this.handleClick(PATHS.ADMIN_PATHS.ADMIN)}
-                >
-                    Back
-                </button>
                 </div>
             </div>
         )
     }
 }
-
 
 export default CreateUserPage;

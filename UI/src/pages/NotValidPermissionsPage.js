@@ -4,6 +4,7 @@ class NotValidPermissionsPage extends Component {
     
 
     render(){
+        document.title = "Invalid Permissions - ICon Monitoring";            
         return (
             <div className="container">
                <div className="alert alert-warning">You do not have the valid permissions to access this page.</div>
