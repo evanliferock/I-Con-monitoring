@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Header from '../components//Header';
 import dbapi from '../apirequests/dbapi';
 import TextField from 'material-ui/TextField';
-import PATHS from '../global/paths';
 import SearchIcon from 'material-ui/svg-icons/action/search';
 import jwt from 'jsonwebtoken';
 

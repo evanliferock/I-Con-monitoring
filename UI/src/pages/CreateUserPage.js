@@ -2,15 +2,13 @@ import React, { Component } from 'react';
 import Header from '../components/Header';
 import TextField from 'material-ui/TextField';
 import dbapi from '../apirequests/dbapi';
-import PATHS from '../global/paths';
-
 
 
 // Contains the user creation form
 class CreateUserPage extends Component {
     constructor(props) {
         super(props);
-        {/** State initialization */}
+        // State initialization
         this.state = {
             first_name: '',
             last_name: '',
