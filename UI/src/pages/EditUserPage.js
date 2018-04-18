@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import Header from '../components//Header';
 import dbapi from '../apirequests/dbapi';
 import TextField from 'material-ui/TextField';
-import PATHS from '../global/paths';
 import SearchIcon from 'material-ui/svg-icons/action/search';
+import jwt from 'jsonwebtoken';
 
 
 import {
@@ -49,7 +49,8 @@ class EditUserPage extends Component {
 		if (this.state.selected.length > 0) {
             let index = this.state.filteredIndexes[this.state.selected[0]];
 			let user_id = this.state.data[index].user_id;
-            if (user_id !== -1 && window.confirm('Are you sure you want to delete user: \'' + this.state.data[index].name +  
+            if (user_id !== -1 && window.confirm('Are you sure you want to delete user: \'' + this.state.data[index].first_name + 
+            ' '  + this.state.data[index].last_name +
             '\' with username: \'' + this.state.data[index].username + '\'')) {
 				dbapi.put('/user/remove/', {
                     user_id: user_id,
@@ -71,7 +72,8 @@ class EditUserPage extends Component {
             let index = this.state.filteredIndexes[this.state.selected[0]];
 			      let user_id = this.state.data[index].user_id;
             if (user_id !== -1) {
-                let newPassword = window.prompt('Enter a new password for user: \'' + this.state.data[index].name +  
+                let newPassword = window.prompt('Enter a new password for user: \'' + this.state.data[index].first_name + 
+                ' '  + this.state.data[index].last_name +
                 '\' with username: \'' + this.state.data[index].username + '\'');
                 if(newPassword){
                     dbapi.put('/user/password/reset', {
@@ -100,9 +102,6 @@ class EditUserPage extends Component {
     updateData() {
 		dbapi.get('user/')
         .then((response) => {
-            for (let i = 0; i < response.data.length; i++) {
-                response.data[i].name = response.data[i].first_name + ' ' + response.data[i].last_name;
-            }
             this.setState({
                 data: response.data,
                 filteredIndexes: [],
@@ -118,9 +117,10 @@ class EditUserPage extends Component {
     }
     
     filterData(value){
-		var arr = [];
+        var arr = [];
+        var the_user_id = jwt.decode(localStorage.getItem('token')).user_id;
 		this.state.data.forEach((user,i) => {
-			if (user.name.startsWith(value))
+			if (user.user_id !== the_user_id && user.last_name.toLowerCase().startsWith(value.toLowerCase()))
 				arr.push(i);
 		});
 		this.setState({
@@ -147,6 +147,7 @@ class EditUserPage extends Component {
 
                 <TextField
                     id="searchbar"
+                    placeholder="Search by Last Name"
                     value={this.state.first_name}
                     onChange={(event) => this.handleChange(event)}
                     style={{left:'30px',
@@ -173,7 +174,8 @@ class EditUserPage extends Component {
                 <Table multiSelectable={false} onRowSelection={(selectedRows) => this.handleRowSelection(selectedRows)} bodyStyle={{overflow:'x-scroll',height:"450px"}}>
                     <TableHeader  displaySelectAll={false} adjustForCheckbox={false}>
                         <TableRow>
-                            <TableHeaderColumn>Name</TableHeaderColumn>
+                            <TableHeaderColumn>Last Name</TableHeaderColumn>
+                            <TableHeaderColumn>First Name</TableHeaderColumn>
                             <TableHeaderColumn>Username</TableHeaderColumn>
                             <TableHeaderColumn>Email</TableHeaderColumn>
                         </TableRow>
@@ -183,7 +185,8 @@ class EditUserPage extends Component {
                             let user=this.state.data[index];
                             return (
                                 <TableRow key={i} selected={this.isSelected(i)}>
-                                    <TableRowColumn style={{ borderRight: '1px solid rgb(224, 224, 224)' }}>{user.name}</TableRowColumn>
+                                    <TableRowColumn style={{ borderRight: '1px solid rgb(224, 224, 224)' }}>{user.last_name}</TableRowColumn>
+                                    <TableRowColumn style={{ borderRight: '1px solid rgb(224, 224, 224)' }}>{user.first_name}</TableRowColumn>
                                     <TableRowColumn style={{ borderRight: '1px solid rgb(224, 224, 224)' }}>{user.username}</TableRowColumn>
                                     <TableRowColumn style={{ borderRight: '1px solid rgb(224, 224, 224)' }}>{user.email}</TableRowColumn>
                     
