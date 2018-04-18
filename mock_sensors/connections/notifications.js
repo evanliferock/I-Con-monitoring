@@ -6,7 +6,7 @@ var transporter = nodeMailer.createTransport({
   secure: true,
   auth: {
     user: 'icon.notifications@gmail.com',
-    pass: 'xxx'
+    pass: 'icon2017'
   }
 });
 
