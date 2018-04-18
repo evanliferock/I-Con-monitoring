@@ -143,15 +143,13 @@ class EditUserPage extends Component {
             <div className="container" style={{ marginTop: "50px" }}>
             <h2 className="pull-left" style={{marginLeft: "20px", fontWeight: "bold", fontSize:"30px"}}>
             <div style={{position: 'relative', display: 'inline-block'}}>
-            <SearchIcon style={{position: 'absolute', right: -30, top: 0, width: 40, height: 40}}/>
+            <SearchIcon style={{position: 'absolute', right: 0, top: 0, width: 40, height: 40}}/>
 
                 <TextField
                     id="searchbar"
                     placeholder="Search by Last Name"
                     value={this.state.first_name}
                     onChange={(event) => this.handleChange(event)}
-                    style={{left:'30px',
-                    }}
                     underlineFocusStyle={{borderColor:"black"}}   
                     underlineStyle={{borderColor: "black"}}
                 />
@@ -161,9 +159,9 @@ class EditUserPage extends Component {
             
             {/** Buttons */}
             <div className="pull-right">
-                <button type="button"className="btn btn-success" label="Edit User" style={{ marginRight: '30px', fontWeight:"bold" }} 
+                <button type="button"className="btn btn-success" label="Edit User" style={{ top: '25px', marginRight: '30px', fontWeight:"bold" }} 
                   onClick={() => this.handlePasswordReset()}>Edit User</button>
-                <button type="button"className="btn btn-danger" label="Delete User" style={{ marginRight: '30px', fontWeight:"bold" }} 
+                <button type="button"className="btn btn-danger" label="Delete User" style={{ top: '25px', marginRight: '30px', fontWeight:"bold" }} 
                   onClick={() => this.handleDeleteRequest()}>Delete User</button>
             </div>
 
@@ -180,7 +178,7 @@ class EditUserPage extends Component {
                             <TableHeaderColumn>Email</TableHeaderColumn>
                         </TableRow>
                     </TableHeader>
-                    <TableBody displayRowCheckbox={false} style={{ border: 'none' }} >
+                    <TableBody displayRowCheckbox={true} style={{ border: 'none' }} >
                         {this.state.filteredIndexes.map((index, i) => {
                             let user=this.state.data[index];
                             return (

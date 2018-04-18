@@ -185,6 +185,18 @@ class CompleteCancelPage extends Component {
 				<div className="container" style={{ marginTop: "50px" }}>
 				<h2 className="pull-left" style={{marginLeft: "20px", fontWeight: "bold", fontSize:"30px"}}>
 				<div>
+				<div style={{position: 'relative', display: 'inline-block'}}>
+						<SearchIcon style={{position: 'absolute', right: 0, top: 0, width: 40, height: 40}}/>
+
+						<TextField
+							id="searchbar"
+							placeholder="Search by Username"
+							value={this.state.usernameFilter}
+							onChange={(event) => this.handleChange(event, null, event.target.value, 'username')}
+							underlineFocusStyle={{borderColor:"black"}}   
+							underlineStyle={{borderColor: "black"}}
+						/>
+					</div>
 					{/** Filtering element */}
 					<SelectField					  
 						floatingLabelText='Sort by Machine: '
@@ -195,6 +207,8 @@ class CompleteCancelPage extends Component {
 						backgroundColor: '#D3D3D3',
 						textAlign: 'center',
 						margin: '0',
+						top: '14px',
+						left: '110px',
 						border: '2px solid #212121',
 						borderRadius: '50px',
 						borderColor:"black"
@@ -209,19 +223,7 @@ class CompleteCancelPage extends Component {
 						);
 						})}
 					</SelectField>
-					<div style={{position: 'relative', display: 'inline-block'}}>
-						<SearchIcon style={{position: 'absolute', right: -30, top: 0, width: 40, height: 40}}/>
 
-						<TextField
-							id="searchbar"
-							placeholder="Search by Username"
-							value={this.state.usernameFilter}
-							onChange={(event) => this.handleChange(event, null, event.target.value, 'username')}
-							style={{left:'30px',}}
-							underlineFocusStyle={{borderColor:"black"}}   
-							underlineStyle={{borderColor: "black"}}
-						/>
-					</div>
 					<SelectField					  
 						floatingLabelText='Sort by Time:'
 						floatingLabelStyle={{ color:"#4b307b", fontWeight:"bold", right: '55px', width: '100%', transformOrigin: 'center top 0px'}}	
@@ -232,6 +234,8 @@ class CompleteCancelPage extends Component {
 							backgroundColor: '#D3D3D3',
 							textAlign: 'center',
 							margin: '0',
+							top: '14px',
+							left: '120px',
 							border: '2px solid #212121',
 							borderRadius: '50px',
 							borderColor:"black"

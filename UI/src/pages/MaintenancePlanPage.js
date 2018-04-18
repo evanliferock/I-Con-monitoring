@@ -104,8 +104,8 @@ class MaintenancePlanPage extends Component {
                             hintText=" "
                             minDate={today} 
                             floatingLabelText="Time: "
-                            underlineFocusStyle={{borderColor:"black", width:"1357px"}}
-                            underlineStyle={{borderColor:"#708090", width:"1357px"}}  
+                            underlineFocusStyle={{borderColor:"black", width:"100%"}}
+                            underlineStyle={{borderColor:"#708090", width:"100%"}}  
                             floatingLabelStyle={{fontSize: "20px", color:"black"}}
                             value={this.state.start_date_time}
                             onChange={this.handleChangeDateTimePicker}
