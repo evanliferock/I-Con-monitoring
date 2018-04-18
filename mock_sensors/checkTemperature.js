@@ -18,6 +18,7 @@ function sendMailAlert(sensor, temp, level) {
     });
 }
 
+
 var getTempColor = function(data) {
     if(data < 68) {
         return '#1FE30E'; // green
