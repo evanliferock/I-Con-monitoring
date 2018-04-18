@@ -18,29 +18,10 @@ var state;
 
 
 setInterval(function () {
-    /*
-    // Random number to use for various things
-    var rand = parseInt(Math.random() * 42);
+    var temp1 = 70;
+    var temp1c = checkTemperature(temp1);
+    var post = {sensor: 'temp1', temp: temp1, color: temp1c};
 
-    // Update temperatures by adding/subtracting a random value
-    if((rand % 2) == 1) {
-        t1 += getRandomInt(1, 10);
-        t2 += getRandomInt(1, 10);
-    } else {
-        t1 -= getRandomInt(1, 10);
-        t2 -= getRandomInt(1, 10);
-    }
-
-    // Update doors based on random value
-	if((rand % 3) == 1) {
-        d1 += 1;
-    }
-    if((rand % 4) == 1) {
-        d2 += 1;
-    }*/
-
-
-    // Insert mock data into DB
     var switchColor = checkSwitch(switches);
     var postSwitches = {sensor: 'switch', open: Number(switches), color: switchColor};
     sql.query('INSERT INTO SENSOR_DATA SET ?', postSwitches, function(err, result) {

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Header from '../components//Header';
-import BackButton from '../components//BackButton';
 import dbapi from '../apirequests/dbapi';
+import TextField from 'material-ui/TextField';
+import SearchIcon from 'material-ui/svg-icons/action/search';
+import jwt from 'jsonwebtoken';
 
 
 import {
@@ -22,10 +24,17 @@ class EditUserPage extends Component {
         this.state = {
             data: [],
             selected : [],
+            filteredIndexes: [],
+            nameFilter: '',
+            text: '',
         }
 
 
     }
+
+    handleChange(event) {
+        this.filterData(event.target.value);
+    };
 
     isSelected(i){
 		return this.state.selected.indexOf(i) !== -1;
@@ -38,14 +47,17 @@ class EditUserPage extends Component {
 
     handleDeleteRequest(){
 		if (this.state.selected.length > 0) {
-			let user_id = this.state.data[this.state.selected[0]].user_id;
-            if (user_id !== -1 && window.confirm('Are you sure you want to delete user: \'' + this.state.data[this.state.selected[0]].name +  
-            '\' with username: \'' + this.state.data[this.state.selected[0]].username + '\'')) {
+            let index = this.state.filteredIndexes[this.state.selected[0]];
+			let user_id = this.state.data[index].user_id;
+            if (user_id !== -1 && window.confirm('Are you sure you want to delete user: \'' + this.state.data[index].first_name + 
+            ' '  + this.state.data[index].last_name +
+            '\' with username: \'' + this.state.data[index].username + '\'')) {
 				dbapi.put('/user/remove/', {
                     user_id: user_id,
                 })
                 .then((response) => {
-                    this.updateData();
+                    this.updateData();                    
+                    this.setState({ selected: [] });
                     window.alert('Success in deleting user');
                 })
                 .catch(function (error) {
@@ -57,10 +69,12 @@ class EditUserPage extends Component {
 
     handlePasswordReset(){
 		if (this.state.selected.length > 0) {
-            let user_id = this.state.data[this.state.selected[0]].user_id;
+            let index = this.state.filteredIndexes[this.state.selected[0]];
+			      let user_id = this.state.data[index].user_id;
             if (user_id !== -1) {
-                let newPassword = window.prompt('Enter a new password for user: \'' + this.state.data[this.state.selected[0]].name +  
-                '\' with username: \'' + this.state.data[this.state.selected[0]].username + '\'');
+                let newPassword = window.prompt('Enter a new password for user: \'' + this.state.data[index].first_name + 
+                ' '  + this.state.data[index].last_name +
+                '\' with username: \'' + this.state.data[index].username + '\'');
                 if(newPassword){
                     dbapi.put('/user/password/reset', {
                         user_id: user_id,
@@ -76,29 +90,48 @@ class EditUserPage extends Component {
 			}
 		}
     }
+
+    handleClick(path) {
+        window.location.pathname = path;
+    }
     
     componentWillMount() {
 		this.updateData();
     }
 
     updateData() {
-		let page = this;
 		dbapi.get('user/')
-        .then(function (response) {
-            for (let i = 0; i < response.data.length; i++) {
-                response.data[i].name = response.data[i].first_name + ' ' + response.data[i].last_name;
-            }
-            page.setState({ data: response.data });
+        .then((response) => {
+            this.setState({
+                data: response.data,
+                filteredIndexes: [],
+            });
+            this.filterData(this.state.nameFilter);
         })
-        .catch(function (error) {
+        .catch((error) => {
             console.log("Error getting data: " + error);
-            page.setState({
+            this.setState({
                 data: [{ user_id: -1, name: "ERROR: Please Refresh", username: "ERROR: Please Refresh", equipment_nam: "ERROR: Please Refresh" }],
             })
         })
+    }
+    
+    filterData(value){
+        var arr = [];
+        var the_user_id = jwt.decode(localStorage.getItem('token')).user_id;
+		this.state.data.forEach((user,i) => {
+			if (user.user_id !== the_user_id && user.last_name.toLowerCase().startsWith(value.toLowerCase()))
+				arr.push(i);
+		});
+		this.setState({
+			filteredIndexes:arr,
+            nameFilter:value,
+            selected:[],
+		});
 	}
 
     render() {
+    document.title = "Edit User - ICon Monitoring";            
       return (
             <div>
             {/** Nav bar */}
@@ -108,29 +141,50 @@ class EditUserPage extends Component {
             
             {/** Body */}
             <div className="container" style={{ marginTop: "50px" }}>
-            <h2 className="pull-left">Users</h2>
+            <h2 className="pull-left" style={{marginLeft: "20px", fontWeight: "bold", fontSize:"30px"}}>
+            <div style={{position: 'relative', display: 'inline-block'}}>
+            <SearchIcon style={{position: 'absolute', right: 0, top: 0, width: 40, height: 40}}/>
+
+                <TextField
+                    id="searchbar"
+                    placeholder="Search by Last Name"
+                    value={this.state.first_name}
+                    onChange={(event) => this.handleChange(event)}
+                    underlineFocusStyle={{borderColor:"black"}}   
+                    underlineStyle={{borderColor: "black"}}
+                />
+            </div>
+
+            </h2>
             
             {/** Buttons */}
             <div className="pull-right">
-                <button type="button"className="btn btn-primary" label="Edit User" primary={true} style={{ marginRight: '30px' }} onClick={() => this.handlePasswordReset()}>Edit User</button>
-                <button type="button"className="btn btn-danger" label="Delete User" secondary={true} style={{ marginRight: '30px' }} onClick={() => this.handleDeleteRequest()}>Delete User</button>
+                <button type="button"className="btn btn-success" label="Edit User" style={{ top: '25px', marginRight: '30px', fontWeight:"bold" }} 
+                  onClick={() => this.handlePasswordReset()}>Edit User</button>
+                <button type="button"className="btn btn-danger" label="Delete User" style={{ top: '25px', marginRight: '30px', fontWeight:"bold" }} 
+                  onClick={() => this.handleDeleteRequest()}>Delete User</button>
             </div>
+
+
             
             {/** User List */}
             <div className="col-md-12">
-                <Table multiSelectable={false} onRowSelection={(selectedRows) => this.handleRowSelection(selectedRows)}>
+                <Table multiSelectable={false} onRowSelection={(selectedRows) => this.handleRowSelection(selectedRows)} bodyStyle={{overflow:'x-scroll',height:"450px"}}>
                     <TableHeader  displaySelectAll={false} adjustForCheckbox={false}>
                         <TableRow>
-                            <TableHeaderColumn>Name</TableHeaderColumn>
+                            <TableHeaderColumn>Last Name</TableHeaderColumn>
+                            <TableHeaderColumn>First Name</TableHeaderColumn>
                             <TableHeaderColumn>Username</TableHeaderColumn>
                             <TableHeaderColumn>Email</TableHeaderColumn>
                         </TableRow>
                     </TableHeader>
-                    <TableBody displayRowCheckbox={false} style={{ border: '1px solid rgb(224, 224, 224)' }} >
-                        {this.state.data.map((user, i) => {
+                    <TableBody displayRowCheckbox={true} style={{ border: 'none' }} >
+                        {this.state.filteredIndexes.map((index, i) => {
+                            let user=this.state.data[index];
                             return (
                                 <TableRow key={i} selected={this.isSelected(i)}>
-                                    <TableRowColumn style={{ borderRight: '1px solid rgb(224, 224, 224)' }}>{user.name}</TableRowColumn>
+                                    <TableRowColumn style={{ borderRight: '1px solid rgb(224, 224, 224)' }}>{user.last_name}</TableRowColumn>
+                                    <TableRowColumn style={{ borderRight: '1px solid rgb(224, 224, 224)' }}>{user.first_name}</TableRowColumn>
                                     <TableRowColumn style={{ borderRight: '1px solid rgb(224, 224, 224)' }}>{user.username}</TableRowColumn>
                                     <TableRowColumn style={{ borderRight: '1px solid rgb(224, 224, 224)' }}>{user.email}</TableRowColumn>
                     
@@ -139,11 +193,8 @@ class EditUserPage extends Component {
                         })}
                     </TableBody>
                 </Table>
+                
             </div>
-            
-            {/** Home */}
-            <BackButton  className="btn btn-info" redirectUrl="/AdminUser" buttonProps={{ label: "Back", secondary: false }} />
-            
             </div>
             </div>
         )

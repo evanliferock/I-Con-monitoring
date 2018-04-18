@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import Header from '../components/Header';
-import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import BackButton from '../components/BackButton';
 import dbapi from '../apirequests/dbapi';
 
 
@@ -10,7 +8,7 @@ import dbapi from '../apirequests/dbapi';
 class CreateUserPage extends Component {
     constructor(props) {
         super(props);
-
+        // State initialization
         this.state = {
             first_name: '',
             last_name: '',
@@ -20,6 +18,12 @@ class CreateUserPage extends Component {
         }
     }
 
+    // Handles click redirect
+    handleClick(path) {
+        window.location.pathname = path;
+    }
+
+    // Handles changing the targeted value
     handleChange = name => event => {
         this.setState({
             [name]: event.target.value,
@@ -50,64 +54,80 @@ class CreateUserPage extends Component {
     }
 
     render() {
+        document.title = "Create User - ICon Monitoring";            
         return (
             <div>
-                {/** Nav bar */}
+                {/** Navigation bar */}
                 <Header
                     title={"Create User"}
                 />
 
-                {/** Body */}
+                {/** Page body */}
                 <div className="container" style={{ marginTop: "50px" }}>
                     <div className="col-md-offset-3 col-md-6">
                         <div className="col-md-12">
+                            {/** User creation specification fields */}
                             <TextField 
                                 floatingLabelText="First Name"
+                                floatingLabelStyle={{color:"#708090"}}
+                                floatingLabelFocusStyle={{color:"#708090"}}
+                                underlineFocusStyle={{borderColor:"black"}}
+                                underlineStyle={{borderColor:"#708090"}}
                                 value={this.state.first_name}
                                 onChange={this.handleChange('first_name')}                          
-                                style={{ width: "100%" }} floatingLabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}}   
+                                style={{ width: "100%" }} 
                             />
                             <TextField 
-                                floatingLabelText="Last Name"  
+                                floatingLabelText="Last Name"
+                                floatingLabelStyle={{color:"#708090"}}
+                                floatingLabelFocusStyle={{color:"#708090"}}
+                                underlineFocusStyle={{borderColor:"black"}}
+                                underlineStyle={{borderColor:"#708090"}}  
                                 value={this.state.last_name} 
                                 onChange={this.handleChange('last_name')} 
-                                style={{ width: "100%" }} floatingLabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}}   
+                                style={{ width: "100%" }} 
                             />
                             <TextField 
-                                floatingLabelText="Username"  
+                                floatingLabelText="Username"
+                                floatingLabelStyle={{color:"#708090"}}
+                                floatingLabelFocusStyle={{color:"#708090"}}
+                                underlineFocusStyle={{borderColor:"black"}}
+                                underlineStyle={{borderColor:"#708090"}}  
                                 value={this.state.username} 
                                 onChange={this.handleChange('username')} 
-                                style={{ width: "100%" }} floatingLabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}}   
+                                style={{ width: "100%" }}  
                             />
                             <TextField 
-                                floatingLabelText="Password"  
+                                type="password"                                        
+                                floatingLabelText="Password"
+                                floatingLabelStyle={{color:"#708090"}}
+                                floatingLabelFocusStyle={{color:"#708090"}}
+                                underlineFocusStyle={{borderColor:"black"}}
+                                underlineStyle={{borderColor:"#708090"}}  
                                 value={this.state.password} 
                                 onChange={this.handleChange('password')} 
-                                style={{ width: "100%" }} floatingLabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}}   
+                                style={{ width: "100%" }} 
                             />
                             <TextField 
-                                floatingLabelText="Email"  
+                                floatingLabelText="Email"
+                                floatingLabelStyle={{color:"#708090"}}
+                                floatingLabelFocusStyle={{color:"#708090"}}
+                                underlineFocusStyle={{borderColor:"black"}}
+                                underlineStyle={{borderColor:"#708090"}}
                                 value={this.state.email} 
                                 onChange={this.handleChange('email')} 
-                                style={{ width: "100%" }} floatingLabelFocusStyle={{color:"#6441A4"}} underlineFocusStyle={{borderColor:"#6441A4"}}   
+                                style={{ width: "100%" }}
                             />
                         </div>
+                        {/** User creation confirmation button */}
                         <div className="col-md-12">
-                            <RaisedButton onClick={() => this.handleCreateUser()} label="Create" primary={true} style={{ marginTop: "25px", width: "100%" }} />
-
+                            <button type="button"className="btn btn-success" label="Back" style={{ marginTop: '25px', width:"100%", fontWeight:"bold", fontSize:"20px"}}   onClick={(event) => this.handleCreateUser()}>CREATE</button>
                         </div>
-
                     </div>
-
-
                 </div>
-
-                {/** Home button */}
-                <BackButton className="btn btn-info" redirectUrl="/AdminUser" buttonProps={{ label: "Back", secondary: false }} />
             </div>
         )
     }
 }
-
 
 export default CreateUserPage;
