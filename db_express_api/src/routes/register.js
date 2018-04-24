@@ -5,6 +5,16 @@ var bodyParser = require('body-parser');
 var connection = require('../sql/db');
 var bcrypt = require('bcryptjs');
 
+/**
+ * @api {post} /register Register users
+ * @apiVersion 1.0.0
+ * @apiName Register
+ * @apiGroup Register
+ * @apiPermission none
+ * 
+ * @apiDescription Used to register new users. Check is the user already exists, if not, encrypts their password and stores
+ *    all info in the proper table. 
+ */
 router.post('/', function (req, res) {
   if(req.body && req.body.password && req.body.username && req.decoded.admin){
     connection.query('SELECT * FROM USER WHERE username = ?', [req.body.username], function (error, results, fields) {

@@ -6,7 +6,16 @@ var connection = require('../sql/db');
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 
-
+/**
+ * @api {post} /login Login attempts
+ * @apiVersion 1.0.0
+ * @apiName Login
+ * @apiGroup Login
+ * @apiPermission none
+ * 
+ * @apiDescription Used for all login attempts. Compares the user name and password to the proper table in the database.
+ *    If proper credentials are provided, a JWT is provided to the user.
+ */
 router.post('/', function (req, res) {
   if(req.body && req.body.password && req.body.username){
     var username = req.body.username;
@@ -43,6 +52,15 @@ function comparePasswords(givenPassword, results, res){
   });
 }
 
+/**
+ * @api {post} /login/refresh Keep session alive
+ * @apiVersion 1.0.0
+ * @apiName LoginRefresh
+ * @apiGroup Login
+ * @apiPermission none
+ * 
+ * @apiDescription Refreshes a users JWT to avoid their session expiring.
+ */
 router.post('/refresh', function(req, res){
   connection.query('SELECT * FROM USER WHERE user_id = ?', [req.decoded.user_id], function (error, results, fields) {
     if (error) {

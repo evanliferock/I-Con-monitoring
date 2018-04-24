@@ -5,8 +5,8 @@ var transporter = nodeMailer.createTransport({
   port: 465,
   secure: true,
   auth: {
-    user: 'icon.notifications@gmail.com',
-    pass: 'icon2017'
+    user: 'xxx',
+    pass: 'yyy'
   }
 });
 

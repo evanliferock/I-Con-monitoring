@@ -6,7 +6,16 @@ var router = express.Router();
 var bodyParser = require('body-parser');
 var connection = require('../sql/db');
 
-// GET ALL UPCOMING MAINTENANCE with corresponding usernames
+/**
+ * @api {get} /maintenance Get all maintenance
+ * @apiVersion 1.0.0
+ * @apiName AllMaintenance
+ * @apiGroup Maintenance
+ * @apiPermission none
+ * 
+ * @apiDescription Fetches all information about all upcoming maintenance in the database
+ * 
+ */
 router.get('/', function (req, res) {
     connection.query('SELECT m.maintenance_id, m.start_date_time, e.name AS equipment_name, u.username, u.user_id ' +
     'FROM MAINTENANCE m, EQUIPMENT e, USER u ' +
@@ -17,7 +26,16 @@ router.get('/', function (req, res) {
     });
 });
 
-// get upcoming dates and times
+/**
+ * @api {get} /maintenance/time Get all maintenance times
+ * @apiVersion 1.0.0
+ * @apiName AllMaintenanceTime
+ * @apiGroup Maintenance
+ * @apiPermission none
+ * 
+ * @apiDescription Fetches all start date and times for all upcoming maintenance in the database
+ * 
+ */
 router.get('/time', function (req, res) {
     connection.query('SELECT start_date_time FROM MAINTENANCE WHERE start_date_time >= NOW()', function (error, results, fields) {
         if (error) res.send(error);
@@ -25,7 +43,18 @@ router.get('/time', function (req, res) {
     });
 });
 
-// GET UPCOMING MAINTENANCE FOR USER
+/**
+ * @api {get} /maintenance/:user_id Get user's maintenance
+ * @apiVersion 1.0.0
+ * @apiName AllUserMaintenance
+ * @apiGroup Maintenance
+ * @apiPermission none
+ * 
+ * @apiDescription Fetches all upcoming maintenance for (planned by) a specific user
+ * 
+ * @apiParam {Number} user_id A user's unique ID number
+ * 
+ */
 router.get('/:user_id', function (req, res) {
     var params = req.params;
     connection.query('SELECT maintenance_id, start_date_time, name AS equipment_name FROM MAINTENANCE, EQUIPMENT ' +
@@ -46,7 +75,16 @@ router.get('/maintenance/:id', function (req, res) {
 	});
 });*/
 
-// Plan maintenance
+/**
+ * @api {post} /maintenance Plan Maintenance
+ * @apiVersion 1.0.0
+ * @apiName PlanMaintenance
+ * @apiGroup Maintenance
+ * @apiPermission none
+ * 
+ * @apiDescription Adds the requested maintenance to the database. If there are any errors in the formatting or planning, appropriate errors are thrown
+ * 
+ */
 router.post('/', function (req, res) {
     var params = req.body;
     params.is_complete = 0;
@@ -75,7 +113,18 @@ router.post('/', function (req, res) {
     }
 });
 
-// SET AS COMPLETE
+/**
+ * @api {put} /maintenance/complete/:id Complete maintenance
+ * @apiVersion 1.0.0
+ * @apiName CompleteMaintenance
+ * @apiGroup Maintenance
+ * @apiPermission none
+ * 
+ * @apiDescription Marks a specified maintenance as completed
+ * 
+ * @apiParam {Number} id Unique ID number of a maintenance
+ * 
+ */
 router.put('/complete/:id', function (req, res) {
     var params = req.params;
     modify_maintenance(req, res, params.id, 
@@ -87,7 +136,18 @@ router.put('/complete/:id', function (req, res) {
     )
 });
 
-// SET AS CANCELED
+/**
+ * @api {put} /maintenance/cancel/:id Cancel maintenance
+ * @apiVersion 1.0.0
+ * @apiName CancelMaintenance
+ * @apiGroup Maintenance
+ * @apiPermission none
+ * 
+ * @apiDescription Marks a specified maintenance as canceled 
+ * 
+ * @apiParam {Number} id Unique ID number of a maintenance
+ * 
+ */
 router.put('/cancel/:id', function (req, res) {
     var params = req.params;
     modify_maintenance(req, res, params.id, 
