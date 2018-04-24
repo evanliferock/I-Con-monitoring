@@ -2433,8 +2433,8 @@ fieldset[disabled] a.btn {
 
 .btn-warning {
     color: #111;
-    background-color: #ffeb50;
-    border-color: #ffeb50;
+    background-color: #ffe100;
+    border-color: #ffe100;
     box-shadow: none;
 }
 
@@ -2451,16 +2451,16 @@ fieldset[disabled] a.btn {
 
 .btn-warning.disabled,
 .btn-warning:disabled {
-    background-color: #ffeb3b;
-    border-color: #ffeb3b;
+    background-color: #ffe100;
+    border-color: #ffe100;
 }
 
 .btn-warning:active,
 .btn-warning.active,
 .show>.btn-warning.dropdown-toggle {
-    background-color: #ffeb50;
+    background-color: #ffe100;
     background-image: none;
-    border-color: #ffeb50;
+    border-color: #ffe100;
     box-shadow: none;
 }
 
@@ -8632,23 +8632,23 @@ button:focus {
 
 .btn.btn-warning {
     color: #fff;
-    background-color: #ffdd00;
-    border-color: #ffdd00;
+    background-color: #ffc400;
+    border-color: #ffc400;
     box-shadow: 0 2px 2px 0 rgba(255, 152, 0, 0.14), 0 3px 1px -2px rgba(255, 152, 0, 0.2), 0 1px 5px 0 rgba(255, 152, 0, 0.12);
 }
 
 .btn.btn-warning:hover {
     color: #fff;
-    background-color: #ffeb50;
-    border-color: #ffeb50;
+    background-color: #f0b400;
+    border-color: #ffe837;
 }
 
 .btn.btn-warning:focus,
 .btn.btn-warning.focus,
 .btn.btn-warning:hover {
     color: #fff;
-    background-color: #ffe551;
-    border-color: #ffdd00;
+    background-color: #f0b400;
+    border-color: #f0b400;
 }
 
 .btn.btn-warning:active,
@@ -8656,8 +8656,8 @@ button:focus {
 .open>.btn.btn-warning.dropdown-toggle,
 .show>.btn.btn-warning.dropdown-toggle {
     color: #fff;
-    background-color: #f08f00;
-    border-color: #c27400;
+    background-color: #ffe100;
+    border-color: #ffeb50;
     box-shadow: 0 2px 2px 0 rgba(255, 152, 0, 0.14), 0 3px 1px -2px rgba(255, 152, 0, 0.2), 0 1px 5px 0 rgba(255, 152, 0, 0.12);
 }
 
@@ -8674,8 +8674,8 @@ button:focus {
 .show>.btn.btn-warning.dropdown-toggle:focus,
 .show>.btn.btn-warning.dropdown-toggle.focus {
     color: #fff;
-    background-color: #f08f00;
-    border-color: #804c00;
+    background-color: #ffdd00d2;
+    border-color: #ffdd00d2;
 }
 
 .open>.btn.btn-warning.dropdown-toggle.bmd-btn-icon {

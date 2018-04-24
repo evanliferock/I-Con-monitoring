@@ -6,3 +6,9 @@ body {
   font-size:15px !important;
   font-weight: bold;
 }
+
+.maintenanceHead {
+  color: white;
+  font-size: 20px;
+  padding: 110px;
+}

@@ -3,9 +3,11 @@ import { findDOMNode } from 'react-dom';
 import Popover from 'material-ui/Popover';
 import iotapi from '../apirequests/iotapi';
 
+// Class definition
 class Sensor extends React.Component {
   constructor() {
     super();
+    // Sensor state definitions
     this.state = {
       open: false,
       anchorEl: null,
@@ -15,12 +17,14 @@ class Sensor extends React.Component {
     }
   }
 
+  // Close request
   handleRequestClose() {
     this.setState({
       open: false,
     });
   }
 
+  // Sensor clicked
   handleClick() {
     this.setState({
       open: true,
@@ -31,6 +35,7 @@ class Sensor extends React.Component {
     });
   }
 
+  // Rendering of sensor layout
   render() {
     let x = this.props.x * this.props.scale;
     let y = this.props.y * this.props.scale;
@@ -67,7 +72,7 @@ class Sensor extends React.Component {
   }
 }
 
-
+// All sensors and default colors and values
 class SensorLayout extends React.Component {
   constructor() {
     super();
@@ -83,6 +88,7 @@ class SensorLayout extends React.Component {
     }
   }
 
+  // Updating the sensor data
   componentDidMount() {
     this.updateSensors();
     this.sensorTimer = setInterval(
@@ -91,10 +97,12 @@ class SensorLayout extends React.Component {
     );
   }
 
+  // Clears the sensor timer
   componentWillUnmount() {
     clearInterval(this.sensorTimer);
   }
 
+  // Updating each sensor with iot data
   updateSensors() {
     var avg1, avg2;
     var max1, max2 = 0;
@@ -167,7 +175,7 @@ class SensorLayout extends React.Component {
     iotapi.get('iot/switch') 
         .then((response) => {
             var openString;
-            if(response.data[0].open == 1) {
+            if(response.data[0].open === 1) {
               openString = 'On';
             } else {
               openString = 'Off'
@@ -184,8 +192,8 @@ class SensorLayout extends React.Component {
         })
   }
 
+  // Rendering and placing of sensors
   render() {
-    // TODO possibly rerender of window resize
     let yScale = (window.innerHeight / 1710) * .9;
     let xScale = (window.innerWidth / 1372) * .9;
     let theScale = 1;
@@ -197,8 +205,10 @@ class SensorLayout extends React.Component {
     return (
       <div style={{ position: 'relative', width: 1372 * theScale, height: 1710 * theScale }}>
         <div>
+          {/** Imports mine image */}
           <img src={require('../resources/top_down_mine.png')} alt={'Top-Down Mine'}
-            style={{ width: '100%', height: '100%' }} />
+           style={{ width: '100%', height: '100%' }} 
+          />
         </div>
         <div>
           <Sensor x={1311} y={1400} scale={theScale} {...this.state.doorOne} />
@@ -214,7 +224,5 @@ class SensorLayout extends React.Component {
     );
   }
 }
-
-
 
 export default SensorLayout ;

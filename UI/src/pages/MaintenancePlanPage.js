@@ -8,6 +8,7 @@ import Header from '../components/Header';
 import {Link} from 'react-router-dom';
 import dbapi from '../apirequests/dbapi';
 import jwt from 'jsonwebtoken';
+import PATHS from '../global/paths';
 
 //it contains maintenance plan form
 class MaintenancePlanPage extends Component {
@@ -84,8 +85,10 @@ class MaintenancePlanPage extends Component {
 
 
     render() {
+        document.title = "Plan Maintenance - ICon Monitoring";            
         const today = new Date();
         return (
+            
             <div>
                 {/** Nav bar */}
                 <Header
@@ -96,9 +99,13 @@ class MaintenancePlanPage extends Component {
 
                     <div className="col-md-12">
                         <DateTimePicker
+                            clearIcon={<null/>}
+                            datePickerMode="landscape"
                             hintText=" "
-                            minDate={today}                           
-                            floatingLabelText="Time"
+                            minDate={today} 
+                            floatingLabelText="Time: "
+                            underlineFocusStyle={{borderColor:"black", width:"100%"}}
+                            underlineStyle={{borderColor:"#708090", width:"100%"}}  
                             floatingLabelStyle={{fontSize: "20px", color:"black"}}
                             value={this.state.start_date_time}
                             onChange={this.handleChangeDateTimePicker}
@@ -111,24 +118,29 @@ class MaintenancePlanPage extends Component {
                 <div className="col-md-12">
 
                     <SelectField
-                        hintText="Machine"
-                        floatingLabelText="Machine"
-                        floatingLabelStyle={{fontSize: "20px", color:"black"}}                        
+                        hintText="Machine: "
+                        underlineFocusStyle={{borderColor:"black"}}
+                        underlineStyle={{borderColor:"#708090"}}  
+                        floatingLabelText="Machine: "
+                        floatingLabelStyle={{fontSize: "20px", color:"black"}}
                         value={this.state.equipment_id}
                         onChange={this.handleChangeMachine.bind(this)}
                         style={{ width: "100%", textAlign: "left", fontSize: "30px"}}
                     >
                         {this.state.equipment.map((e,i) => {
                           return (
-                            <MenuItem value={e.equipment_id} primaryText={e.name}/>
+                            <MenuItem key={i} value={e.equipment_id} primaryText={e.name}/>
+                            
         				  );
                         })}
                     </SelectField>
                 </div>
                 <div className="col-md-12">
                     <SelectField
-                        hintText="Location"
-                        floatingLabelText="Location"
+                        hintText="Location: "
+                        underlineFocusStyle={{borderColor:"black"}}
+                        underlineStyle={{borderColor:"#708090"}}                         
+                        floatingLabelText="Location: "
                         floatingLabelStyle={{fontSize: "20px", color:"black"}}                                                
                         value={this.state.location_id}
                         onChange={this.handleChangeLocation.bind(this)}
@@ -136,17 +148,22 @@ class MaintenancePlanPage extends Component {
                     >
                     {this.state.locations.map((l,i) => {
                       return (
-                        <MenuItem value={l.location_id} primaryText={l.name}/>
+                        <MenuItem key={i} value={l.location_id} primaryText={l.name}/>
                       );
                     })}
                     </SelectField>
                 </div>
-                        <div className="col-md-6">
-                            <button type="button" className="btn btn-success" onClick={() => this.handlePostRequest()} primary={true} style={{ marginTop: "40px", width: "100%", fontWeight:"Bold", fontSize:"15px" }}>Submit</button>
-                        </div>
+
                         <div className="col-md-6">
                             {/** Home button */}
-                            <Link to="/MainPage" className="btn btn-danger"style={{ marginTop: "40px", width: "100%", fontWeight:"Bold", fontSize:"15px" }}>Cancel</Link>
+                            <Link to={PATHS.MAIN} className="btn btn-danger"style={{ marginTop: "40px", width: "100%", fontWeight:"Bold", fontSize:"15px" }}>
+                                Cancel
+                            </Link>
+                        </div>
+                        <div className="col-md-6">
+                            <button type="button" className="btn btn-success" onClick={() => this.handlePostRequest()} style={{ marginTop: "40px", width: "100%", fontWeight:"Bold", fontSize:"15px" }}>
+                                Submit
+                            </button>
                         </div>
                 </div>    
         );
