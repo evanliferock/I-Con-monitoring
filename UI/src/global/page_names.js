@@ -1,4 +1,6 @@
-// Defines the page names
+/**
+ * Global resource for page names
+ */
 const NAMES = {
     MAIN: 'Main Page',
     PLAN: 'Maintenance Plan',

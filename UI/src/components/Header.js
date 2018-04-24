@@ -1,3 +1,7 @@
+/**
+ * The header component is used as a general header for the pages
+ * It includes the menu, buttons, and a title for the page
+ */
 import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
 import MenuItem from 'material-ui/MenuItem';
@@ -66,7 +70,7 @@ class Header extends Component {
       </a>
       </span>
     ) 
-    /** Navigation drawer menu options */
+    /** Navigation drawer menu options. Also checks if an admin to display admin options */
     var NavMenu = (props) => (
       <div>
 

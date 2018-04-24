@@ -1,3 +1,9 @@
+/**
+ * dbapi is used to access the database api
+ * baseURL is the URL of the api
+ * The token is what is used to access the dbapi
+ * the refresh token is used to get a new token
+ */
 import axios from 'axios';
 import https from 'https';
 import PATHS from '../global/paths';
@@ -12,7 +18,10 @@ var dbapi = axios.create({
   headers: {'token': localStorage.getItem('token')},
 });
 
-// Will try to refresh the tokens if access_token is expired
+/**
+ * This interceptor will intercept responses that indicate that token has expired in order to attempt
+ * to get a new token and retry the original response
+ */
 dbapi.interceptors.response.use(undefined, function (err) {
   if(err.response.status === 401 && err.response.data.message && !err.config._isRetryRequest){
     return new Promise(function(resolve, reject){

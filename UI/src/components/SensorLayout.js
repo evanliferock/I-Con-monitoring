@@ -1,9 +1,15 @@
+/**
+ * The sensor layout is the picture and sensors on the main page.
+ */
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import Popover from 'material-ui/Popover';
 import iotapi from '../apirequests/iotapi';
 
-// Class definition
+/**
+ * Defines a single Sensor. Passed in should be the sensor x and y location, the scale
+ * the color to display, and the value to be displayed in the popover.
+ */
 class Sensor extends React.Component {
   constructor() {
     super();
@@ -66,7 +72,9 @@ class Sensor extends React.Component {
   }
 }
 
-// All sensors and default colors and values
+/**
+ * Organizes the sensors over the picture and sets up timed api calls to update the sensor data
+ */
 class SensorLayout extends React.Component {
   constructor() {
     super();

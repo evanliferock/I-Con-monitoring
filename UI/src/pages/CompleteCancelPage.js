@@ -1,3 +1,11 @@
+/**
+ * The complete cancel page contains a header, a table with filtering capabilities
+ * as well as buttons to complete and cancel maintenance.
+ * The page requests all the uncomplete and uncanceled maintenance from the mine
+ * and displays it in the table. From there the user can select a row and complete or 
+ * cancel the maintenance. The user can filter by machine, username, and time (past or future)
+ * Users by default can only modify thier own maintenance but admins can modify anyones.
+ */
 import React, { Component } from 'react';
 import Header from '../components/Header';
 import SelectField from 'material-ui/SelectField';
@@ -44,17 +52,24 @@ class CompleteCancelPage extends Component {
 			this.setState({ selected: selectedRows });
 	}
 
-	// Handles completing and cancelling maintenance
+	/**
+	 * Handles completeing and cancelling of maintenance
+	 * toDo should either be 'complete' or 'cancel'
+	 */
 	handlePutRequest(toDo){
+		// Makes sure something has been selected
 		if (this.state.selected.length > 0) {
 			let index = this.state.filteredIndexes[this.state.selected[0]];
 			let token = jwt.decode(localStorage.getItem('token'));
+
 			if(token.user_id !== this.state.data[index].user_id && !token.admin){
 				alert('You can only complete or cancel your own maintenance');
+
 			} else if(token.user_id === this.state.data[index].user_id 
 				|| (token.admin && window.confirm('This is not your maintenance, but as an admin you can ' + toDo + 
 						' it.\nWould you like to ' + toDo + ' the maintenance for username: \'' + 
 						this.state.data[index].username + '\''))) {
+							
 				let toDoId = this.state.data[index].maintenance_id;
 				if (toDoId !== -1) {
 				dbapi.put('/maintenance/' + toDo + '/' + toDoId)
@@ -160,7 +175,7 @@ class CompleteCancelPage extends Component {
 				|| !row.username.toLowerCase().startsWith(this.state.usernameFilter.toLowerCase())
 				|| (value !== 0 && this.checkDate(row, value === 1));
 		} else {
-			return (this.state.machineFilter !== 0 //machine is being filtered
+			return (this.state.machineFilter !== 0
 				&& this.state.machines[this.state.machineFilter - 1] !== row.equipment_name) // machine filter does not match
 				|| !row.username.toLowerCase().startsWith(this.state.usernameFilter.toLowerCase()) // or doesn't match username filter
 				|| (this.state.timeFilter !== 0 && this.checkDate(row, this.state.timeFilter === 1)); // or is not matching the timeFilter

@@ -1,3 +1,7 @@
+/**
+ * The profile page displays the users data and allows the user to modify his
+ * password and email.
+ */
 import React, { Component } from 'react';
 import Header from '../components/Header';
 import FlatButton from 'material-ui/FlatButton';

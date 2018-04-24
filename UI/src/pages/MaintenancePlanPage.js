@@ -1,3 +1,8 @@
+/**
+ * The maintenance Plan page is a page that is used by users to plan maintance.
+ * It features a date time picker, two dropdowns for machine and location selection,
+ * and it also features two buttons for submit maintenance and cancel maintenance.
+ */
 import React, { Component } from 'react';
 import DateTimePicker from 'material-ui-datetimepicker';
 import DatePickerDialog from 'material-ui/DatePicker/DatePickerDialog'

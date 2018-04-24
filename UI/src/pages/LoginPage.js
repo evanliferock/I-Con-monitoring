@@ -1,3 +1,7 @@
+/**
+ * This page is the login page. It features two fields for username/password
+ * and a login button.
+ */
 import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
 import TextField from 'material-ui/TextField';
@@ -17,6 +21,7 @@ class Login extends Component {
     };
   }
 
+  // Tries to log the user in
   handleClick(event) {
     var payload = {
       "username": this.state.username,
@@ -25,6 +30,7 @@ class Login extends Component {
     dbapi.post('login', payload)
       .then(function (response) {
         if (response.status === 201) {
+          // on success it will set the tokens and redirect to main page
           Alert.success("Login successful", {
                position: 'bottom',
                effect: 'slide',

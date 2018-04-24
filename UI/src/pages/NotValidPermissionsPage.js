@@ -1,3 +1,6 @@
+/**
+ * A page that indicates the page exists but they do not have proper permissions
+ */
 import React, { Component } from 'react';
 
 class NotValidPermissionsPage extends Component {

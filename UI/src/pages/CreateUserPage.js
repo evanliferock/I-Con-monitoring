@@ -1,3 +1,7 @@
+/**
+ * Page that allows admins to create users. It features 5 fields to enter in information about the user
+ * and a button to submit the creation of the user.
+ */
 import React, { Component } from 'react';
 import Header from '../components/Header';
 import TextField from 'material-ui/TextField';
