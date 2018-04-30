@@ -1,31 +1,11 @@
+/**
+ * The main page is a collection of the Header and Sensor Layout to be displayed on the mainpage
+ */
 import React from 'react';
 import Header from '../components/Header'
 import SensorLayout from '../components/SensorLayout'
 
 class MainPage extends React.Component {
-
- constructor() {
-    super();
-    this.state = {
-      selectedSensor : {}
-    }
-  }
-
-  sensorDetailHandler(index){
-    var myState = this.state;
-    var selectedDetails = myState.sensors[index];
-    this.setState({
-      selectedSensor: selectedDetails
-    })
-
-  }
-
-   handleHide(){
-        this.setState({
-            selectedSensor : {}
-        });
-    }
-
   render() {
     document.title = "Main Page - ICon Monitoring";        
     return (

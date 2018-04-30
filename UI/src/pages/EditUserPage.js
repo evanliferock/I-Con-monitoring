@@ -1,3 +1,9 @@
+/**
+ * This page allows admins to change the password of users or delete users.
+ * This page features a table of the non-deleted users, a field to filter
+ * by last name, a button to choose to delete a user as well as a button
+ * to choose to change the password of a user.
+ */
 import React, { Component } from 'react';
 import Header from '../components//Header';
 import dbapi from '../apirequests/dbapi';
@@ -131,8 +137,8 @@ class EditUserPage extends Component {
 	}
 
     render() {
-    document.title = "Edit User - ICon Monitoring";            
-      return (
+        document.title = "Edit User - ICon Monitoring";            
+        return (
             <div>
             {/** Nav bar */}
             <Header

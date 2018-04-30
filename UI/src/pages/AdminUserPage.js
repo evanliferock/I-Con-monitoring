@@ -1,3 +1,7 @@
+/**
+ * The admin page contains the header, a button to redirect to the create user page and 
+ * a button to redirect to the edit/delete user page
+ */
 import React, { Component } from 'react';
 import Header from '../components/Header';
 import PATHS from '../global/paths';
