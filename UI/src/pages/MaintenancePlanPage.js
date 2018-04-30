@@ -43,7 +43,7 @@ class MaintenancePlanPage extends Component {
 
     handlePostRequest(){
       let page = this;
-      if (this.state.start_date_time == null || this.state.equipment_id == -1 || this.location_id == -1){
+      if (this.state.start_date_time === null || this.state.equipment_id === -1 || this.location_id === -1){
         window.alert('Error in posting maintenance, please fill out all forms. Be sure to click both a date and time.')
         return;
       }
