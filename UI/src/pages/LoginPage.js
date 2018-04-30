@@ -60,7 +60,7 @@ class Login extends Component {
   }
 
   handleClickForget(event) {
-    window.alert('Please contact your administrator with your self identification materials for help!');    
+    window.alert('Please contact your administrator with your self identification materials for help!');
   }
 
   render() {
@@ -70,7 +70,7 @@ class Login extends Component {
             hintText="Enter your username"
             floatingLabelText="Username"
             style={{ width: '100%' }}
-            floatingLabelStyle={{fontWeight: "bold", color: "#FFF"}}            
+            floatingLabelStyle={{fontWeight: "bold", color: "#FFF"}}
             inputStyle={{ color: '#FFF' }}
             onChange={(event, newValue) => this.setState({ username: newValue })}
             floatingLabelFocusStyle={{color:"#FFF"}} underlineFocusStyle={{borderColor:"#FFF"}} hintStyle={{color:"#FFF"}}
@@ -89,7 +89,7 @@ class Login extends Component {
           <br />
           <button id='loginbutton' type="button" className="btn btn-success" style={{ marginTop: "55px", width: "100%", fontWeight: "bold", fontSize: "15px" }}  onClick={(event) => this.handleClick(event)} >Login</button>
           <button type="button" className="btn btn-danger" style={{ marginTop: "15px", width: "100%", fontWeight: "bold", fontSize: "15px" }}  onClick={(event) => this.handleClickForget(event)} >Forget?</button>
-          
+
           <div className="col-md-12">
             <div className="pull-left" style={{ width: '' }} >
             </div>
@@ -101,10 +101,15 @@ class Login extends Component {
 
 
 class LoginPage extends Component {
+  _handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      window.alert("Please click LOGIN to login.")
+    }
+  }
   render() {
     document.title = "Login Page - ICon Monitoring";        
     return (
-      <div style={{position: "fixed", width: "100%", backgroundColor: '#19171C' }}>
+      <div style={{position: "fixed", width: "100%", backgroundColor: '#19171C' }} onKeyDown = {this._handleKeyPress} tabIndex="0">
         <div style={{}}>
           <AppBar
             titleStyle={{ textAlign: "center"}}
@@ -113,11 +118,11 @@ class LoginPage extends Component {
             className="navbar navbar-dark bg-primary"
           />
 
-        
+
         </div>
         <div className="" style={{
           position: "fixed",
-          
+
           padding: "0px", margin: "0px", height: "100%", width: "100%",top:"0px",
           backgroundImage: "url(" + Background + ")", backgroundSize: "cover"
         }}>

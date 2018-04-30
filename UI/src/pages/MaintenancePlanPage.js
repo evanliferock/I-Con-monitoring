@@ -31,7 +31,7 @@ class MaintenancePlanPage extends Component {
     }
 
     handleChangeDateTimePicker = (dateTime) => this.setState({ start_date_time: dateTime});
-    
+
 
     handleChangeMachine(event, index, value) {
         this.setState({ equipment_id: value })
@@ -43,6 +43,10 @@ class MaintenancePlanPage extends Component {
 
     handlePostRequest(){
       let page = this;
+      if (this.state.start_date_time == null || this.state.equipment_id == -1 || this.location_id == -1){
+        window.alert('Error in posting maintenance, please fill out all forms. Be sure to click both a date and time.')
+        return;
+      }
       this.state.start_date_time.toJSON();
       dbapi.post('/maintenance', {
       user_id: this.state.user_id,
@@ -56,7 +60,8 @@ class MaintenancePlanPage extends Component {
             equipment_id: -1,
             location_id: -1,
             })
-            window.alert('Success in posting Maintenance');
+            window.alert('Success in posting Maintenance. Now redirecting to the Complete/Cancel Page');
+            window.location = "http://localhost:3000/CompleteCancel"
         })
         .catch(function (error) {
             window.alert("Error posting maintenance: " + error);
@@ -90,10 +95,10 @@ class MaintenancePlanPage extends Component {
 
 
     render() {
-        document.title = "Plan Maintenance - ICon Monitoring";            
+        document.title = "Plan Maintenance - ICon Monitoring";
         const today = new Date();
         return (
-            
+
             <div>
                 {/** Nav bar */}
                 <Header
@@ -107,10 +112,10 @@ class MaintenancePlanPage extends Component {
                             clearIcon={<null/>}
                             datePickerMode="landscape"
                             hintText=" "
-                            minDate={today} 
+                            minDate={today}
                             floatingLabelText="Time: "
                             underlineFocusStyle={{borderColor:"black", width:"100%"}}
-                            underlineStyle={{borderColor:"#708090", width:"100%"}}  
+                            underlineStyle={{borderColor:"#708090", width:"100%"}}
                             floatingLabelStyle={{fontSize: "20px", color:"black"}}
                             value={this.state.start_date_time}
                             onChange={this.handleChangeDateTimePicker}
@@ -118,14 +123,14 @@ class MaintenancePlanPage extends Component {
                             TimePicker={TimePickerDialog}
                             textFieldStyle={{ width: "100%", fontSize: "30px" }}
                         />
-                    
+
                 </div>
                 <div className="col-md-12">
 
                     <SelectField
                         hintText="Machine: "
                         underlineFocusStyle={{borderColor:"black"}}
-                        underlineStyle={{borderColor:"#708090"}}  
+                        underlineStyle={{borderColor:"#708090"}}
                         floatingLabelText="Machine: "
                         floatingLabelStyle={{fontSize: "20px", color:"black"}}
                         value={this.state.equipment_id}
@@ -135,7 +140,7 @@ class MaintenancePlanPage extends Component {
                         {this.state.equipment.map((e,i) => {
                           return (
                             <MenuItem key={i} value={e.equipment_id} primaryText={e.name}/>
-                            
+
         				  );
                         })}
                     </SelectField>
@@ -144,9 +149,9 @@ class MaintenancePlanPage extends Component {
                     <SelectField
                         hintText="Location: "
                         underlineFocusStyle={{borderColor:"black"}}
-                        underlineStyle={{borderColor:"#708090"}}                         
+                        underlineStyle={{borderColor:"#708090"}}
                         floatingLabelText="Location: "
-                        floatingLabelStyle={{fontSize: "20px", color:"black"}}                                                
+                        floatingLabelStyle={{fontSize: "20px", color:"black"}}
                         value={this.state.location_id}
                         onChange={this.handleChangeLocation.bind(this)}
                         style={{ width: "100%", textAlign: "left", fontSize: "30px"}}
@@ -170,7 +175,7 @@ class MaintenancePlanPage extends Component {
                                 Submit
                             </button>
                         </div>
-                </div>    
+                </div>
         );
     }
 }
