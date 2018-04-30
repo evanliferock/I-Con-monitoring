@@ -61,7 +61,7 @@ class MaintenancePlanPage extends Component {
             location_id: -1,
             })
             window.alert('Success in posting Maintenance. Now redirecting to the Complete/Cancel Page');
-            window.location = "http://localhost:3000/CompleteCancel"
+            window.location.pathname = PATHS.COMPLETE_CANCEL;
         })
         .catch(function (error) {
             window.alert("Error posting maintenance: " + error);
