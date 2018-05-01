@@ -43,7 +43,7 @@ class MaintenancePlanPage extends Component {
 
     handlePostRequest(){
       let page = this;
-      if (this.state.start_date_time == null || this.state.equipment_id == -1 || this.location_id == -1){
+      if (this.state.start_date_time === null || this.state.equipment_id === -1 || this.location_id === -1){
         window.alert('Error in posting maintenance, please fill out all forms. Be sure to click both a date and time.')
         return;
       }
@@ -61,7 +61,7 @@ class MaintenancePlanPage extends Component {
             location_id: -1,
             })
             window.alert('Success in posting Maintenance. Now redirecting to the Complete/Cancel Page');
-            window.location = "http://localhost:3000/CompleteCancel"
+            window.location.pathname = PATHS.COMPLETE_CANCEL;
         })
         .catch(function (error) {
             window.alert("Error posting maintenance: " + error);
