@@ -5,7 +5,7 @@ var lastNotificationTime = 0;
 function sendMailAlert(sensor, temp, level) {
     let mailOptions = {
         from: '"iCon Notify System" <icon.notifications@gmail.com>',
-        to: 'user@example.com',
+        to: 'icon.notifications@gmail.com',
         subject: sensor + ' Alert!',
         text: sensor + ' are at ' + level + ' levels(' + temp + ')!'
     }
