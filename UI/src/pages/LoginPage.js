@@ -1,0 +1,142 @@
+/**
+ * This page is the login page. It features two fields for username/password
+ * and a login button.
+ */
+import React, { Component } from 'react';
+import AppBar from 'material-ui/AppBar';
+import TextField from 'material-ui/TextField';
+import dbapi from '../apirequests/dbapi';
+import Alert from 'react-s-alert';
+import PATHS from '../global/paths';
+import Background from '../resources/mining-picture.jpg';
+import 'react-s-alert/dist/s-alert-default.css';
+import 'react-s-alert/dist/s-alert-css-effects/slide.css';
+
+class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: null,
+      password: null,
+    };
+  }
+
+  // Tries to log the user in
+  handleClick(event) {
+    var payload = {
+      "username": this.state.username,
+      "password": this.state.password,
+    }
+    dbapi.post('login', payload)
+      .then(function (response) {
+        if (response.status === 201) {
+          // on success it will set the tokens and redirect to main page
+          Alert.success("Login successful", {
+               position: 'bottom',
+               effect: 'slide',
+               beep: false,
+               timeout: 1000,
+               offset: 50,
+           });
+          localStorage.setItem('token', response.data.token);
+          localStorage.setItem('refresh_token', response.data.refresh_token);
+          dbapi.defaults.headers.token = localStorage.getItem('token');
+          window.location.pathname = PATHS.MAIN;
+        }
+      })
+      .catch(function (error) {
+        if (error.response && error.response.status === 401) {
+            Alert.warning("Username and password do not match", {
+              position: 'top-left',
+              effect: 'slide',
+              beep: false,
+              timeout: 5000,
+              offset: 50
+            });
+        } else {
+            console.log(error);
+        }
+      });
+  }
+
+  handleClickForget(event) {
+    window.alert('Please contact your administrator with your self identification materials for help!');
+  }
+
+  render() {
+      return (
+        <div>
+          <TextField
+            hintText="Enter your username"
+            floatingLabelText="Username"
+            style={{ width: '100%' }}
+            floatingLabelStyle={{fontWeight: "bold", color: "#FFF"}}
+            inputStyle={{ color: '#FFF' }}
+            onChange={(event, newValue) => this.setState({ username: newValue })}
+            floatingLabelFocusStyle={{color:"#FFF"}} underlineFocusStyle={{borderColor:"#FFF"}} hintStyle={{color:"#FFF"}}
+          />
+          <br />
+          <TextField
+            type="password"
+            style={{ width: '100%' }}
+            hintText="Enter your password"
+            inputStyle={{ color: '#FFF' }}
+            floatingLabelText="Password"
+            floatingLabelStyle={{fontWeight: "bold", color: "#FFF"}}
+            onChange={(event, newValue) => this.setState({ password: newValue })}
+            floatingLabelFocusStyle={{color:"#FFF"}} underlineFocusStyle={{borderColor:"#FFF"}} hintStyle={{color:"#FFF"}}
+          />
+          <br />
+          <button id='loginbutton' type="button" className="btn btn-success" style={{ marginTop: "55px", width: "100%", fontWeight: "bold", fontSize: "15px" }}  onClick={(event) => this.handleClick(event)} >Login</button>
+          <button type="button" className="btn btn-danger" style={{ marginTop: "15px", width: "100%", fontWeight: "bold", fontSize: "15px" }}  onClick={(event) => this.handleClickForget(event)} >Forget?</button>
+
+          <div className="col-md-12">
+            <div className="pull-left" style={{ width: '' }} >
+            </div>
+          </div>
+        </div>
+      );
+  }
+}
+
+
+class LoginPage extends Component {
+  _handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      window.alert("Please click LOGIN to login.")
+    }
+  }
+  render() {
+    document.title = "Login Page - ICon Monitoring";        
+    return (
+      <div style={{position: "fixed", width: "100%", backgroundColor: '#19171C' }} onKeyDown = {this._handleKeyPress} tabIndex="0">
+        <div style={{}}>
+          <AppBar
+            titleStyle={{ textAlign: "center"}}
+            title="NIOSH I-Con-monitoring Login"
+            showMenuIconButton={false}
+            className="navbar navbar-dark bg-primary"
+          />
+
+
+        </div>
+        <div className="" style={{
+          position: "fixed",
+
+          padding: "0px", margin: "0px", height: "100%", width: "100%",top:"0px",
+          backgroundImage: "url(" + Background + ")", backgroundSize: "cover"
+        }}>
+          <div className="col-md-4 loginscreen" style={{ position: "fixed", height: "100%", backgroundColor: '#4b307b', padding: '20px', paddingBottom: '40px' }}>
+            <div style={{ marginTop: '200px' }}>
+              <Login />
+            </div>
+          </div>
+        </div>
+        <Alert stack={{ limit: 3 }} />
+      </div>
+    );
+
+  }
+}
+
+export default LoginPage;

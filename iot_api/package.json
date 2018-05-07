@@ -1,0 +1,21 @@
+{
+  "name": "iot_backend",
+  "version": "1.0.0",
+  "description": "Handles all functionality for the Internet of Things",
+  "main": "index.js",
+  "dependencies": {
+    "apidoc": "^0.17.6",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "mysql": "^2.15.0",
+    "path": "^0.12.7",
+    "tunnel-ssh": "^4.1.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node www",
+    "test": "jest"
+  },
+  "author": "Ben Rieckers",
+  "license": "ISC"
+}

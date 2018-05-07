@@ -1,0 +1,20 @@
+{
+  "name": "IoT API",
+  "version": "1.0.0",
+  "description": "This API is used to get sensor data from our database to display on the main page.",
+  "title": "IoT API Documentation",
+  "order": [
+    "RecentTemp1",
+    "LastHourTemp1",
+    "RecentTemp2",
+    "LastHourTemp2",
+    "RecentSwitch",
+    "LastHourSwitch",
+    "CurrentDoor",
+    "LastHourDoor"
+  ],
+  "template": {
+  	"withCompare": true,
+  	"withGenerator": true
+  }
+}
